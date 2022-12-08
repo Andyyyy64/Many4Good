@@ -1,8 +1,7 @@
 import express from "express";
-import mongoose from "mongoose";
-import { any } from "webidl-conversions";
-
-const routesHandler = require("./routes/handler");
+import mongoose, { ConnectOptions } from "mongoose";
+import routesHandler from "./routes/handler";
+require('dotenv/config')
 const app: express.Express = express();
 
 app.use((req, res, next) => {
@@ -17,11 +16,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", routesHandler);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT
 
 //db connection
+mongoose.set('strictQuery', false)
 mongoose
-  .connect(process.env.DB_URL)
+  .connect(process.env.DB_URL ??"", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  } as ConnectOptions)
   .then(() => {
     console.log("DB connected!");
   })
