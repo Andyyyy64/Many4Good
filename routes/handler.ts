@@ -11,14 +11,18 @@ app.use((req, res, next) => {
   next();
 });
 
-router.get("/adduser",async (req: express.Request, res: express.Response) => {
+router.get("/adduser", async (req: express.Request, res: express.Response) => {
   const user = { username: "andytakuya" };
-  const newuser = new Schema.Users(user)
+  const newuser = new Schema.Users(user);
 
   try {
-    await newuser.save( async(err, newUserResult => {
-        console.log('New user created!!')
-    }))
+    await newuser.save(async (err, newUserResult): Promise<void> => {
+      console.log("New user created!!");
+      res.end("new user created!!");
+    });
+  } catch (err) {
+    console.log(err);
+    res.end('User not added!')
   }
 });
 
