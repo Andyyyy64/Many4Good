@@ -1,5 +1,7 @@
-import mysql from "mysql";
 import express from "express";
+import mongoose from "mongoose";
+import { any } from "webidl-conversions";
+
 const routesHandler = require("./routes/handler");
 const app: express.Express = express();
 
@@ -15,19 +17,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", routesHandler);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const router: express.Router = express.Router();
-
-router.get("/api/get", (req: express.Request, res: express.Response) => {
-  res.send(req.query);
-});
-
-router.post("/api/post", (req: express.Request, res: express.Response) => {
-  res.send(req.body);
-});
-
-app.use(router);
+//db connection
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => {
+    console.log("DB connected!");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.listen(port, () => {
   console.log(`server started on port ${port}!`);

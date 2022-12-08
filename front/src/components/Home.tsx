@@ -6,12 +6,12 @@ export default function Home() {
         fetchAcountingData()
     }, [])
 
-    const [acountingdata, setacountingdata] = useState<any>([])
+    const [acountingdata, Setacountingdata] = useState<any>([])
 
     const fetchAcountingData = async () => {
         const data = await fetch('http://localhost:3000/acounting')
         const acountingdata = await data.json()
-        setacountingdata(acountingdata)
+        Setacountingdata(acountingdata)
     }
 
     const { logout } = useAuth0()
