@@ -11,6 +11,7 @@ app.use((req, res, next) => {
   next();
 });
 
+/*
 router.get("/adduser", async (req: express.Request, res: express.Response) => {
   const user = { username: "andytakuya" };
   const newuser = new Schema.Users(user);
@@ -25,19 +26,50 @@ router.get("/adduser", async (req: express.Request, res: express.Response) => {
     res.end('User not added!')
   }
 });
+*/
 
-router.get("/acounting", (req: express.Request, res: express.Response) => {
-  const str = [
-    {
-      name: "andy",
-      msg: "this is my first acounting",
-    },
-  ];
-  res.end(JSON.stringify(str));
-});
+router.get(
+  "/acounting",
+  async (req: express.Request, res: express.Response) => {
+    const { Acounting } = Schema;
 
-router.post("/addacounting", (req: express.Request, res: express.Response) => {
-  res.end("NA");
-});
+    const userAcounting = await Acounting.find({})
+      .populate("user")
+      .exec((err, acountingData) => {
+        if (err) throw err;
+        if (acountingData) {
+          res.end(JSON.stringify(acountingData));
+        } else {
+          res.end();
+        }
+      });
+  }
+);
+
+router.post(
+  "/addacounting",
+  async (req: express.Request, res: express.Response) => {
+    const useracounting = req.body.acountinginput;
+    const { Users } = Schema;
+    const userId: any = await Users.findOne({ username: "andy" }).exec();
+
+    const newacounting = new Schema.Acounting({
+      acounting: useracounting,
+      user: userId._id,
+    });
+
+    try {
+      await newacounting.save((err, newacountingResult) => {
+        if (err) res.end("Error saving...");
+        res.redirect("/");
+        res.end();
+      });
+    } catch (err) {
+      console.log(err);
+      res.redirect("/");
+      res.end();
+    }
+  }
+);
 
 export default router;

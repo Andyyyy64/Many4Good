@@ -9,23 +9,28 @@ export default function Home() {
     const [acountingdata, Setacountingdata] = useState<any>([])
 
     const fetchAcountingData = async () => {
-        const data = await fetch('http://localhost:3000/acounting')
+        const data = await fetch('/acounting')
         const acountingdata = await data.json()
         Setacountingdata(acountingdata)
+        console.log(acountingdata)
     }
 
     const { logout } = useAuth0()
 
     return (
         <div>
+            <form method="POST" action="/addacounting">
+                <input type="text" name="acountingInput" />
+                <input type="submit" value="send" />
+            </form>
             {
                 acountingdata.map((item:any) => (
                     <div>
-                        <p>{item.name}</p>
-                        <p>{item.msg}</p>
+                    <i key={item.acounting?.cost}>{item.acounting}</i>
                     </div>
                 ))
             }
+
             <button onClick={() => logout({ returnTo: "http://localhost:5173/login" })}>logout</button>
         </div>
     )
