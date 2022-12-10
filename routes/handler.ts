@@ -11,23 +11,6 @@ app.use((req, res, next) => {
   next();
 });
 
-/*
-router.get("/adduser", async (req: express.Request, res: express.Response) => {
-  const user = { username: "andytakuya" };
-  const newuser = new Schema.Users(user);
-
-  try {
-    await newuser.save(async (err, newUserResult): Promise<void> => {
-      console.log("New user created!!");
-      res.end("new user created!!");
-    });
-  } catch (err) {
-    console.log(err);
-    res.end('User not added!')
-  }
-});
-*/
-
 router.get(
   "/acounting",
   async (req: express.Request, res: express.Response) => {
@@ -49,25 +32,27 @@ router.get(
 router.post(
   "/addacounting",
   async (req: express.Request, res: express.Response) => {
-    const useracounting = req.body.acountinginput;
+    const acountingname: string = req.body.acountingnameinput;
+    const acountingcost: number = req.body.acountingcostinput;
+    const isfood: boolean = req.body.isfoodinput;
     const { Users } = Schema;
     const userId: any = await Users.findOne({ username: "andy" }).exec();
-
     const newacounting = new Schema.Acounting({
-      acounting: useracounting,
+      name: acountingname,
+      cost: acountingcost,
+      food: isfood,
       user: userId._id,
     });
 
     try {
-      await newacounting.save((err, newacountingResult) => {
-        if (err) res.end("Error saving...");
-        res.redirect("/");
-        res.end();
+       newacounting.save((err, newacountingResult) => {
+        err
+          ? res.status(201).send("Successfully created a new acounting data!!")
+          : res.status(500).send("requset failed");
       });
     } catch (err) {
-      console.log(err);
-      res.redirect("/");
-      res.end();
+      console.error(err)
+      res.status(400).send(err);
     }
   }
 );
