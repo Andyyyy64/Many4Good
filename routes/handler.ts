@@ -1,7 +1,11 @@
 import express from "express";
 import Schema from "../models/schema";
+import cors from "cors";
 const router: express.Router = express.Router();
 const app: express.Express = express();
+
+app.use(cors());
+app.use(express.json());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -32,9 +36,9 @@ router.get(
 router.post(
   "/addacounting",
   async (req: express.Request, res: express.Response) => {
-    const acountingname: string  = req.body.acountingnameinput;
-    const acountingcost: number = req.body.acountingcostinput;
-    const isfood: boolean = req.body.isfoodinput;
+    const acountingname: string = req.body.name;
+    const acountingcost: number = req.body.cost;
+    const isfood: boolean = req.body.isfood;
     const { Users } = Schema;
     const userId: any = await Users.findOne({ username: "andy" }).exec();
     const newacounting = new Schema.Acounting({
@@ -50,8 +54,8 @@ router.post(
           res.end("err saving...");
           return;
         }
-        res.redirect('/')
-        res.end()
+        res.redirect("/");
+        res.end();
       });
     } catch (err) {
       console.log(err);
@@ -60,10 +64,11 @@ router.post(
 );
 
 router.delete(
-  "/deleteacounting",
+  "/deleteacounting/:id",
   async (req: express.Request, res: express.Response) => {
     const { Acounting } = Schema;
-    const deleteacounting = await Acounting.remove({ _id: req.params.userId });
+    const id = req.params.id;
+    const deleteacounting = await Acounting.remove({ _id: id });
     res.send(deleteacounting);
   }
 );

@@ -1,9 +1,10 @@
 import express from "express";
 import mongoose, { ConnectOptions } from "mongoose";
 import routesHandler from "./routes/handler";
+import cors from 'cors'
 require('dotenv/config')
 const app: express.Express = express();
-
+app.use(cors())
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
