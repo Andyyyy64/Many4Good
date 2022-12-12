@@ -32,7 +32,7 @@ router.get(
 router.post(
   "/addacounting",
   async (req: express.Request, res: express.Response) => {
-    const acountingname: string = req.body.acountingnameinput;
+    const acountingname: string  = req.body.acountingnameinput;
     const acountingcost: number = req.body.acountingcostinput;
     const isfood: boolean = req.body.isfoodinput;
     const { Users } = Schema;
@@ -45,15 +45,26 @@ router.post(
     });
 
     try {
-       newacounting.save((err, newacountingResult) => {
-        err
-          ? res.status(201).send("Successfully created a new acounting data!!")
-          : res.status(500).send("requset failed");
+      newacounting.save((err, newacountingResult) => {
+        if (err) {
+          res.end("err saving...");
+          return;
+        }
+        res.redirect('/')
+        res.end()
       });
     } catch (err) {
-      console.error(err)
-      res.status(400).send(err);
+      console.log(err);
     }
+  }
+);
+
+router.delete(
+  "/deleteacounting",
+  async (req: express.Request, res: express.Response) => {
+    const { Acounting } = Schema;
+    const deleteacounting = await Acounting.remove({ _id: req.params.userId });
+    res.send(deleteacounting);
   }
 );
 
