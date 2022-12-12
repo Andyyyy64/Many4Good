@@ -38,7 +38,7 @@ router.post(
   async (req: express.Request, res: express.Response) => {
     const acountingname: string = req.body.name;
     const acountingcost: number = req.body.cost;
-    const isfood: boolean = req.body.isfood;
+    const isfood: boolean = req.body.food;
     const { Users } = Schema;
     const userId: any = await Users.findOne({ username: "andy" }).exec();
     const newacounting = new Schema.Acounting({
@@ -68,7 +68,7 @@ router.delete(
   async (req: express.Request, res: express.Response) => {
     const { Acounting } = Schema;
     const id = req.params.id;
-    const deleteacounting = await Acounting.remove({ _id: id });
+    const deleteacounting = await Acounting.deleteOne({ _id: id });
     res.send(deleteacounting);
   }
 );
