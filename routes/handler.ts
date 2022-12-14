@@ -6,7 +6,7 @@ const app: express.Express = express();
 
 app.use(cors());
 app.use(express.json());
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 
 router.get(
   "/acounting",
-  async (req: express.Request, res: express.Response) => {
+  async (_req: express.Request, res: express.Response) => {
     const { Acounting } = Schema;
 
     const userAcounting = await Acounting.find({})
@@ -49,7 +49,7 @@ router.post(
     });
 
     try {
-      newacounting.save((err, newacountingResult) => {
+      newacounting.save((err, _newacountingResult) => {
         if (err) {
           res.end("err saving...");
           return;

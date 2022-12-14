@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Types } from "mongoose";
 import axios from "axios";
-import { redirect } from "react-router-dom";
 import requests from "../../utils/request";
 
 interface AcountingData {
   name: string;
   cost: number;
-  food: boolean | undefined;
+  food: boolean;
   user?: Types.ObjectId;
   Date?: Date;
 }
@@ -23,7 +22,7 @@ export default function Home() {
   const { logout } = useAuth0();
   const [name, setName] = useState<string>();
   const [cost, setCost] = useState<number | string>();
-  const [isfood, setisFood] = useState<boolean | string>();
+  const [isfood, setisFood] = useState<boolean>();
 
   useEffect(() => {
     fetchAcountingData();
@@ -35,6 +34,7 @@ export default function Home() {
     const data = await fetch(requests.fetchacounting);
     const acountingData: AcountingData = await data.json();
     Setacountingdata(acountingData);
+    console.log(acountingData)
   };
 
   const addAcounting = (): void => {
@@ -64,7 +64,7 @@ export default function Home() {
 
   function foodandlivingCost(): FoodandLivingData {
     let cost = { food: 0, living: 0, total: 0 };
-    acountingdata.map((items: any) => {
+    acountingdata.map((items: AcountingData) => {
       if (items.food) {
         cost.food += items.cost;
       } else {
@@ -93,10 +93,10 @@ export default function Home() {
         }}
       />
       <input
-        type="text"
+        type="checkbox"
         placeholder="isfood?"
         onChange={(e) => {
-          setisFood(e.target.value);
+          setisFood(e.target.checked);
         }}
       />
       <button onClick={addAcounting} type="reset">
