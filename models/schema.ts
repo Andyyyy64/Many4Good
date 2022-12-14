@@ -9,7 +9,7 @@ const userSchme = new Schema({
 });
 
 const acountingSchema = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: "users" },
+  user: { type: Schema.Types.ObjectId || String, ref: "users" },
   name: String,
   cost: Number,
   food: Boolean,

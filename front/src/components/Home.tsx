@@ -3,14 +3,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Types } from "mongoose";
 import axios from "axios";
 import { redirect } from "react-router-dom";
-import { Router } from "express";
+import requests from "../../utils/request";
 
 interface AcountingData {
   name: string;
   cost: number;
   food: boolean | undefined;
-  user: Types.ObjectId;
-  Date: Date;
+  user?: Types.ObjectId;
+  Date?: Date;
 }
 
 interface FoodandLivingData {
@@ -32,15 +32,14 @@ export default function Home() {
   const [acountingdata, Setacountingdata] = useState<any>([]);
 
   const fetchAcountingData = async (): Promise<void> => {
-    const data = await fetch("http://localhost:4000/acounting");
-    const acountingdata: AcountingData = await data.json();
-    Setacountingdata(acountingdata);
-    console.log(acountingdata);
+    const data = await fetch(requests.fetchacounting);
+    const acountingData: AcountingData = await data.json();
+    Setacountingdata(acountingData);
   };
 
   const addAcounting = (): void => {
     axios
-      .post("http://localhost:4000/addacounting", {
+      .post(requests.addacounting, {
         name: name,
         cost: cost,
         food: isfood,
@@ -55,10 +54,12 @@ export default function Home() {
           },
         ]);
       });
+    location.href = "/";
   };
 
   const deleteAcounting = (id: string): void => {
     axios.delete(`http://localhost:4000/deleteacounting/${id}`);
+    location.href = "/";
   };
 
   function foodandlivingCost(): FoodandLivingData {
@@ -73,6 +74,7 @@ export default function Home() {
     });
     return cost;
   }
+  const { food, living, total } = foodandlivingCost();
 
   return (
     <div>
@@ -110,11 +112,11 @@ export default function Home() {
           </i>
         </div>
       ))}
-      <i>食費合計{foodandlivingCost().food}円</i>
+      <i>食費合計{food}円</i>
       <br></br>
-      <i>生活費合計{foodandlivingCost().living}円</i>
+      <i>生活費合計{living}円</i>
       <br></br>
-      <i>合計{foodandlivingCost().total}円</i>
+      <i>合計{total}円</i>
       <br></br>
       <button
         onClick={() => logout({ returnTo: "http://localhost:5173/login" })}
