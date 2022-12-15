@@ -27,7 +27,6 @@ export default function Home() {
   const [name, setName] = useState<string>();
   const [cost, setCost] = useState<number | string>();
   const [isfood, setisFood] = useState<boolean>();
-
   useEffect(() => {
     fetchAcountingData();
   }, []);
@@ -80,6 +79,17 @@ export default function Home() {
   }
   const { food, living, total } = foodandlivingCost();
 
+  function foodcostlimit(): number{
+    let Foodlimit = 60000;
+    acountingdata.map((item:any) => {
+      if (item.food) {
+        Foodlimit -= item.cost
+      }
+    })
+    
+    return Foodlimit
+  }
+
   return (
     <div className="homewrapper">
       <TextField
@@ -119,7 +129,8 @@ export default function Home() {
         </div>
       ))}
       <div className="costwrapper">
-      <h2>食費合計{food}円</h2>
+        <h2>食費合計{food}円</h2>
+        <h2>食費残り{foodcostlimit()}円</h2>
       <br></br>
       <h2>生活費合計{living}円</h2>
       <br></br>
