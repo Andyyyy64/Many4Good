@@ -1,0 +1,18 @@
+.homewrapper{
+    position: relative;
+
+}
+
+.logout{
+    position: absolute;
+    bottom: 0;
+}
+
+.costwrapper {
+    margin-top: 30%;
+    margin-bottom: 50%;
+}
+
+.itemwrapper {
+    margin-top: 10%;
+}

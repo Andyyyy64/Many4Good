@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import './Home.css'
 import { Types } from "mongoose";
 import axios from "axios";
 import requests from "../../utils/request";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
 
 interface AcountingData {
   name: string;
@@ -34,7 +38,7 @@ export default function Home() {
     const data = await fetch(requests.fetchacounting);
     const acountingData: AcountingData = await data.json();
     Setacountingdata(acountingData);
-    console.log(acountingData)
+    console.log(acountingData);
   };
 
   const addAcounting = (): void => {
@@ -77,52 +81,58 @@ export default function Home() {
   const { food, living, total } = foodandlivingCost();
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="name"
+    <div className="homewrapper">
+      <TextField
+        label="name"
         onChange={(e) => {
           setName(e.target.value);
         }}
       />
-      <input
-        type="text"
-        placeholder="cost"
+      <TextField
+        label="cost"
         onChange={(e) => {
           setCost(e.target.value);
         }}
       />
-      <input
-        type="checkbox"
-        placeholder="isfood?"
+      <Checkbox
+        sx={{ '& .MuiSvgIcon-root': { fontSize: 30} }}
         onChange={(e) => {
           setisFood(e.target.checked);
         }}
       />
-      <button onClick={addAcounting} type="reset">
+      <Button variant="outlined" onClick={addAcounting} type="reset">
         add
-      </button>
+      </Button>
       <br></br>
 
       {acountingdata.map((item: any) => (
-        <div>
+        <div className="itemwrapper">
           <i key={item.cost}>
-            {item.name}:{item.cost}円
-            <button onClick={() => deleteAcounting(item._id)}>delete</button>
+            {item.name}: {item.cost}円
+            <Button
+              variant="outlined"
+              onClick={() => deleteAcounting(item._id)}
+            >
+              delete
+            </Button>
           </i>
         </div>
       ))}
-      <i>食費合計{food}円</i>
+      <div className="costwrapper">
+      <h2>食費合計{food}円</h2>
       <br></br>
-      <i>生活費合計{living}円</i>
+      <h2>生活費合計{living}円</h2>
       <br></br>
-      <i>合計{total}円</i>
+      <h2>合計{total}円</h2>
       <br></br>
-      <button
+      </div>
+      <Button
+      className="logout"
+        variant="outlined"
         onClick={() => logout({ returnTo: "http://localhost:5173/login" })}
       >
         logout
-      </button>
+      </Button>
     </div>
   );
 }
