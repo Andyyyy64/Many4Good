@@ -6,7 +6,7 @@ const app: express.Express = express();
 
 app.use(cors());
 app.use(express.json());
-app.use((_req, res, next) => {
+app.use((_req:express.Request, res:express.Response, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
