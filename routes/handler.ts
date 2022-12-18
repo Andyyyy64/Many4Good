@@ -66,33 +66,6 @@ router.post(
   }
 );
 
-router.post('/savecurrentmoney',async (req:express.Request,res:express.Response) => {
-  const currentmoney:number = req.body.currentmoney;
-  const { Users } = Schema;
-  const userId :any = await Users.findOne({username:"andy"}).exec();
-  const newcurrentmoney = new Schema.Acounting({
-    name: undefined,
-    cost: undefined,
-    food: undefined,
-    currentmoney: currentmoney,
-    incomename: undefined,
-    income: undefined,
-    user: userId._id,
-  });
-
-  try {
-    newcurrentmoney.save((err, _newmoneyResult) => {
-      if(err) {
-        res.end("err saving...");
-        return;
-      }
-      res.redirect("/");
-      res.end();
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
 
 router.post('/addincome',async (req:express.Request,res:express.Response) => {
   const incomename :string = req.body.incomename;

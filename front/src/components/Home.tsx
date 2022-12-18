@@ -30,7 +30,6 @@ export default function Home() {
   const [name, setName] = useState<string>();
   const [cost, setCost] = useState<number | string>();
   const [isfood, setisFood] = useState<boolean>();
-  const [currentmoney,setcurrentmoney] = useState<number | string>();
   const [incomename,setincomname] = useState<string>();
   const [income,setincom] = useState<number | string>();
   const [acountingdata, Setacountingdata] = useState<any>([]);
@@ -71,30 +70,7 @@ export default function Home() {
       });
     location.href = "/";
   };
-
-  const saveCurrentmoney = (): void => {
-    axios.post(requests.savecurrentmoney,{
-      name: undefined,
-      cost: undefined,
-      food: undefined,
-      currentmoney: currentmoney,
-      incomename: undefined,
-      income: undefined,
-    }).then(() => {
-      Setacountingdata([
-        ...acountingdata,
-        {
-          name: undefined,
-          cost: undefined,
-          food: undefined,
-          currentmoney: currentmoney,
-          incomename: undefined,
-          income: undefined,
-        },
-      ]);
-    });
-    location.href = "/";
-  };
+  
 
   const addIncome = (): void => {
     axios.post(requests.addincome,{
@@ -143,7 +119,7 @@ export default function Home() {
   const { food, living, total } = foodandlivingCost();
 
   function foodcostlimit(): number{
-    let Foodlimit = 60000;
+    let Foodlimit = 25000;
     acountingdata.map((item:any) => {
       if (item.food && item.cost != undefined) {
         Foodlimit -= item.cost
@@ -155,12 +131,10 @@ export default function Home() {
   function displaycurrentmoney():number {
     let money = 0;
     acountingdata.map((item: AcountingData) => {
-      if(item.currentmoney != undefined) {
-        money = item.currentmoney;
+      if(item.income != undefined) {
+        money += item.income;
       } else if (item.cost != undefined) {
         money -= item.cost;
-      } else if (item.income != undefined) {
-        money += item.income;
       }
     })
     return money;
@@ -210,13 +184,6 @@ export default function Home() {
   return (
     <div className="homewrapper">
       <h2>所持金:{displaycurrentmoney()}円</h2>
-      <TextField
-        label="currentmoney"
-        onChange={(e) => setcurrentmoney(e.target.value) }
-      />
-      <Button variant="outlined" onClick={saveCurrentmoney}>
-        保存
-      </Button><br/>
       <TextField
         label="incomename"
         onChange={(e) => {
