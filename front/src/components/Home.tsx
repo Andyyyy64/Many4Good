@@ -42,43 +42,48 @@ export default function Home() {
   const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting);
     const acountingData: AcountingData = await data.data;
-    Setacountingdata(acountingData as Array<any>)
-    console.log(
-        acountingData
-    )
+    console.log(acountingData);
+    Setacountingdata(acountingData)
   }
   
   const addAcounting = async(): Promise<void> => {
-    axios
-      .post(requests.addacounting, {
+    if(name != undefined && cost != undefined) {
+    await axios.post(requests.addacounting, {
         name: name,
         cost: cost,
         food: isfood,
       })
     fetchAcountingData();
+    } else {
+      alert("please put acounting detail");
+    }
   };
   
 
   const addIncome = async(): Promise<void> => {
+    if(income != undefined && incomename != undefined){
     await axios.post(requests.addincome,{
       incomename: incomename,
       income: income,
     })
     fetchAcountingData();
+      location.href = "/";
+    } else {
+      alert("please put income detail");
+    }
   };
 
+  
   const changeFoodlimit = async (): Promise<void> => {
+    if(foodlimit != undefined) {
     await axios.post(requests.changefoodlimit,{
       foodlimit: foodlimit,
-    }).then(() => {
-      Setacountingdata([
-        ...acountingdata,
-        {
-          foodlimit: foodlimit,
-        },
-      ]);
-    });
-    location.href = "/";
+    })
+    fetchAcountingData();
+      location.href = "/";
+    } else {
+      alert("please put foodlimit");
+    }
   };
   
 
@@ -117,6 +122,19 @@ export default function Home() {
     return money;
   }
 
+  function displayfoodlimit():number {
+    let limit = 0;
+    acountingdata.map((item: AcountingData) => {
+      if(item.foodlimit != undefined) {
+        limit = item.foodlimit;
+      } else if(item.cost != undefined && item.food == true) {
+        limit -= item.cost;
+      }
+    })
+    return limit;
+  }
+
+  
   function checkinput(input): boolean {
     if (input.name != undefined && input.cost != undefined) {
       return true;
@@ -124,11 +142,8 @@ export default function Home() {
       return false;
     }
   }
-
-
   
-  
-  const displayacountingData = () => acountingdata.map((item:any,index:number) => {
+  const displayacountingData = () => acountingdata.map((item:AcountingData,index:number) => {
     if(checkinput(item)){
       return (
         <div className="itemwrapper" key={index}>
@@ -145,7 +160,7 @@ export default function Home() {
       )
     } else if (item.income != undefined) {
       return (
-        <div className="itemwrapper">
+        <div className="itemwrapper" key={index}>
           <i>
            収入- {item.incomename}: {item.income}円
             <Button
@@ -212,7 +227,7 @@ export default function Home() {
       
       <div className="costwrapper">
         <h2>食費合計{food}円</h2>
-        <h2>食費残り円</h2>
+        <h2>食費残り{displayfoodlimit()}円</h2>
       <br></br>
       <h2>生活費合計{living}円</h2>
       <br></br>
