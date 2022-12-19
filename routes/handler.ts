@@ -15,6 +15,12 @@ app.use((_req:express.Request, res:express.Response, next) => {
   next();
 });
 
+
+router.get("/",(_req:express.Request,res:express.Response) => {
+  res.send("arigatou");
+});
+
+
 router.get(
   "/acounting",
   async (_req: express.Request, res: express.Response) => {
@@ -32,6 +38,7 @@ router.get(
       });
   }
 );
+
 
 router.post(
   "/addacounting",
@@ -73,10 +80,6 @@ router.post('/addincome',async (req:express.Request,res:express.Response) => {
   const { Users } = Schema;
   const UserId :any = await Users.findOne({username:"andy"}).exec();
   const newincome = new Schema.Acounting({
-    name: undefined,
-    cost: undefined,
-    food: undefined,
-    currentmoney: undefined,
     incomename: incomename,
     income: income,
     user: UserId._id,
@@ -89,6 +92,29 @@ router.post('/addincome',async (req:express.Request,res:express.Response) => {
         return;
       }
       res.redirect("/");
+      res.end();
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+router.post("/changefoodlimit",async (req:express.Request,res:express.Response) => {
+  const foodlimit: number = req.body.foodlimit;
+  const { Users } = Schema;
+  const UserId: any = await Users.findOne({username:"andy"}).exec();
+  const newfoodlimit = new Schema.Acounting({
+    foodlimit: foodlimit,
+    user: UserId._id,
+  });
+
+  try {
+    newfoodlimit.save((err,_newfoodlimitReslut) => {
+      if(err) {
+        res.end("err saving...");
+        return;
+      }
       res.end();
     });
   } catch (err) {

@@ -32,6 +32,7 @@ export default function Home() {
   const [isfood, setisFood] = useState<boolean>();
   const [incomename,setincomname] = useState<string>();
   const [income,setincom] = useState<number | string>();
+  const [foodlimit,setfoodlimit] = useState<number | String>();
   const [acountingdata, Setacountingdata] = useState<any>([]);
 
   useEffect(() => {
@@ -39,57 +40,41 @@ export default function Home() {
   }, []);
 
   const fetchAcountingData = async (): Promise<void> => {
-    const data = await fetch(requests.fetchacounting);
-    const acountingData: AcountingData = await data.json();
-    Setacountingdata(acountingData);
-    console.log(acountingData);
-  };
+    const data = await axios.get(requests.fetchacounting);
+    const acountingData: AcountingData = await data.data;
+    Setacountingdata(acountingData as Array<any>)
+    console.log(
+        acountingData
+    )
+  }
   
-  const addAcounting = (): void => {
+  const addAcounting = async(): Promise<void> => {
     axios
       .post(requests.addacounting, {
         name: name,
         cost: cost,
         food: isfood,
-        currentmoney: undefined,
-        incomename: undefined,
-        income: undefined,
       })
-      .then(() => {
-        Setacountingdata([
-          ...acountingdata,
-          {
-            name: name,
-            cost: cost,
-            food: isfood,
-            currentmoney: undefined,
-            incomename: undefined,
-            income: undefined,
-          },
-        ]);
-      });
-    location.href = "/";
+    fetchAcountingData();
   };
   
 
-  const addIncome = (): void => {
-    axios.post(requests.addincome,{
-      name: undefined,
-      cost: undefined,
-      food: undefined,
-      currentmoney: undefined,
+  const addIncome = async(): Promise<void> => {
+    await axios.post(requests.addincome,{
       incomename: incomename,
       income: income,
+    })
+    fetchAcountingData();
+  };
+
+  const changeFoodlimit = async (): Promise<void> => {
+    await axios.post(requests.changefoodlimit,{
+      foodlimit: foodlimit,
     }).then(() => {
       Setacountingdata([
         ...acountingdata,
         {
-          name: undefined,
-          cost: undefined,
-          food: undefined,
-          currentmoney: undefined,
-          incomename: incomename,
-          income: income,
+          foodlimit: foodlimit,
         },
       ]);
     });
@@ -102,6 +87,7 @@ export default function Home() {
     location.href = "/";
   };
 
+  
   function foodandlivingCost(): FoodandLivingData {
     let cost = { food: 0, living: 0, total: 0 };
     acountingdata.map((items: AcountingData) => {
@@ -118,15 +104,6 @@ export default function Home() {
   }
   const { food, living, total } = foodandlivingCost();
 
-  function foodcostlimit(): number{
-    let Foodlimit = 25000;
-    acountingdata.map((item:any) => {
-      if (item.food && item.cost != undefined) {
-        Foodlimit -= item.cost
-      }
-    }) 
-    return Foodlimit
-  }
 
   function displaycurrentmoney():number {
     let money = 0;
@@ -147,11 +124,14 @@ export default function Home() {
       return false;
     }
   }
+
+
   
-  const displayacountingData = acountingdata.map((item:any) => {
+  
+  const displayacountingData = () => acountingdata.map((item:any,index:number) => {
     if(checkinput(item)){
       return (
-        <div className="itemwrapper">
+        <div className="itemwrapper" key={index}>
           <i>
             {item.name}: {item.cost}円
             <Button
@@ -172,7 +152,7 @@ export default function Home() {
               variant="outlined"
               onClick={() => deleteAcounting(item._id)}
             >
-             delete 
+             delete
             </Button>
           </i>
         </div>
@@ -217,16 +197,22 @@ export default function Home() {
           setisFood(e.target.checked);
         }}
       />
-      <Button variant="outlined" onClick={addAcounting} type="reset">
+      <Button variant="outlined" onClick={addAcounting}>
         add
       </Button>
       <br></br>
-
-      {displayacountingData}
+      <TextField
+        label="setfoodlimit"
+        onChange={(e) => {
+          setfoodlimit(e.target.value);
+        }}
+      />
+      <Button variant="outlined" onClick={changeFoodlimit}>changefoodlimit</Button>
+      {displayacountingData()}
       
       <div className="costwrapper">
         <h2>食費合計{food}円</h2>
-        <h2>食費残り{foodcostlimit()}円</h2>
+        <h2>食費残り円</h2>
       <br></br>
       <h2>生活費合計{living}円</h2>
       <br></br>

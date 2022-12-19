@@ -3,6 +3,7 @@ const requests = {
   addacounting: "http://localhost:4000/addacounting",
   savecurrentmoney: "http://localhost:4000/savecurrentmoney",
   addincome: "http://localhost:4000/addincome",
+  changefoodlimit: "http://localhost:4000/changefoodlimit",
 };
 
 export default requests;
