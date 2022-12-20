@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import './Home.css'
 import { Types } from "mongoose";
@@ -7,6 +7,10 @@ import requests from "../../utils/request";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
+import Snackbar from "@mui/material/Snackbar"
+import IconButton from "@mui/material/IconButton"
+import CloseIcon from "@mui/icons-material/Close"
+
 
 interface AcountingData {
   name: string;
@@ -27,12 +31,13 @@ interface FoodandLivingData {
 
 export default function Home() {
   const { logout } = useAuth0();
-  const [name, setName] = useState<string>();
-  const [cost, setCost] = useState<number | string>();
-  const [isfood, setisFood] = useState<boolean>();
-  const [incomename,setincomname] = useState<string>();
-  const [income,setincom] = useState<number | string>();
-  const [foodlimit,setfoodlimit] = useState<number | String>();
+  const [open,setopen] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [cost, setCost] = useState<number | string>('');
+  const [isfood, setisFood] = useState<boolean>(false);
+  const [incomename,setincomname] = useState<string>('');
+  const [income,setincom] = useState<number | string>('');
+  const [foodlimit,setfoodlimit] = useState<number | String>('');
   const [acountingdata, Setacountingdata] = useState<any>([]);
 
   useEffect(() => {
@@ -47,12 +52,15 @@ export default function Home() {
   }
   
   const addAcounting = async(): Promise<void> => {
-    if(name != undefined && cost != undefined) {
+    if(name != '' && cost != null) {
     await axios.post(requests.addacounting, {
         name: name,
         cost: cost,
         food: isfood,
-      })
+    })
+      setName('');
+      setCost('');
+    setopen(true);
     fetchAcountingData();
     } else {
       alert("please put acounting detail");
@@ -61,13 +69,14 @@ export default function Home() {
   
 
   const addIncome = async(): Promise<void> => {
-    if(income != undefined && incomename != undefined){
+    if(income != '' && incomename != null){
     await axios.post(requests.addincome,{
       incomename: incomename,
       income: income,
     })
-    fetchAcountingData();
-      location.href = "/";
+      setincomname('');
+      setincom('');
+      fetchAcountingData();
     } else {
       alert("please put income detail");
     }
@@ -75,12 +84,12 @@ export default function Home() {
 
   
   const changeFoodlimit = async (): Promise<void> => {
-    if(foodlimit != undefined) {
+    if(foodlimit != '') {
     await axios.post(requests.changefoodlimit,{
       foodlimit: foodlimit,
     })
+      setfoodlimit('');
     fetchAcountingData();
-      location.href = "/";
     } else {
       alert("please put foodlimit");
     }
@@ -91,6 +100,30 @@ export default function Home() {
     axios.delete(`http://localhost:4000/deleteacounting/${id}`);
     location.href = "/";
   };
+
+  
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setopen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   
   function foodandlivingCost(): FoodandLivingData {
@@ -130,6 +163,7 @@ export default function Home() {
       } else if(item.cost != undefined && item.food == true) {
         limit -= item.cost;
       }
+      
     })
     return limit;
   }
@@ -181,27 +215,31 @@ export default function Home() {
       <h2>所持金:{displaycurrentmoney()}円</h2>
       <TextField
         label="incomename"
+        value={incomename}
         onChange={(e) => {
           setincomname(e.target.value);
         }}
       />
       <TextField
         label="income"
+        value={income}
         onChange={(e) => {
           setincom(e.target.value);
-         }}
+        }}
       />
       <Button variant="outlined" onClick={addIncome}>
         追加
       </Button><br/>
-        <TextField
+      <TextField
         label="name"
+        value={name}
         onChange={(e) => {
           setName(e.target.value);
         }}
       />
       <TextField
         label="cost"
+        value={cost}
         onChange={(e) => {
           setCost(e.target.value);
         }}
@@ -215,9 +253,16 @@ export default function Home() {
       <Button variant="outlined" onClick={addAcounting}>
         add
       </Button>
-      <br></br>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="successfully added acounting"
+        action={action}
+      /> <br></br>
       <TextField
-        label="setfoodlimit"
+        label="foodlimit"
+        value={foodlimit}
         onChange={(e) => {
           setfoodlimit(e.target.value);
         }}
@@ -228,14 +273,14 @@ export default function Home() {
       <div className="costwrapper">
         <h2>食費合計{food}円</h2>
         <h2>食費残り{displayfoodlimit()}円</h2>
-      <br></br>
-      <h2>生活費合計{living}円</h2>
-      <br></br>
-      <h2>合計{total}円</h2>
-      <br></br>
+        <br></br>
+        <h2>生活費合計{living}円</h2>
+        <br></br>
+        <h2>合計{total}円</h2>
+        <br></br>
       </div>
       <Button
-      className="logout"
+        className="logout"
         variant="outlined"
         onClick={() => logout({ returnTo: "http://localhost:5173/login" })}
       >
