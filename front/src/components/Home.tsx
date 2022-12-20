@@ -10,6 +10,13 @@ import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar"
 import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 
 interface AcountingData {
@@ -28,6 +35,7 @@ interface FoodandLivingData {
   living: number;
   total: number;
 }
+
 
 export default function Home() {
   const { logout } = useAuth0();
@@ -96,9 +104,9 @@ export default function Home() {
   };
   
 
-  const deleteAcounting = (id: string): void => {
-    axios.delete(`http://localhost:4000/deleteacounting/${id}`);
-    location.href = "/";
+  const deleteAcounting = async (id: string): Promise<void> => {
+    await axios.delete(`http://localhost:4000/deleteacounting/${id}`);
+    fetchAcountingData();
   };
 
   
@@ -168,6 +176,7 @@ export default function Home() {
     return limit;
   }
 
+
   
   function checkinput(input): boolean {
     if (input.name != undefined && input.cost != undefined) {
@@ -176,6 +185,7 @@ export default function Home() {
       return false;
     }
   }
+
   
   const displayacountingData = () => acountingdata.map((item:AcountingData,index:number) => {
     if(checkinput(item)){
@@ -268,7 +278,8 @@ export default function Home() {
         }}
       />
       <Button variant="outlined" onClick={changeFoodlimit}>changefoodlimit</Button>
-      {displayacountingData()}
+
+     {displayacountingData()}
       
       <div className="costwrapper">
         <h2>食費合計{food}円</h2>
