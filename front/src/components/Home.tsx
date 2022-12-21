@@ -19,6 +19,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 
+function createData(
+  name: string | undefined,
+  cost: number | undefined,
+  food: boolean | undefined
+) {
+  return { name, cost , food };
+}
+
 interface AcountingData {
   name: string;
   cost: number;
@@ -36,7 +44,6 @@ interface FoodandLivingData {
   total: number;
 }
 
-
 export default function Home() {
   const { logout } = useAuth0();
   const [open,setopen] = useState<boolean>(false);
@@ -48,6 +55,15 @@ export default function Home() {
   const [foodlimit,setfoodlimit] = useState<number | String>('');
   const [acountingdata, Setacountingdata] = useState<any>([]);
 
+
+  const now: number = new Date();
+  const months: number = now.getMonth() + 1; 
+  function nowDate() {
+    const date = new Date();
+    const time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}Z`;
+    return time;
+  }
+  
   useEffect(() => {
     fetchAcountingData();
   }, []);
@@ -55,9 +71,10 @@ export default function Home() {
   const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting);
     const acountingData: AcountingData = await data.data;
-    console.log(acountingData);
     Setacountingdata(acountingData)
+    console.log(acountingData)
   }
+
   
   const addAcounting = async(): Promise<void> => {
     if(name != '' && cost != null) {
@@ -84,6 +101,7 @@ export default function Home() {
     })
       setincomname('');
       setincom('');
+      setopen(true);
       fetchAcountingData();
     } else {
       alert("please put income detail");
@@ -97,7 +115,17 @@ export default function Home() {
       foodlimit: foodlimit,
     })
       setfoodlimit('');
-    fetchAcountingData();
+      setopen(true);
+      fetchAcountingData();
+      acountingdata.map((item: AcountingData) => {
+        if(item.foodlimit != undefined) {
+          if(now.toISOString() > item.Date){
+            deleteAcounting(item._id)
+          } else {
+            console.log(now.toISOString(),item.Date)
+          }
+        }
+      })
     } else {
       alert("please put foodlimit");
     }
@@ -151,6 +179,7 @@ export default function Home() {
   const { food, living, total } = foodandlivingCost();
 
 
+  
   function displaycurrentmoney():number {
     let money = 0;
     acountingdata.map((item: AcountingData) => {
@@ -163,6 +192,7 @@ export default function Home() {
     return money;
   }
 
+  
   function displayfoodlimit():number {
     let limit = 0;
     acountingdata.map((item: AcountingData) => {
@@ -171,7 +201,6 @@ export default function Home() {
       } else if(item.cost != undefined && item.food == true) {
         limit -= item.cost;
       }
-      
     })
     return limit;
   }
@@ -279,7 +308,8 @@ export default function Home() {
       />
       <Button variant="outlined" onClick={changeFoodlimit}>changefoodlimit</Button>
 
-     {displayacountingData()}
+     
+      {displayacountingData()}
       
       <div className="costwrapper">
         <h2>食費合計{food}円</h2>
