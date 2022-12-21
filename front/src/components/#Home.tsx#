@@ -219,7 +219,7 @@ export default function Home() {
         return (
           <div className="itemwrapper" key={index}>
             <i style={item.food ? {color : "green"} : {color : "black"}}>
-              {item.name}: {item.cost}円
+              {item.name}: {item.cost}円 
               <Button
                 variant="outlined"
                 onClick={() => deleteAcounting(item._id)}
