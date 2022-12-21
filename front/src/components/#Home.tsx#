@@ -199,6 +199,20 @@ export default function Home() {
     })
   }
 
+  const Month = [
+    {name:"1月",num:1},
+    {name:"2月",num:2},
+    {name:"3月",num:3},
+    {name:"4月",num:4},
+    {name:"5月",num:5},
+    {name:"6月",num:6},
+    {name:"7月",num:7},
+    {name:"8月",num:8},
+    {name:"9月",num:9},
+    {name:"10月",num:10},
+    {name:"11月",num:11},
+    {name:"12月",num:12},
+  ]
   
   const displayacountingData = () => acountingdata.map((item:AcountingData,index:number) => {
     const ItemMonth: number = new Date(item.Date).getMonth() + 1;
@@ -235,20 +249,6 @@ export default function Home() {
    }
   });
 
-  const Month = [
-    {name:"1月",num:1},
-    {name:"2月",num:2},
-    {name:"3月",num:3},
-    {name:"4月",num:4},
-    {name:"5月",num:5},
-    {name:"6月",num:6},
-    {name:"7月",num:7},
-    {name:"8月",num:8},
-    {name:"9月",num:9},
-    {name:"10月",num:10},
-    {name:"11月",num:11},
-    {name:"12月",num:12},
-]
   
   return (
     <div className="homewrapper">
