@@ -33,6 +33,7 @@ interface FoodandLivingData {
 }
 
 export default function Home() {
+  const { user } = useAuth0();
   const { logout } = useAuth0();
   const [open,setopen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
@@ -44,21 +45,20 @@ export default function Home() {
   const [acountingdata, Setacountingdata] = useState<any>([]);
   const now: number = new Date();
   const months: number = now.getMonth() + 1; 
-  const [selectmonth,setmonth] = useState<number>(months)
-
+  const [selectmonth,setmonth] = useState<number>(months);
   
   useEffect(() => {
     fetchAcountingData();
   }, []);
 
+
   const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting);
     const acountingData: AcountingData = await data.data;
-    Setacountingdata(acountingData)
-    console.log(acountingData)
+    Setacountingdata(acountingData);
+    console.log(acountingData);
   }
 
-  
   const addAcounting = async(): Promise<void> => {
     if(name != '' && cost != null) {
     await axios.post(requests.addacounting, {
@@ -219,7 +219,7 @@ export default function Home() {
         return (
           <div className="itemwrapper" key={index}>
             <i style={item.food ? {color : "green"} : {color : "black"}}>
-              {item.name}: {item.cost}円
+              {item.name}: {item.cost}円 
               <Button
                 variant="outlined"
                 onClick={() => deleteAcounting(item._id)}

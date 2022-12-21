@@ -1,4 +1,3 @@
-
 import express from "express";
 import Schema from "../models/schema";
 import cors from "cors";
@@ -21,6 +20,41 @@ router.get("/",(_req:express.Request,res:express.Response) => {
   res.send("arigatou");
 });
 
+
+router.post("/addauthuser", async (req:express.Request,res:express.Response) => {
+  const { Users } = Schema;
+  const username: string = req.body.username;
+  const newuser = new Schema.Users({
+    username: username,
+  });
+
+  try {
+    newuser.save((err, _newuserResult) => {
+      if(err){
+        res.send("err saving");
+        return;
+      }
+      res.redirect('/');
+      res.end();
+    });
+  } catch(err) {
+    console.log(err);
+  }
+  
+})
+
+router.get("/getuser",async (_req: express.Request, res: express.Response) => {
+  const { Users } = Schema;
+
+  const getUser = await Users.find({}).exec((err,userData) => {
+    if(err) throw err;
+    if(userData) {
+      res.end(JSON.stringify(userData));
+    } else {
+      res.end();
+    }
+  });
+});
 
 router.get(
   "/acounting",
@@ -48,7 +82,7 @@ router.post(
     const acountingcost: number = req.body.cost;
     const isfood: boolean = req.body.food;
     const { Users } = Schema;
-    const userId: any = await Users.findOne({ username: "andy" }).exec();
+    const userId: any = await Users.findOne({ username : "andy" }).exec();
     const newacounting = new Schema.Acounting({
       name: acountingname,
       cost: acountingcost,
