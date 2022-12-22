@@ -13,7 +13,6 @@ import CloseIcon from "@mui/icons-material/Close"
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import Modal from '@mui/material/Modal';
 
 interface AcountingData {
   name: string;
@@ -52,7 +51,7 @@ export default function Home() {
   }, []);
 
 
-const fetchAcountingData = async (): Promise<void> => {
+  const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting);
     const acountingData: AcountingData = await data.data;
     Setacountingdata(acountingData);
