@@ -1,0 +1,9 @@
+#mongodb
+DB_URL=mongodb+srv://andy64:diamondchair87@cluster0.tsozp.mongodb.net/Two4Good?retryWrites=true&w=majority
+PORT=4000
+
+#auth
+
+DOMAIN="dev-r584bup5.jp.auth0.com"
+CLIENT_ID="7BdtwjXK9f08Tjo71VzPqlASEctOJr35"
+SECRET="alskdjfhapsdufkjasbndkfjnbwej"

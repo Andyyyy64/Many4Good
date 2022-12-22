@@ -1,9 +1,27 @@
 import express from "express";
 import Schema from "../models/schema";
 import cors from "cors";
-const router: express.Router = express.Router();
-const app: express.Express = express();
+import { OpenidRequest } from "express-openid-connect"
+require('dotenv').config();
+const { auth, requiresAuth } = require('express-openid-connect');
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  baseURL: process.env.BASE_URL,
+  clientID: process.env.CLIENT_ID,
+  issuerBaseURL: process.env.DOMAIN,
+  secret: process.env.SECRET,
+};
+declare module 'express' {
+    interface Request {
+        openId?: OpenidRequest
+    }
+}
 
+const app: express.Express = express();
+const router: express.Router = express.Router();
+
+app.use(auth(config));
 app.use(cors());
 app.use(express.json());
 app.use((_req:express.Request, res:express.Response, next) => {
@@ -16,53 +34,16 @@ app.use((_req:express.Request, res:express.Response, next) => {
 });
 
 
-router.get("/",(_req:express.Request,res:express.Response) => {
+router.get("/",(req:express.Request,res:express.Response) => {
   res.send("arigatou");
 });
 
-
-router.post("/addauthuser", async (req:express.Request,res:express.Response) => {
-  const { Users } = Schema;
-  const username: string = req.body.username;
-  const newuser = new Schema.Users({
-    username: username,
-  });
-
-  try {
-    newuser.save((err, _newuserResult) => {
-      if(err){
-        res.send("err saving");
-        return;
-      }
-      res.redirect('/');
-      res.end();
-    });
-  } catch(err) {
-    console.log(err);
-  }
-  
-})
-
-router.get("/getuser",async (_req: express.Request, res: express.Response) => {
-  const { Users } = Schema;
-
-  const getUser = await Users.find({}).exec((err,userData) => {
-    if(err) throw err;
-    if(userData) {
-      res.end(JSON.stringify(userData));
-    } else {
-      res.end();
-    }
-  });
-});
 
 router.get(
   "/acounting",
   async (_req: express.Request, res: express.Response) => {
     const { Acounting } = Schema;
-    const userAcounting = await Acounting.find({})
-      .populate("user")
-      .exec((err, acountingData) => {
+    const userAcounting = await Acounting.find({}).populate("user").exec((err, acountingData) => {
         if (err) throw err;
         if (acountingData) {
           res.end(JSON.stringify(acountingData));
@@ -82,7 +63,7 @@ router.post(
     const isfood: boolean = req.body.food;
     const username: string = req.body.username;
     const { Users } = Schema;
-    const userId: any = await Users.findOne({ username : username }).exec();
+    const userId: any = await Users.findOne({ username: "andy"}).exec();
     const newacounting = new Schema.Acounting({
       name: acountingname,
       cost: acountingcost,
@@ -109,9 +90,9 @@ router.post(
 router.post('/addincome',async (req:express.Request,res:express.Response) => {
   const incomename :string = req.body.incomename;
   const income :number = req.body.income;
-  const username: string = req.body.income;
+  const username: string = req.body.username;
   const { Users } = Schema;
-  const UserId :any = await Users.findOne({username:username}).exec();
+  const UserId: any = await Users.findOne({ username: username }).exec();
   const newincome = new Schema.Acounting({
     incomename: incomename,
     income: income,
@@ -137,7 +118,7 @@ router.post("/changefoodlimit",async (req:express.Request,res:express.Response) 
   const foodlimit: number = req.body.foodlimit;
   const username: string = req.body.username;
   const { Users } = Schema;
-  const UserId: any = await Users.findOne({username:username}).exec();
+  const UserId: any = await Users.findOne({}).exec();
   const newfoodlimit = new Schema.Acounting({
     foodlimit: foodlimit,
     user: UserId._id,
