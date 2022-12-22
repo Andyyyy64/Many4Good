@@ -46,8 +46,7 @@ export default function Home() {
   const now: number = new Date();
   const months: number = now.getMonth() + 1; 
   const [selectmonth,setmonth] = useState<number>(months);
-  const [usermodal,setusermodal] = useState<boolean>(true);
-  const [username,setusername] = useState<string>(user != undefined ? user.nickname : "");
+
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -65,35 +64,6 @@ export default function Home() {
     fetchAcountingData();
   }, []);
 
-  
-  const setuser = async (): Promise<void> => {
-    await axios.post(requests.addauthuser,{
-        username: username
-    });
-    console.log(username)
-    setusermodal(false);
-  }
-  
-  function inputusername() {
-    const handleClose = () => setusermodal(false);
-    return (
-      <div>
-        <Modal
-          open={usermodal}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style} >
-            <TextField value={username} onChange={((e) => {
-              setusername(e.target.value)
-            } ) } />
-            <Button onClick={setuser} >add user</Button>
-          </Box>
-        </Modal>
-      </div>
-    );
-  }
 
 const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting);
@@ -293,7 +263,6 @@ const fetchAcountingData = async (): Promise<void> => {
   
   return (
     <div className="homewrapper">
-      {inputusername()}
       <Box sx={{ width: 500 }}>
         <BottomNavigation
           showLabels

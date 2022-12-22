@@ -109,8 +109,9 @@ router.post(
 router.post('/addincome',async (req:express.Request,res:express.Response) => {
   const incomename :string = req.body.incomename;
   const income :number = req.body.income;
+  const username: string = req.body.income;
   const { Users } = Schema;
-  const UserId :any = await Users.findOne({username:"andy"}).exec();
+  const UserId :any = await Users.findOne({username:username}).exec();
   const newincome = new Schema.Acounting({
     incomename: incomename,
     income: income,
@@ -134,8 +135,9 @@ router.post('/addincome',async (req:express.Request,res:express.Response) => {
 
 router.post("/changefoodlimit",async (req:express.Request,res:express.Response) => {
   const foodlimit: number = req.body.foodlimit;
+  const username: string = req.body.username;
   const { Users } = Schema;
-  const UserId: any = await Users.findOne({username:"andy"}).exec();
+  const UserId: any = await Users.findOne({username:username}).exec();
   const newfoodlimit = new Schema.Acounting({
     foodlimit: foodlimit,
     user: UserId._id,
