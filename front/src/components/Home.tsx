@@ -14,7 +14,6 @@ import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
-
 interface AcountingData {
   name: string;
   cost: number;
@@ -33,8 +32,7 @@ interface FoodandLivingData {
 }
 
 export default function Home() {
-  const { user } = useAuth0();
-  const { logout } = useAuth0();
+  const { logout, user, isAuthenticated } = useAuth0();
   const [open,setopen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [cost, setCost] = useState<number | string>('');
@@ -58,7 +56,7 @@ export default function Home() {
     Setacountingdata(acountingData);
     console.log(acountingData);
   }
-
+  
   const addAcounting = async(): Promise<void> => {
     if(name != '' && cost != null) {
     await axios.post(requests.addacounting, {
@@ -125,6 +123,11 @@ export default function Home() {
     if (reason === 'clickaway') {
       return;
     }
+    acountingdata.map((item: AcountingData) => {
+      if(now.getSeconds() == new Date(item.Date).getSeconds()) {
+        deleteAcounting(item._id)
+      } 
+    })
     setopen(false);
   };
 
@@ -137,7 +140,6 @@ export default function Home() {
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={handleClose}
       >
         <CloseIcon fontSize="small" />
       </IconButton>
