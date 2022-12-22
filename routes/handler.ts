@@ -17,7 +17,7 @@ app.use((_req:express.Request, res:express.Response, next) => {
 
 
 router.get("/",(_req:express.Request,res:express.Response) => {
-  res.send("arigatoo");
+  res.send("arigatou");
 });
 
 
@@ -58,7 +58,7 @@ router.get("/getuser",async (_req: express.Request, res: express.Response) => {
 
 router.get(
   "/acounting",
-  async (req: express.Request, res: express.Response) => {
+  async (_req: express.Request, res: express.Response) => {
     const { Acounting } = Schema;
     const userAcounting = await Acounting.find({})
       .populate("user")
