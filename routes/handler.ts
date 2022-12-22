@@ -17,7 +17,7 @@ app.use((_req:express.Request, res:express.Response, next) => {
 
 
 router.get("/",(_req:express.Request,res:express.Response) => {
-  res.send("arigatou");
+  res.send("arigatoo");
 });
 
 
@@ -58,9 +58,8 @@ router.get("/getuser",async (_req: express.Request, res: express.Response) => {
 
 router.get(
   "/acounting",
-  async (_req: express.Request, res: express.Response) => {
+  async (req: express.Request, res: express.Response) => {
     const { Acounting } = Schema;
-
     const userAcounting = await Acounting.find({})
       .populate("user")
       .exec((err, acountingData) => {
@@ -71,7 +70,7 @@ router.get(
           res.end();
         }
       });
-  }
+   }
 );
 
 
@@ -81,15 +80,13 @@ router.post(
     const acountingname: string = req.body.name;
     const acountingcost: number = req.body.cost;
     const isfood: boolean = req.body.food;
+    const username: string = req.body.username;
     const { Users } = Schema;
-    const userId: any = await Users.findOne({ username : "andy" }).exec();
+    const userId: any = await Users.findOne({ username : username }).exec();
     const newacounting = new Schema.Acounting({
       name: acountingname,
       cost: acountingcost,
       food: isfood,
-      currentmoney: undefined,
-      incomename: undefined,
-      income: undefined,
       user: userId._id,
     });
 

@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close"
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-
+import Modal from '@mui/material/Modal';
 
 interface AcountingData {
   name: string;
@@ -46,13 +46,56 @@ export default function Home() {
   const now: number = new Date();
   const months: number = now.getMonth() + 1; 
   const [selectmonth,setmonth] = useState<number>(months);
+  const [usermodal,setusermodal] = useState<boolean>(true);
+  const [username,setusername] = useState<string>(user != undefined ? user.nickname : "");
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
   
   useEffect(() => {
     fetchAcountingData();
   }, []);
 
+  
+  const setuser = async (): Promise<void> => {
+    await axios.post(requests.addauthuser,{
+        username: username
+    });
+    console.log(username)
+    setusermodal(false);
+  }
+  
+  function inputusername() {
+    const handleClose = () => setusermodal(false);
+    return (
+      <div>
+        <Modal
+          open={usermodal}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style} >
+            <TextField value={username} onChange={((e) => {
+              setusername(e.target.value)
+            } ) } />
+            <Button onClick={setuser} >add user</Button>
+          </Box>
+        </Modal>
+      </div>
+    );
+  }
 
-  const fetchAcountingData = async (): Promise<void> => {
+const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting);
     const acountingData: AcountingData = await data.data;
     Setacountingdata(acountingData);
@@ -250,6 +293,7 @@ export default function Home() {
   
   return (
     <div className="homewrapper">
+      {inputusername()}
       <Box sx={{ width: 500 }}>
         <BottomNavigation
           showLabels
