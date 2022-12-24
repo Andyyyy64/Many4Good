@@ -43,7 +43,6 @@ router.get(
     const email: any = req.query.email;
     const { Users } = Schema;
     const userId: any = await Users.findOne({ email: email }).exec();
-    console.log(userId)
     const userAcounting = await Acounting.find()
     .populate("user")
     .exec((err, acountingData) => {

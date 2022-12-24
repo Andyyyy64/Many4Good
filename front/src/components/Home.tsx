@@ -21,6 +21,8 @@ interface AcountingData {
   currentmoney: number;
   incomename: string;
   income: number;
+  foodlimit: number;
+  _id: string;
   user?: Types.ObjectId;
   Date?: Date;
 }
@@ -45,13 +47,14 @@ export default function Home() {
   const months: number = now.getMonth() + 1; 
   const [selectmonth,setmonth] = useState<number>(months);
 
-  
   useEffect(() => {
     fetchAcountingData();
   }, []);
 
+  const email = user?.email;
+  
   const fetchAcountingData = async (): Promise<void> => {
-    const email = user?.email;
+    console.log(email);
     const data = await axios.get(requests.fetchacounting,{
       params:{
         email:email,
