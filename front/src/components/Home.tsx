@@ -19,8 +19,8 @@ interface AcountingData {
   cost: number;
   food: boolean;
   currentmoney: number;
-  income:number;
-  isincome:boolean;
+  incomename: string;
+  income: number;
   user?: Types.ObjectId;
   Date?: Date;
 }
@@ -32,7 +32,7 @@ interface FoodandLivingData {
 }
 
 export default function Home() {
-  const { logout, user, isAuthenticated } = useAuth0();
+  const { logout, user, isAuthenticated, isLoading } = useAuth0();
   const [open,setopen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [cost, setCost] = useState<number | string>('');
@@ -44,18 +44,24 @@ export default function Home() {
   const now: number = new Date();
   const months: number = now.getMonth() + 1; 
   const [selectmonth,setmonth] = useState<number>(months);
+
   
   useEffect(() => {
     fetchAcountingData();
   }, []);
 
-
   const fetchAcountingData = async (): Promise<void> => {
-    const data = await axios.get(requests.fetchacounting);
+    const email = user?.email;
+    const data = await axios.get(requests.fetchacounting,{
+      params:{
+        email:email,
+      }
+    });
     const acountingData: AcountingData = await data.data;
     Setacountingdata(acountingData);
     console.log(acountingData);
   }
+ 
   
   const addAcounting = async(): Promise<void> => {
     if(name != '' && cost != null) {
@@ -63,6 +69,7 @@ export default function Home() {
         name: name,
         cost: cost,
         food: isfood,
+        email: user?.email,
     })
       setName('');
       setCost('');
@@ -125,7 +132,8 @@ export default function Home() {
     }
     acountingdata.map((item: AcountingData) => {
       if(now.getSeconds() == new Date(item.Date).getSeconds()) {
-        deleteAcounting(item._id)
+        //deleteAcounting(item._id)
+        console.log("ok")
       } 
     })
     setopen(false);
@@ -195,7 +203,7 @@ export default function Home() {
           limit -= item.cost;
         }
       }
-    })      
+    })
     return limit;
   }
 
@@ -213,7 +221,7 @@ export default function Home() {
     {name:"11月",num:11},
     {name:"12月",num:12},
   ]
-  
+
   const displayacountingData = () => acountingdata.map((item:AcountingData,index:number) => {
     const ItemMonth: number = new Date(item.Date).getMonth() + 1;
     if(ItemMonth == selectmonth){
@@ -247,7 +255,7 @@ export default function Home() {
         )
       }
     }
-  });
+  }).reverse();
 
   
   return (
@@ -262,7 +270,7 @@ export default function Home() {
             setCost('');
             setincom('');
             setincomname('');
-            setisFood('');
+            setisFood(false);
             setfoodlimit('');
           }}
         >

@@ -6,10 +6,12 @@ import { Auth0Provider } from "@auth0/auth0-react"
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Auth0Provider
-  domain={import.meta.env.VITE_APP_DOMEIN}
-  clientId={import.meta.env.VITE_APP_CLIENT_ID}
-  redirectUri={window.location.origin}
+    domain={import.meta.env.VITE_APP_DOMEIN}
+    clientId={import.meta.env.VITE_APP_CLIENT_ID}
+    redirectUri={window.location.origin}
   >
+    <React.StrictMode>
       <App />
+    </React.StrictMode>
   </Auth0Provider>
 )

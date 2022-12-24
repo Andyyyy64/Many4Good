@@ -3,6 +3,7 @@ import Schema from "../models/schema";
 import cors from "cors";
 const router: express.Router = express.Router();
 const app: express.Express = express();
+require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
@@ -16,7 +17,7 @@ app.use((_req:express.Request, res:express.Response, next) => {
 });
 
 
-router.get("/",(_req:express.Request,res:express.Response) => {
+router.get("/",(req,res) => {
   res.send("arigatou");
 });
 
@@ -58,12 +59,14 @@ router.get("/getuser",async (_req: express.Request, res: express.Response) => {
 
 router.get(
   "/acounting",
-  async (_req: express.Request, res: express.Response) => {
+  async (req: express.Request, res: express.Response) => {
     const { Acounting } = Schema;
-
-    const userAcounting = await Acounting.find({})
-      .populate("user")
-      .exec((err, acountingData) => {
+    const { Users } = Schema;
+    const email: any = req.query.email;
+    console.log(email)
+    const userAcounting = await Acounting.find()
+    .populate("user")
+    .exec((err, acountingData) => {
         if (err) throw err;
         if (acountingData) {
           res.end(JSON.stringify(acountingData));
@@ -74,22 +77,20 @@ router.get(
   }
 );
 
-
 router.post(
   "/addacounting",
   async (req: express.Request, res: express.Response) => {
     const acountingname: string = req.body.name;
     const acountingcost: number = req.body.cost;
     const isfood: boolean = req.body.food;
+    const email: string = req.body.email;
+    console.log(email);
     const { Users } = Schema;
-    const userId: any = await Users.findOne({ username : "andy" }).exec();
+    const userId: any = await Users.findOne({email:email}).exec();
     const newacounting = new Schema.Acounting({
       name: acountingname,
       cost: acountingcost,
       food: isfood,
-      currentmoney: undefined,
-      incomename: undefined,
-      income: undefined,
       user: userId._id,
     });
 
