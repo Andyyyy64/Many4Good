@@ -174,7 +174,7 @@ export default function Home() {
           cost.total += item.cost;
         }
       }
-    });
+  p  });
     return cost;
   }
   const { food, living, total } = displayfoodandlivingCost();

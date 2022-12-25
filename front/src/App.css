@@ -39,3 +39,21 @@
 .read-the-docs {
   color: #888;
 }
+
+.homewrapper{
+    position: relative;
+
+}
+
+.costwrapper {
+    margin-top: 30%;
+    margin-bottom: 50%;
+}
+
+.itemwrapper {
+    margin-top: 10%;
+}
+
+.foodlimit{
+    margin-bottom: 10%;
+}

@@ -34,7 +34,7 @@ interface FoodandLivingData {
 }
 
 export default function Home() {
-  const { logout, user, isAuthenticated } = useAuth0<any>();
+  const { logout, user, isAuthenticated } = useAuth0();
   const [open, setopen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [cost, setCost] = useState<number | string>('');
