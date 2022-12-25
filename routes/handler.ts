@@ -43,8 +43,7 @@ router.get(
     const email: any = req.query.email;
     const { Users } = Schema;
     const userId: any = await Users.findOne({ email: email }).exec();
-    console.log(userId)
-    const userAcounting = await Acounting.findOne({ user: userId })
+    const userAcounting = await Acounting.find({ user: userId?._id })
     .populate("user")
     .exec((err, acountingData) => {
         if (err) throw err;
@@ -92,9 +91,10 @@ router.post(
 
 router.post('/addincome',async (req:express.Request,res:express.Response) => {
   const incomename :string = req.body.incomename;
-  const income :number = req.body.income;
+  const income: number = req.body.income;
+  const email: any = req.body.email;
   const { Users } = Schema;
-  const UserId :any = await Users.findOne({username:"andy"}).exec();
+  const UserId :any = await Users.findOne({ email: email }).exec();
   const newincome = new Schema.Acounting({
     incomename: incomename,
     income: income,
@@ -118,8 +118,9 @@ router.post('/addincome',async (req:express.Request,res:express.Response) => {
 
 router.post("/changefoodlimit",async (req:express.Request,res:express.Response) => {
   const foodlimit: number = req.body.foodlimit;
+  const email: any = req.body.email;
   const { Users } = Schema;
-  const UserId: any = await Users.findOne({username:"andy"}).exec();
+  const UserId: any = await Users.findOne({ email: email }).exec();
   const newfoodlimit = new Schema.Acounting({
     foodlimit: foodlimit,
     user: UserId._id,

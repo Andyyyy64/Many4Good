@@ -57,7 +57,7 @@ export default function Home() {
         email: user?.email
       }
     });
-    const acountingData: AcountingData = await data.data;
+    const acountingData: AcountingData[] = await data.data;
     Setacountingdata(acountingData);
     console.log(acountingData);
   }
@@ -73,6 +73,7 @@ export default function Home() {
       })
       setName('');
       setCost('');
+      setisFood(false);
       setopen(true);
       fetchAcountingData();
     } else {
@@ -86,6 +87,7 @@ export default function Home() {
       await axios.post(requests.addincome, {
         incomename: incomename,
         income: income,
+        email: user?.email,
       })
       setincomname('');
       setincom('');
@@ -101,6 +103,7 @@ export default function Home() {
     if (foodlimit != '') {
       await axios.post(requests.changefoodlimit, {
         foodlimit: foodlimit,
+        email: user?.email,
       })
       setfoodlimit('');
       setopen(true);
@@ -317,6 +320,7 @@ export default function Home() {
       />
       <Checkbox
         sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
+        value={food}
         onChange={(e) => {
           setisFood(e.target.checked);
         }}
