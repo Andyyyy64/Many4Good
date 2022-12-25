@@ -58,52 +58,17 @@ export default function DisplayAcounting(props: Props) {
     return ItemMonth;
   }
   
-  const expenses = props.acountingdata.filter((item: AcountingData) => item.name != undefined && returnitemmonth(item) == props.selectmonth);
+  const expenses = props.acountingdata.filter((item: AcountingData) =>
+    item.name != undefined && returnitemmonth(item) == props.selectmonth);
   
-  const incomes = props.acountingdata.filter((item: AcountingData) => item.income != undefined && returnitemmonth(item) == props.selectmonth);
+  const incomes = props.acountingdata.filter((item: AcountingData) =>
+    item.income != undefined && returnitemmonth(item) == props.selectmonth);
   
-  const expensesrows = expenses.map
-  ((item: AcountingData) => expenseData(item.name,item.cost,item.food, item._id));
+  const expensesrows = expenses.map((item: AcountingData) =>
+    expenseData(item.name,item.cost,item.food, item._id));
 
-  const incomesrows = incomes.map
-  ((item: AcountingData) => incomeData(item.incomename, item.income, item._id));
-  
-  const displayacountingdata = () => props.acountingdata.map((item: AcountingData, index: number) => {
-     const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-    if (ItemMonth == props.selectmonth) {
-      if (item.name != undefined && item.cost != undefined) {
-        return (
-          <div className="itemwrapper" key={index}>
-            <i style={item.food ? { color: "green" } : { color: "black" }}>
-              {item.name}: {item.cost}円
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  props.onClick(item._id);
-                } }
-              >
-               delete
-              </Button>
-            </i>
-          </div>
-        )
-      } else if (item.income != undefined) {
-        return (
-          <div className="itemwrapper" key={index}>
-            <i>
-              収入- {item.incomename}: {item.income}円
-              <Button
-                variant="outlined"
-                onClick={props.onClick}
-              >
-                delete
-              </Button>
-            </i>
-          </div>
-        )
-      }
-    }
- })  
+  const incomesrows = incomes.map((item: AcountingData) =>
+    incomeData(item.incomename, item.income, item._id));
 
   function Displayexpense() {
     return (
