@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import DisplayAcounting from "./components/DisplayAcounting.tsx"
-
+import DisplayAllCost from "./components/DisplayAllCost.tsx"
 
 interface AcountingData {
   name: string;
@@ -159,64 +159,11 @@ export default function Home() {
     </React.Fragment>
   );
 
-
-  function displayfoodandlivingCost(): FoodandLivingData {
-    let cost = { food: 0, living: 0, total: 0 };
-    acountingdata.map((item: AcountingData) => {
-      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      if (ItemMonth == selectmonth) {
-        if (item.cost != undefined) {
-          if (item.food) {
-            cost.food += item.cost;
-          } else {
-            cost.living += item.cost;
-          }
-          cost.total += item.cost;
-        }
-      }
-    });
-    return cost;
-  }
-  const { food, living, total } = displayfoodandlivingCost();
-
-
-
-  function displaycurrentmoney(): number {
-    let money = 0;
-    acountingdata.map((item: AcountingData) => {
-      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      if (ItemMonth == selectmonth) {
-        if (item.income != undefined) {
-          money += item.income;
-        } else if (item.cost != undefined) {
-          money -= item.cost;
-        }
-      }
-    })
-    return money;
-  }
-
-
-  function displayfoodlimit(): number {
-    let limit = 0;
-    acountingdata.map((item: AcountingData) => {
-      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      if (ItemMonth == selectmonth) {
-        if (item.foodlimit != undefined) {
-          limit = item.foodlimit;
-        } else if (item.cost != undefined && item.food == true) {
-          limit -= item.cost;
-        }
-      }
-    })
-    return limit;
-  }
-  
-  const Month = Array.from({length: 12}, (_, i) => i + 1).map(num => ({
+  const Month = Array.from({ length: 12 }, (_, i) => i + 1).map(num => ({
     name: `${num}月`,
     num
   }));
-  
+
   return (
     <div className="homewrapper">
       {
@@ -228,7 +175,7 @@ export default function Home() {
           >
             logout
           </Button>
-          
+
         ) : (
           <Button
             className="logout"
@@ -264,7 +211,6 @@ export default function Home() {
           }
         </BottomNavigation>
       </Box><br />
-      <h2>所持金:{displaycurrentmoney()}円</h2>
       <TextField
         label="incomename"
         value={incomename}
@@ -298,7 +244,7 @@ export default function Home() {
       />
       <Checkbox
         sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
-        value={food}
+        value={isfood}
         onChange={(e) => {
           setisFood(e.target.checked);
         }}
@@ -322,22 +268,16 @@ export default function Home() {
       />
       <Button variant="outlined" onClick={changeFoodlimit}>changefoodlimit</Button>
 
-
       <DisplayAcounting
         selectmonth={selectmonth}
-        acountingdata={acountingdata}      
+        acountingdata={acountingdata}
         onClick={deleteAcounting}
       />
-      
-      <div className="costwrapper">
-        <h2>食費合計{food}円</h2>
-        <h2>食費残り{displayfoodlimit()}円</h2>
-        <br></br>
-        <h2>生活費合計{living}円</h2>
-        <br></br>
-        <h2>合計{total}円</h2>
-        <br></br>
-      </div>
+
+      <DisplayAllCost
+        selectmonth={selectmonth}
+        acountingdata={acountingdata}
+      />
     </div>
   );
 }
