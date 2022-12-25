@@ -44,7 +44,7 @@ router.get(
     const { Users } = Schema;
     const userId: any = await Users.findOne({ email: email }).exec();
     console.log(userId)
-    const userAcounting = await Acounting.find()
+    const userAcounting = await Acounting.findOne({ user: userId })
     .populate("user")
     .exec((err, acountingData) => {
         if (err) throw err;
@@ -70,6 +70,7 @@ router.post(
       name: acountingname,
       cost: acountingcost,
       food: isfood,
+      email: email,
       user: userId._id,
     });
 

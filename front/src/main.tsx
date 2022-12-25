@@ -10,8 +10,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     clientId={import.meta.env.VITE_APP_CLIENT_ID}
     redirectUri={window.location.origin}
   >
-    <React.StrictMode>
       <App />
-    </React.StrictMode>
   </Auth0Provider>
 )

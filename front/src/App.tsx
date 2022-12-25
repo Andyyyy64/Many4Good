@@ -7,7 +7,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 function App() {
   const { isLoading,isAuthenticated } = useAuth0();
-  console.log(isAuthenticated)
   return (
     <Router>
       <Routes>
