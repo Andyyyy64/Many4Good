@@ -25,7 +25,6 @@ interface Props {
 }
 
 export default function DisplayAllCost(props: Props) {
-
   
   function displayfoodandlivingCost(): FoodandLivingData {
     let cost = { food: 0, living: 0, total: 0 };
@@ -46,7 +45,6 @@ export default function DisplayAllCost(props: Props) {
   }
   const { food, living, total } = displayfoodandlivingCost();
 
-  
   function displaycurrentmoney(): number {
     let money = 0;
     props.acountingdata.map((item: AcountingData) => {
@@ -61,7 +59,6 @@ export default function DisplayAllCost(props: Props) {
     })
     return money;
   }
-
   
   function displayfoodlimit(): number {
     let limit = 0;
