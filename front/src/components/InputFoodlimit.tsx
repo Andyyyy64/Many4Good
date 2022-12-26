@@ -10,7 +10,7 @@ interface Props {
 
 export default function InputFoodlimit(props: Props) {
   return (
-    <div className="inputfoodlimit"> 
+    <div className="inputfoodlimit" style={{marginTop:"100px"}}> 
       <TextField
         label="foodlimit"
         value={props.foodlimit}
@@ -18,7 +18,7 @@ export default function InputFoodlimit(props: Props) {
           props.setfoodlimit(e.target.value);
         }}
       />
-      <Button variant="outlined" onClick={props.onClick}>
+      <Button style={{margin:"8px"}} variant="outlined" onClick={props.onClick}>
         chage
       </Button>
     </div>

@@ -10,6 +10,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Box from "@mui/material/Box";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from "@mui/material/IconButton"
 
 interface AcountingData {
   name: string;
@@ -34,17 +36,19 @@ function expenseData(
   name: string,
   cost: number,
   food: boolean,
+  Date: Date,
   _id: string,
 ) {
-  return { name, cost, food, _id };
+  return { name, cost, food, Date, _id };
 }
 
 function incomeData(
   incomename: string,
   income: number,
+  Date: Date,
   _id: string,
 ) {
-  return { incomename, income, _id };
+  return { incomename, income, Date, _id };
 }
 
 export default function DisplayAcounting(props: Props) {
@@ -57,28 +61,43 @@ export default function DisplayAcounting(props: Props) {
     const ItemMonth: number = new Date(item.Date).getMonth() + 1;
     return ItemMonth;
   }
+
+  function returnitemyear(item: AcountingData): number {
+    const ItemYear: number = new Date(item.Date).getFullYear();
+    return ItemYear;
+  }
+
+  function returnitemTime(item: AcountingData): string {
+    const ItemMonth: number = new Date(item.Date).getMonth() + 1;
+    const ItemDate: number = new Date(item.Date).getDate();
+    const ItemHours: number = new Date(item.Date).getHours();
+    const ItemMinutes: number = new Date(item.Date).getMinutes();
+    const ItemTime: string = `${ItemMonth}/${ItemDate} ${ItemHours}:${ItemMinutes}`;
+    return ItemTime;
+  }
   
   const expenses = props.acountingdata.filter((item: AcountingData) =>
-    item.name != undefined && returnitemmonth(item) == props.selectmonth);
+    item.name != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear);
   
   const incomes = props.acountingdata.filter((item: AcountingData) =>
-    item.income != undefined && returnitemmonth(item) == props.selectmonth);
+    item.income != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear);
   
   const expensesrows = expenses.map((item: AcountingData) =>
-    expenseData(item.name,item.cost,item.food, item._id));
-
+    expenseData(item.name,item.cost,item.food, item.Date, item._id));
+  
   const incomesrows = incomes.map((item: AcountingData) =>
-    incomeData(item.incomename, item.income, item._id));
+    incomeData(item.incomename, item.income, item.Date, item._id));
 
   function Displayexpense() {
     return (
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 600 }} aria-label="simple table">
+        <Table sx={{ minWidth: 550 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
               <TableCell align="justify">値段</TableCell>
-              <TableCell align="right">食費?</TableCell>
+              <TableCell align="right">種類</TableCell>
+              <TableCell align="right">時間</TableCell>
               <TableCell align="right">消去</TableCell>
             </TableRow>
           </TableHead>
@@ -94,11 +113,12 @@ export default function DisplayAcounting(props: Props) {
                 <TableCell align="right" style={row.food ? { color: "green" } : { color: "black" }}>
                   {row.food ? "食費" : "生活費"}
                 </TableCell>
-                <TableCell align="right"> <Button variant="outlined" onClick={() => {
+                <TableCell align="right">{returnitemTime(row)}</TableCell>
+                <TableCell align="right"> <IconButton variant="outlined" onClick={() => {
                   props.onClick(row._id);
                 }}>
-                  delete
-                </Button>
+                  <DeleteIcon />
+                </IconButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -111,11 +131,12 @@ export default function DisplayAcounting(props: Props) {
   function Displayincome() {
     return (
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 600 }} aria-label="simple table">
+        <Table sx={{ minWidth: 550 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
               <TableCell align="justify">値段</TableCell>
+              <TableCell align="right">時間</TableCell>
               <TableCell align="right">消去</TableCell>
             </TableRow>
           </TableHead>
@@ -127,11 +148,12 @@ export default function DisplayAcounting(props: Props) {
               >
                 <TableCell align="left">{row.incomename}</TableCell>
                 <TableCell align="justify">{row.income}円</TableCell>
-                <TableCell align="right"> <Button variant="outlined" onClick={() => {
+                <TableCell align="right">{returnitemTime(row)}</TableCell>
+                <TableCell align="right"> <IconButton variant="outlined" onClick={() => {
                   props.onClick(row._id);
                 }}>
-                  delete
-                </Button>
+                  <DeleteIcon />
+                </IconButton>
                 </TableCell>
               </TableRow>
             ))}

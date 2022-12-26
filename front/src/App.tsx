@@ -42,8 +42,10 @@ export default function Home() {
   const [acountingdata, Setacountingdata] = useState<any>([]);
   const now: Date = new Date();
   const months: number = now.getMonth() + 1;
+  const years: number = now.getFullYear()
   const [selectmonth, setmonth] = useState<number>(months);
-
+  const [selectyear, setyear] = useState<number>(years);
+  
   useEffect(() => {
     fetchAcountingData();
   }, [isAuthenticated]);
@@ -156,31 +158,47 @@ export default function Home() {
 
   return (
     <div className="homewrapper">
-      <SelectDate
-        selectmonth={selectmonth}
-        setName={setName}
-        setCost={setCost}
-        setincom={setincom}
-        setincomname={setincomname}
-        setisFood={setisFood}
-        setfoodlimit={setfoodlimit}
-        setmonth={setmonth}
-      />
       <Snackbar
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
         message="successfully added acounting"
         action={action}
-      /><br/>
-      
-      <DisplayAllCost
-        selectmonth={selectmonth}
-        acountingdata={acountingdata}
       />
+      <div className="costandselect">
+        <Grid container spacing={50}>
+          <Grid item>
+            <SelectDate
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              setName={setName}
+              setCost={setCost}
+              setincom={setincom}
+              setincomname={setincomname}
+              setisFood={setisFood}
+              setfoodlimit={setfoodlimit}
+              setmonth={setmonth}
+              setyear={setyear}
+            />
+            <InputFoodlimit
+              foodlimit={foodlimit}
+              setfoodlimit={setfoodlimit}
+              onClick={changeFoodlimit}
+            />
+          </Grid>
+          <Grid item>
+            <DisplayAllCost
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              acountingdata={acountingdata}
+            />
+          </Grid>
+        </Grid>
+      </div>
       
       <DisplayAcounting
         selectmonth={selectmonth}
+        selectyear={selectyear}
         acountingdata={acountingdata}
         onClick={deleteAcounting}
       />
@@ -207,12 +225,6 @@ export default function Home() {
           />
         </Grid>
       </Grid>
-
-      <InputFoodlimit
-        foodlimit={foodlimit}
-        setfoodlimit={setfoodlimit}
-        onClick={changeFoodlimit}
-      />
       <Login />      
     </div>
   );

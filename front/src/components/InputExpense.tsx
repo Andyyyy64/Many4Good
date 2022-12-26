@@ -1,7 +1,7 @@
-import * as React from "react"
 import TextField from "@mui/material/TextField"
 import Checkbox from "@mui/material/Checkbox"
-import Button from "@mui/material/Button"
+import IconButton from "@mui/material/IconButton"
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
 interface Props {
   name: string,
@@ -17,6 +17,7 @@ export default function InputExpense(props: Props) {
   return (
     <div className="inputexpense"> 
       <TextField
+      style={{marginRight:"10px"}}
         label="name"
         value={props.name}
         onChange={(e) => {
@@ -37,9 +38,7 @@ export default function InputExpense(props: Props) {
           props.setisFood(e.target.checked);
         }}
       />
-      <Button variant="outlined" onClick={props.onClick}>
-        add
-      </Button>
+      <IconButton onClick={props.onClick}><AddCircleRoundedIcon/></IconButton>
     </div>
   )
 }

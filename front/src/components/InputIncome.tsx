@@ -1,7 +1,8 @@
 import * as React from "react"
 import TextField from "@mui/material/TextField"
 import Checkbox from "@mui/material/Checkbox"
-import Button from "@mui/material/Button"
+import IconButton from "@mui/material/IconButton"
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
 interface Props {
   incomename: string,
@@ -15,6 +16,7 @@ export default function InputIncome(props: Props) {
   return (
     <div className="inputincome">
       <TextField
+      style={{marginRight:"10px"}}
         label="incomename"
         value={props.incomename}
         onChange={(e) => {
@@ -28,9 +30,7 @@ export default function InputIncome(props: Props) {
           props.setincom(e.target.value);
         }}
       />
-      <Button variant="outlined" onClick={props.onClick}>
-        追加
-      </Button>
+      <IconButton onClick={props.onClick}><AddCircleRoundedIcon/></IconButton>
     </div>
   )
 }

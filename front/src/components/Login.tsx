@@ -5,7 +5,7 @@ export default function Login() {
     const { isAuthenticated } = useAuth0();
 
   return (
-    <div>
+    <div style={{marginTop:"100px"}}>
         {
          isAuthenticated ? (
               <Button
