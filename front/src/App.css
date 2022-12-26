@@ -42,18 +42,24 @@
 
 .homewrapper{
     position: relative;
-
 }
 
-.costwrapper {
-    margin-top: 10%;
-    margin-bottom: 20%;
+.loginout {
+    float: left;
 }
 
 .itemwrapper {
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
-.foodlimit{
-    margin-bottom: 10%;
+.inputfoodlimit{
+    margin-top: 10px;
+}
+
+.inputexpense {
+    margin-top: 30px;
+}
+
+.inputincome {
+    margin-top: 30px;
 }

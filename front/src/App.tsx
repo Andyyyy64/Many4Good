@@ -15,6 +15,11 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import DisplayAcounting from "./components/DisplayAcounting.tsx"
 import DisplayAllCost from "./components/DisplayAllCost.tsx"
+import InputExpense from "./components/InputExpense.tsx"
+import InputIncome from "./components/InputIncome.tsx"
+import InputFoodlimit from "./components/InputFoodlimit.tsx"
+import Grid from "@mui/material/Grid"
+import Login from "./components/Login.tsx"
 
 interface AcountingData {
   name: string;
@@ -166,28 +171,7 @@ export default function Home() {
 
   return (
     <div className="homewrapper">
-      {
-        isAuthenticated ? (
-          <Button
-            className="logout"
-            variant="outlined"
-            onClick={() => logout({ returnTo: "http://localhost:5173/login" })}
-          >
-            logout
-          </Button>
-
-        ) : (
-          <Button
-            className="logout"
-            variant="outlined"
-            onClick={() => {
-              loginWithRedirect()
-            }}
-          >
-            Login
-          </Button>
-        )
-      }
+      <Login />
       <Box sx={{ width: 500 }}>
         <BottomNavigation
           showLabels
@@ -211,73 +195,54 @@ export default function Home() {
           }
         </BottomNavigation>
       </Box><br />
-      <TextField
-        label="incomename"
-        value={incomename}
-        onChange={(e) => {
-          setincomname(e.target.value);
-        }}
-      />
-      <TextField
-        label="income"
-        value={income}
-        onChange={(e) => {
-          setincom(e.target.value);
-        }}
-      />
-      <Button variant="outlined" onClick={addIncome}>
-        追加
-      </Button><br />
-      <TextField
-        label="name"
-        value={name}
-        onChange={(e) => {
-          setName(e.target.value);
-        }}
-      />
-      <TextField
-        label="cost"
-        value={cost}
-        onChange={(e) => {
-          setCost(e.target.value);
-        }}
-      />
-      <Checkbox
-        sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
-        value={isfood}
-        onChange={(e) => {
-          setisFood(e.target.checked);
-        }}
-      />
-      <Button variant="outlined" onClick={addAcounting}>
-        add
-      </Button>
       <Snackbar
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
         message="successfully added acounting"
         action={action}
-      /> <br></br>
-      <TextField
-        label="foodlimit"
-        value={foodlimit}
-        onChange={(e) => {
-          setfoodlimit(e.target.value);
-        }}
+      /> <br/>
+      
+      <DisplayAllCost
+        selectmonth={selectmonth}
+        acountingdata={acountingdata}
       />
-      <Button variant="outlined" onClick={changeFoodlimit}>changefoodlimit</Button>
-
+      
       <DisplayAcounting
         selectmonth={selectmonth}
         acountingdata={acountingdata}
         onClick={deleteAcounting}
       />
+      
+      <Grid container spacing={4}>
+        <Grid item>
+          <InputExpense
+            name={name}
+            cost={cost}
+            isfood={isfood}
+            setName={setName}
+            setCost={setCost}
+            setisFood={setisFood}
+            onClick={addAcounting}
+          />
+        </Grid>
+        <Grid item>
+          <InputIncome
+            incomename={incomename}
+            income={income}
+            setincomname={setincomname}
+            setincom={setincom}
+            onClick={addIncome}
+          />
+        </Grid>
+      </Grid>
 
-      <DisplayAllCost
-        selectmonth={selectmonth}
-        acountingdata={acountingdata}
+      <InputFoodlimit
+        foodlimit={foodlimit}
+        setfoodlimit={setfoodlimit}
+        onClick={changeFoodlimit}
       />
+      
     </div>
   );
 }

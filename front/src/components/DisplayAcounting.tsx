@@ -73,7 +73,7 @@ export default function DisplayAcounting(props: Props) {
   function Displayexpense() {
     return (
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 200 }} aria-label="simple table">
+        <Table sx={{ minWidth: 600 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -111,7 +111,7 @@ export default function DisplayAcounting(props: Props) {
   function Displayincome() {
     return (
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 200 }} aria-label="simple table">
+        <Table sx={{ minWidth: 600 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -142,7 +142,7 @@ export default function DisplayAcounting(props: Props) {
   }
   
   return (
-    <Grid container spacing={10}>
+    <Grid container spacing={3}>
       <Grid item>
         <h2>収出</h2>
         {Displayexpense()}
