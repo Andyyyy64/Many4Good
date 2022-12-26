@@ -44,16 +44,13 @@
     position: relative;
 }
 
-.loginout {
-    float: left;
-}
-
 .itemwrapper {
     margin-top: 5%;
 }
 
 .inputfoodlimit{
     margin-top: 10px;
+    margin-bottom: 100px;
 }
 
 .inputexpense {

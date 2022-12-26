@@ -1,0 +1,37 @@
+import Box from "@mui/material/Box"
+import BottomNavigation from "@mui/material/Bottomnavigation"
+import BottomNavigationAction from "@mui/material/Bottomnavigationaction"
+
+export default function selectDate(props) {
+
+  const Month = Array.from({ length: 12 }, (_, i) => i + 1).map(num => ({
+      name: `${num}月`,
+      num
+    }));
+
+  return (
+    <Box sx={{ width: 500 }}>
+      <BottomNavigation
+        showLabels
+        value={selectmonth}
+        onChange={(_event, newValue) => {
+          setmonth(newValue);
+          setName('');
+          setCost('');
+          setincom('');
+          setincomname('');
+          setisFood(false);
+          setfoodlimit('');
+        }}
+      >
+        {
+          Month.map((item, index: number) => {
+            return (
+              <BottomNavigationAction key={index} label={item.name} value={item.num} />
+            )
+          })
+        }
+      </BottomNavigation>
+    </Box>
+  )
+}

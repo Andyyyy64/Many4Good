@@ -5,21 +5,17 @@ import { Types } from "mongoose";
 import axios from "axios";
 import requests from "../utils/request";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar"
 import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
-import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import DisplayAcounting from "./components/DisplayAcounting.tsx"
-import DisplayAllCost from "./components/DisplayAllCost.tsx"
-import InputExpense from "./components/InputExpense.tsx"
-import InputIncome from "./components/InputIncome.tsx"
-import InputFoodlimit from "./components/InputFoodlimit.tsx"
 import Grid from "@mui/material/Grid"
-import Login from "./components/Login.tsx"
+import DisplayAcounting from "./components/DisplayAcounting"
+import DisplayAllCost from "./components/DisplayAllCost"
+import InputExpense from "./components/InputExpense"
+import InputIncome from "./components/InputIncome"
+import InputFoodlimit from "./components/InputFoodlimit"
+import Login from "./components/Login"
+import SelectDate from "./components/SelectDate"
 
 interface AcountingData {
   name: string;
@@ -34,14 +30,8 @@ interface AcountingData {
   Date?: Date;
 }
 
-interface FoodandLivingData {
-  food: number;
-  living: number;
-  total: number;
-}
-
 export default function Home() {
-  const { logout, user, isAuthenticated, loginWithRedirect } = useAuth0();
+  const {  user, isAuthenticated } = useAuth0();
   const [open, setopen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [cost, setCost] = useState<number | string>('');
@@ -136,7 +126,7 @@ export default function Home() {
   };
 
 
-  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (_event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -164,44 +154,25 @@ export default function Home() {
     </React.Fragment>
   );
 
-  const Month = Array.from({ length: 12 }, (_, i) => i + 1).map(num => ({
-    name: `${num}月`,
-    num
-  }));
-
   return (
     <div className="homewrapper">
-      <Login />
-      <Box sx={{ width: 500 }}>
-        <BottomNavigation
-          showLabels
-          value={selectmonth}
-          onChange={(_event, newValue) => {
-            setmonth(newValue);
-            setName('');
-            setCost('');
-            setincom('');
-            setincomname('');
-            setisFood(false);
-            setfoodlimit('');
-          }}
-        >
-          {
-            Month.map((item, index: number) => {
-              return (
-                <BottomNavigationAction key={index} label={item.name} value={item.num} />
-              )
-            })
-          }
-        </BottomNavigation>
-      </Box><br />
+      <SelectDate
+        selectmonth={selectmonth}
+        setName={setName}
+        setCost={setCost}
+        setincom={setincom}
+        setincomname={setincomname}
+        setisFood={setisFood}
+        setfoodlimit={setfoodlimit}
+        setmonth={setmonth}
+      />
       <Snackbar
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
         message="successfully added acounting"
         action={action}
-      /> <br/>
+      /><br/>
       
       <DisplayAllCost
         selectmonth={selectmonth}
@@ -242,7 +213,7 @@ export default function Home() {
         setfoodlimit={setfoodlimit}
         onClick={changeFoodlimit}
       />
-      
+      <Login />      
     </div>
   );
 }
