@@ -121,7 +121,7 @@ export default function DisplayAcounting(props: Props) {
                 </IconButton>
                 </TableCell>
               </TableRow>
-            ))}
+            )).reverse()}
           </TableBody>
         </Table>
       </TableContainer>
@@ -156,7 +156,7 @@ export default function DisplayAcounting(props: Props) {
                 </IconButton>
                 </TableCell>
               </TableRow>
-            ))}
+            )).reverse()}
           </TableBody>
         </Table>
       </TableContainer>
@@ -166,11 +166,9 @@ export default function DisplayAcounting(props: Props) {
   return (
     <Grid container spacing={3}>
       <Grid item>
-        <h2>収出</h2>
         {Displayexpense()}
       </Grid>
       <Grid item>
-        <h2>収入</h2>
         {Displayincome()}
       </Grid>
     </Grid>

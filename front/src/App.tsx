@@ -166,7 +166,7 @@ export default function Home() {
         action={action}
       />
       <div className="costandselect">
-        <Grid container spacing={50}>
+        <Grid container spacing={27}>
           <Grid item>
             <SelectDate
               selectmonth={selectmonth}
@@ -180,11 +180,6 @@ export default function Home() {
               setmonth={setmonth}
               setyear={setyear}
             />
-            <InputFoodlimit
-              foodlimit={foodlimit}
-              setfoodlimit={setfoodlimit}
-              onClick={changeFoodlimit}
-            />
           </Grid>
           <Grid item>
             <DisplayAllCost
@@ -196,15 +191,9 @@ export default function Home() {
         </Grid>
       </div>
       
-      <DisplayAcounting
-        selectmonth={selectmonth}
-        selectyear={selectyear}
-        acountingdata={acountingdata}
-        onClick={deleteAcounting}
-      />
-      
       <Grid container spacing={4}>
         <Grid item>
+          <h2>支出</h2>
           <InputExpense
             name={name}
             cost={cost}
@@ -216,6 +205,7 @@ export default function Home() {
           />
         </Grid>
         <Grid item>
+          <h2>収入</h2>
           <InputIncome
             incomename={incomename}
             income={income}
@@ -225,6 +215,13 @@ export default function Home() {
           />
         </Grid>
       </Grid>
+      
+      <DisplayAcounting
+        selectmonth={selectmonth}
+        selectyear={selectyear}
+        acountingdata={acountingdata}
+        onClick={deleteAcounting}
+      />
       <Login />      
     </div>
   );
