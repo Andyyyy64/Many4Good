@@ -12,6 +12,9 @@ import Grid from '@mui/material/Grid';
 import Box from "@mui/material/Box";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton"
+import AddIncome from "./AddIncome"
+import AddExpense from "./AddExpense"
+
 
 interface AcountingData {
   name: string;
@@ -123,7 +126,7 @@ export default function DisplayAcounting(props: Props) {
               </TableRow>
             )).reverse()}
           </TableBody>
-        </Table>
+      </Table>
       </TableContainer>
     )
   }
