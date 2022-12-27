@@ -127,6 +127,15 @@ export default function DisplayAcounting(props: Props) {
             )).reverse()}
           </TableBody>
       </Table>
+      <AddExpense
+        name={props.name}
+        cost={props.cost}
+        isfood={props.isfood}
+        setName={props.setName}
+        setCost={props.setCost}
+        setisFood={props.setisFood}
+        onClick={props.addAcounting}
+      />
       </TableContainer>
     )
   }
@@ -162,6 +171,13 @@ export default function DisplayAcounting(props: Props) {
             )).reverse()}
           </TableBody>
         </Table>
+        <AddIncome
+          incomename={props.incomename}
+          income={props.income}
+          setincomname={props.setincomname}
+          setincom={props.setincom}
+          onClick={props.addIncome}
+        />
       </TableContainer>
     )
   }

@@ -16,8 +16,6 @@ import InputIncome from "./components/InputIncome"
 import InputFoodlimit from "./components/InputFoodlimit"
 import Login from "./components/Login"
 import SelectDate from "./components/SelectDate"
-import AddExpense from "./components/AddExpense"
-import AddIncome from "./components/AddIncome"
 
 interface AcountingData {
   name: string;
@@ -223,29 +221,19 @@ export default function Home() {
         selectyear={selectyear}
         acountingdata={acountingdata}
         onClick={deleteAcounting}
+        addAcounting={addAcounting}
+        addIncome={addIncome}
+        name={name}
+        cost={cost}
+        isfood={isfood}
+        setName={setName}
+        setCost={setCost}
+        setisFood={setisFood}
+        incomename={incomename}
+        income={income}
+        setincomname={setincomname}
+        setincom={setincom}
       />
-      <Grid container spacing={70}>
-        <Grid item style={{marginLeft:"240px"}}>
-          <AddExpense
-            name={name}
-            cost={cost}
-            isfood={isfood}
-            setName={setName}
-            setCost={setCost}
-            setisFood={setisFood}
-            onClick={addAcounting}
-          />
-        </Grid>
-        <Grid item>
-          <AddIncome
-            incomename={incomename}
-            income={income}
-            setincomname={setincomname}
-            setincom={setincom}
-            onClick={addIncome}
-          />
-        </Grid>
-      </Grid>
       <Login />      
     </div>
   );

@@ -77,13 +77,13 @@ export default function DisplayAllCost(props: Props) {
   
   return (
     <div className="costwrapper">
-      <h2>所持金:{displaycurrentmoney()}円</h2>
-      <h2>食費合計{food}円</h2>
-      <h2>食費残り{displayfoodlimit()}円</h2>
+      <h2 style={{fontSize:"40px"}}>所持金:{displaycurrentmoney()}円</h2>
+      <h2 style={{fontSize:"30px"}}>食費合計{food}円</h2>
+      <h2 style={{fontSize:"33px",color:"#F10351"}}>食費残り{displayfoodlimit()}円</h2>
       <br></br>
-      <h2>生活費合計{living}円</h2>
+      <h2 style={{fontSize:"30px"}}>生活費合計{living}円</h2>
       <br></br>
-      <h2>合計{total}円</h2>
+      <h2 style={{fontSize:"35px"}}>合計{total}円</h2>
       <br></br>
     </div>
   )

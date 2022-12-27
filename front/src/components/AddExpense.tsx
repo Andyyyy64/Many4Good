@@ -15,6 +15,7 @@ interface Props {
   setName: any,
   setCost: any,
   setisFood: any
+  addAcounting: any,
 }
 
 export default function AddExpense(props: Props) {
