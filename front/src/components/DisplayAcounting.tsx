@@ -15,6 +15,8 @@ import IconButton from "@mui/material/IconButton"
 import AddIncome from "./AddIncome"
 import AddExpense from "./AddExpense"
 import CircularProgress from '@mui/material/CircularProgress';
+import InputExpense from "./InputExpense"
+import InputIncome from "./InputIncome"
 
 interface AcountingData {
   name: string;
@@ -95,6 +97,16 @@ export default function DisplayAcounting(props: Props) {
   function Displayexpense() {
     return (
       <TableContainer component={Paper}>
+        <h2>￥収支</h2>
+        <InputExpense
+          name={props.name}
+          cost={props.cost}
+          isfood={props.isfood}
+          setName={props.setName}
+          setCost={props.setCost}
+          setisFood={props.setisFood}
+          onClick={props.addAcounting}
+        />
         <Table sx={{ minWidth: 550 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -127,16 +139,16 @@ export default function DisplayAcounting(props: Props) {
               </TableRow>
             )).reverse()}
           </TableBody>
-      </Table>
-      <AddExpense
-        name={props.name}
-        cost={props.cost}
-        isfood={props.isfood}
-        setName={props.setName}
-        setCost={props.setCost}
-        setisFood={props.setisFood}
-        onClick={props.addAcounting}
-      />
+        </Table>
+        <AddExpense
+          name={props.name}
+          cost={props.cost}
+          isfood={props.isfood}
+          setName={props.setName}
+          setCost={props.setCost}
+          setisFood={props.setisFood}
+          onClick={props.addAcounting}
+        />
       </TableContainer>
     )
   }
@@ -144,6 +156,14 @@ export default function DisplayAcounting(props: Props) {
   function Displayincome() {
     return (
       <TableContainer component={Paper}>
+        <h2>￥収支</h2>
+        <InputIncome
+          incomename={props.incomename}
+          income={props.income}
+          setincomname={props.setincomname}
+          setincom={props.setincom}
+          onClick={props.addIncome}
+        />
         <Table sx={{ minWidth: 550 }} aria-label="simple table">
           <TableHead>
             <TableRow>

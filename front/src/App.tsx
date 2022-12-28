@@ -158,13 +158,15 @@ export default function Home() {
 
   return (
     <div className="homewrapper">
-      <Snackbar
+
+    <Snackbar
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
         message="successfully added acounting"
         action={action}
-      />
+    />
+    
       <div className="costandselect">
         <Grid container spacing={27}>
           <Grid item>
@@ -191,31 +193,6 @@ export default function Home() {
         </Grid>
       </div>
       
-      <Grid container spacing={4}>
-        <Grid item>
-          <h2>支出</h2>
-          <InputExpense
-            name={name}
-            cost={cost}
-            isfood={isfood}
-            setName={setName}
-            setCost={setCost}
-            setisFood={setisFood}
-            onClick={addAcounting}
-          />
-        </Grid>
-        <Grid item>
-          <h2>収入</h2>
-          <InputIncome
-            incomename={incomename}
-            income={income}
-            setincomname={setincomname}
-            setincom={setincom}
-            onClick={addIncome}
-          />
-        </Grid>
-      </Grid>
-      
       <DisplayAcounting
         selectmonth={selectmonth}
         selectyear={selectyear}
@@ -235,7 +212,9 @@ export default function Home() {
         setincom={setincom}
         isLoading={isLoading}
       />
-      <Login />      
+      
+      <Login />
+      
     </div>
   );
 }
