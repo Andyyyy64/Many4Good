@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton"
 import AddIncome from "./AddIncome"
 import AddExpense from "./AddExpense"
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface AcountingData {
   name: string;
@@ -32,7 +32,8 @@ interface AcountingData {
 interface Props {
   acountingdata: AcountingData[],
   selectmonth: number,
-  onClick: any
+  onClick: any,
+  isLoading: boolean,
 }
 
 function expenseData(
@@ -55,7 +56,7 @@ function incomeData(
 }
 
 export default function DisplayAcounting(props: Props) {
-
+  
   useEffect(() => {
     props
   }, [props]);
@@ -183,13 +184,21 @@ export default function DisplayAcounting(props: Props) {
   }
   
   return (
-    <Grid container spacing={3}>
-      <Grid item>
-        {Displayexpense()}
-      </Grid>
-      <Grid item>
-        {Displayincome()}
-      </Grid>
-    </Grid>
+    <div>
+    {
+      props.isLoading ? (
+        <CircularProgress color="success" />
+      ) : (
+        <Grid container spacing={3}>
+          <Grid item>
+            {Displayexpense()}
+          </Grid>
+          <Grid item>
+            {Displayincome()}
+          </Grid>
+        </Grid>
+      )
+    }
+    </div>
   )
 }

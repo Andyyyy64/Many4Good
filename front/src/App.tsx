@@ -31,7 +31,7 @@ interface AcountingData {
 }
 
 export default function Home() {
-  const {  user, isAuthenticated } = useAuth0();
+  const {  user, isAuthenticated, isLoading } = useAuth0();
   const [open, setopen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [cost, setCost] = useState<number | string>('');
@@ -233,6 +233,7 @@ export default function Home() {
         income={income}
         setincomname={setincomname}
         setincom={setincom}
+        isLoading={isLoading}
       />
       <Login />      
     </div>
