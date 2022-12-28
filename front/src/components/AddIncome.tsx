@@ -36,24 +36,25 @@ export default function AddExpense(props: Props) {
       role="presentation"
       sx={{ height: 300 }}
     >
-      <div style={{marginLeft:"500px",marginTop:"100px"}}>
-          <TextField
-            style={{marginRight:"10px"}}
-            label="incomename"
-            value={props.incomename}
-            onChange={(e) => {
-              props.setincomname(e.target.value);
-            }}
-          />
-          <TextField
-            label="income"
-            value={props.income}
-            onChange={(e) => {
-              props.setincom(e.target.value);
-            }}
-          />
-          <IconButton onClick={props.onClick}><AddIcon/></IconButton>
-        </div>
+      <h1 style={{textAlign:"center"}}># Add Income</h1>
+      <div style={{marginLeft:"500px",marginTop:"60px"}}>
+        <TextField
+          style={{marginRight:"10px"}}
+          label="incomename"
+          value={props.incomename}
+          onChange={(e) => {
+            props.setincomname(e.target.value);
+          }}
+        />
+        <TextField
+          label="income"
+          value={props.income}
+          onChange={(e) => {
+            props.setincom(e.target.value);
+          }}
+        />
+        <IconButton style={{marginTop:"4px"}} onClick={props.onClick}><AddIcon/></IconButton>
+      </div>
     </Box>
   );
 

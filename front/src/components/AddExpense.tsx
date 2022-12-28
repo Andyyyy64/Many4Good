@@ -39,7 +39,8 @@ export default function AddExpense(props: Props) {
       role="presentation"
       sx={{ height: 300 }}
     >
-      <div style={{marginLeft:"500px",marginTop:"100px"}}> 
+      <h1 style={{textAlign:"center"}}># Add Expense</h1>
+      <div style={{marginLeft:"500px",marginTop:"60px"}}> 
         <TextField
           style={{marginRight:"10px"}}
           label="name"
