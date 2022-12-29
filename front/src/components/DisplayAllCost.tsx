@@ -1,9 +1,19 @@
 import { Types } from "mongoose";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut,Bar } from 'react-chartjs-2';
 import Grid from "@mui/material/Grid"
+import InputFoodlimit from "./InputFoodlimit"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from 'chart.js';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,LinearScale,Title,BarElement);
 
 
 interface AcountingData {
@@ -27,32 +37,13 @@ interface FoodandLivingData {
 
 interface Props {
   acountingdata: AcountingData[],
-  selectmonth: number
+  selectmonth: number,
+  foodlimits: number,
+  setfoodlimit: any,
+  onClick: any,
 }
 
 export default function DisplayAllCost(props: Props) {
-
-  const livingtotal = props.acountingdata.filter((item: Acountingdata) => !item.food).length;
-  const foodtotal = props.acountingdata.filter((item: Acountingdata) => item.food).length;
-  
-  const data = {
-  labels: ['生活費','食費'],
-  datasets: [
-    {
-      labels: ['aa','aaaa'],
-      data: [livingtotal,foodtotal],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
   
   function displayfoodandlivingCost(): FoodandLivingData {
     let cost = { food: 0, living: 0, total: 0 };
@@ -93,30 +84,86 @@ export default function DisplayAllCost(props: Props) {
     props.acountingdata.map((item: AcountingData) => {
       const ItemMonth: number = new Date(item.Date).getMonth() + 1;
       if (ItemMonth == props.selectmonth) {
-        if (item.foodlimit != undefined) {
+        if(item.foodlimit != undefined) {
           limit = item.foodlimit;
-        } else if (item.cost != undefined && item.food == true) {
-          limit -= item.cost;
         }
       }
     })
     return limit;
   }
+
+  const livingtotal = props.acountingdata.filter((item: Acountingdata) => !item.food).length;
+  const foodtotal = props.acountingdata.filter((item: Acountingdata) => item.food).length;
+
+  const Bardata = {
+    labels:[`食費${food}円`],
+    datasets:[
+      {
+        label:"円",
+        data:[food,displayfoodlimit()],
+        borderColor:"rgb(255, 99, 132)",
+        backgroundColor:"rgba(255, 99, 132, 0.5)",
+      }
+    ]
+  }
+
+  const options = {
+    indexAxis: 'y' as const,
+    elements: {
+      bar: {
+        borderWidth: 1,
+      },
+    },
+    plugins: {
+      legend: {
+        display:false
+      }
+    },
+    responsive: false,
+  }
+  
+  const Doughnutdata = {
+      labels: [`生活費${living}円`,`食費${food}円`],
+      datasets: [
+        {
+        label: '',
+        data: [livingtotal,foodtotal],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
   
   return (
     <div className="costwrapper">
       <Grid container>
         <Grid item>
           <h2 style={{fontSize:"40px"}}>所持金:{displaycurrentmoney()}円</h2>
-          <h2 style={{fontSize:"30px"}}>食費合計{food}円</h2>
-          <h2 style={{fontSize:"33px",color:"#F10351"}}>食費残り{displayfoodlimit()}円</h2>
-          <br></br>
-          <h2 style={{fontSize:"30px"}}>生活費合計{living}円</h2>
-          <br></br>
-          <h2 style={{fontSize:"35px"}}>合計{total}円</h2>
+          <Grid container>
+            <Grid item>
+              <h2 style={{fontSize:"33px",color:"#F10351"}}>食費残り{displayfoodlimit() - food}円</h2>
+              <Bar data={Bardata} options={options} width={300} height={100} />
+            </Grid>
+            <Grid item style={{marginTop:"20px"}}>
+              <InputFoodlimit
+                foodlimit={props.foodlimits}
+                setfoodlimit={props.setfoodlimit}
+                onClick={props.onClick}
+                displayfoodlimit={displayfoodlimit}
+              />
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item>
-           <Doughnut style={{marginLeft:"100px"}} data={data}/>
+        <Grid item style={{marginLeft:"100px"}}>
+          <Doughnut data={Doughnutdata} />
+          <h1 style={{fontSize:"40px"}}>合計{total}円</h1>
         </Grid>
       </Grid>
     </div>

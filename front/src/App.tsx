@@ -159,16 +159,26 @@ export default function Home() {
   return (
     <div className="homewrapper">
 
-    <Snackbar
+      <Snackbar
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
         message="successfully added acounting"
         action={action}
-    />
-    
+      />
+      
       <div className="costandselect">
         <Grid container spacing={27}>
+          <Grid item>
+            <DisplayAllCost
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              acountingdata={acountingdata}
+              foodlimits={foodlimit}
+              setfoodlimit={setfoodlimit}
+              onClick={changeFoodlimit}
+            />
+          </Grid>
           <Grid item>
             <SelectDate
               selectmonth={selectmonth}
@@ -181,13 +191,6 @@ export default function Home() {
               setfoodlimit={setfoodlimit}
               setmonth={setmonth}
               setyear={setyear}
-            />
-          </Grid>
-          <Grid item>
-            <DisplayAllCost
-              selectmonth={selectmonth}
-              selectyear={selectyear}
-              acountingdata={acountingdata}
             />
           </Grid>
         </Grid>

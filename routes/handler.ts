@@ -60,7 +60,7 @@ router.post(
   "/addacounting",
   async (req: express.Request, res: express.Response) => {
     const acountingname: string = req.body.name;
-    const acountingcost: number = req.body.cost;
+    const acountingcost: number = req.body.cost
     const isfood: boolean = req.body.food;
     const email: string = req.body.email;
     const { Users } = Schema;
