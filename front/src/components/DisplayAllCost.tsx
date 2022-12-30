@@ -123,22 +123,24 @@ export default function DisplayAllCost(props: Props) {
   }
   
   const Doughnutdata = {
-      labels: [`生活費${living}円`,`食費${food}円`],
+      labels: [`生活費${living}円`,`食費${food}円`,`残金${displaycurrentmoney()}円`],
       datasets: [
         {
-        label: '',
-        data: [livingtotal,foodtotal],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
+          label: '',
+          data: [living,food,displaycurrentmoney()],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(23,5,5,1)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(186,17,17,0.7)'
+          ],
+          borderWidth: 1,
+        },
+      ],
   };
   
   return (

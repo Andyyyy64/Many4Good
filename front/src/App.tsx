@@ -16,6 +16,7 @@ import InputIncome from "./components/InputIncome"
 import InputFoodlimit from "./components/InputFoodlimit"
 import Login from "./components/Login"
 import SelectDate from "./components/SelectDate"
+import Profile from "./components/Profile.tsx"
 
 interface AcountingData {
   name: string;
@@ -50,6 +51,7 @@ export default function Home() {
     fetchAcountingData();
   }, [isAuthenticated]);
 
+  
   const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting, {
       params: {
@@ -72,7 +74,6 @@ export default function Home() {
       })
       setName('');
       setCost('');
-      setisFood(false);
       setopen(true);
       fetchAcountingData();
     } else {
@@ -158,12 +159,11 @@ export default function Home() {
 
   return (
     <div className="homewrapper">
-
+      <Profile />
       <Snackbar
         open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message="successfully added acounting"
+        autoHideDuration={2500}
+        message="successfully a1dded acounting"
         action={action}
       />
       
