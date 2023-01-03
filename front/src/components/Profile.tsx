@@ -1,33 +1,39 @@
 import React, { useState } from "react"
-import { useAuth0 } from "@auth0/auth0-react"
 import { IconButton } from "@mui/material"
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import { TextField, Checkbox } from "@mui/material";
+import { TextField } from "@mui/material";
 import RemoveTwoToneIcon from '@mui/icons-material/RemoveTwoTone';
 import CircularProgress from '@mui/material/CircularProgress';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Types } from "mongoose"
 
 interface UserData {
-  connection: string,
-  client_id: string,
+  connection?: string,
+  client_id?: string,
   email: string,
   username: string,
-  password: string,
-  tenant: string,
+  password?: string,
+  tenant?: string,
   transaction?: Object,
-  request_language: string,
+  request_language?: string,
+  _id: Types.ObjectId,
 }
 
 interface Props {
   userdata: UserData[],
+  isLoading: boolean,
+  user2name: string,
+  setuser2name: any,
+  addUser: any,
+  inputopen: boolean,
+  setinputopen: any,
+  onClick: any,
 }
 
-export default function AddExpense(props: Props) {
+export default function Profile(props: Props) {
   const [open, setopen] = useState<any>({ bottom: false });
   const user1 = props.userdata[0];
   
@@ -45,8 +51,8 @@ export default function AddExpense(props: Props) {
         setopen({ open, [anchor]: open });
       };
   
-  const list = (anchor: any) => (
-    props.isLoding ? (
+  const list = (_anchor: any) => (
+    props.isLoading ? (
       <CircularProgress />
     ) : (
       <Box
@@ -58,13 +64,19 @@ export default function AddExpense(props: Props) {
         </IconButton>
         <div style={{textAlign:"center"}}>
           {
-            props.userdata.map((user: userData,index: number) => (
-              <div key={index}>
-                <h1>{user.username}</h1>
-                <h1>{user?.email}</h1>
-              </div>
+            props.userdata.map((user: UserData,index: number) => (
+              <h1 key={index} style={index + 1 == 1 ? { color : "red"} : {color : "brack"} }>
+                user{index + 1}: {user.username}
+                <IconButton
+                  style={index + 1 == 1 ? {visibility : "hidden"} : {visibility : "visible"} }
+                  onClick={() => { props.onClick(user._id) }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </h1>
             ))
           }
+          <h1>email: {user1?.email}</h1>
           {
             props.inputopen ? (
               <TextField value={props.user2name} label="adduser" onChange={(e) => {

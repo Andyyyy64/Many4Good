@@ -171,4 +171,14 @@ router.delete(
   }
 );
 
+router.delete(
+  "/deleteuser/:id",
+  async (req:express.Request,res:express.Response) => {
+    const { Users } = Schema;
+    const id = req.params.id;
+    const deleteusers = await Users.deleteOne({_id: id });
+    res.send(deleteusers);
+  }
+);
+
 export default router;

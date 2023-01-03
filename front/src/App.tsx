@@ -16,7 +16,8 @@ import InputIncome from "./components/InputIncome"
 import InputFoodlimit from "./components/InputFoodlimit"
 import Login from "./components/Login"
 import SelectDate from "./components/SelectDate"
-import Profile from "./components/Profile.tsx"
+import Profile from "./components/Profile"
+import SelectUser from "./components/SelectUser"
 
 interface AcountingData {
   name: string;
@@ -61,6 +62,7 @@ export default function Home() {
   const [userdata,setuserdata] = useState<any>([]);
   const [user2name,setuser2name] = useState<string>("");
   const [inputopen,setinputopen] = useState<boolean>(false);
+  const [selectuser,setuser] = useState<string>("All");
   
   useEffect(() => {
     fetchAcountingData();
@@ -116,6 +118,7 @@ export default function Home() {
       })
       setuser2name("");
     }
+    fetchLoginUser();
   };
   
   const addIncome = async (): Promise<void> => {
@@ -164,7 +167,11 @@ export default function Home() {
     fetchAcountingData();
   };
 
-
+  const deleteUser = async (id: string): Promise<void> => {
+    await axios.delete(`http://localhost:4000/deleteuser/${id}`);
+    fetchLoginUser();;
+  }
+  
   const handleClose = (_event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -203,6 +210,7 @@ export default function Home() {
         addUser={addUser}
         inputopen={inputopen}
         setinputopen={setinputopen}
+        onClick={deleteUser}
       />
       <Snackbar
         open={open}
@@ -224,6 +232,14 @@ export default function Home() {
             />
           </Grid>
           <Grid item>
+            <SelectUser
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              selectuser={selectuser}
+              setuser={setuser}
+              userdata={userdata}
+              email={user?.email}
+            />
             <SelectDate
               selectmonth={selectmonth}
               selectyear={selectyear}
