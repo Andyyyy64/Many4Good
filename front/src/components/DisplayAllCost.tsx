@@ -68,6 +68,7 @@ export default function DisplayAllCost(props: Props) {
     let money = 0;
     props.acountingdata.map((item: AcountingData) => {
       const ItemMonth: number = new Date(item.Date).getMonth() + 1;
+      const PreviousMonth: number = new Date(item.Date).getMonth();
       if (ItemMonth == props.selectmonth) {
         if (item.income != undefined) {
           money += item.income;
@@ -136,7 +137,7 @@ export default function DisplayAllCost(props: Props) {
           borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
-            'rgba(186,17,17,0.7)'
+            'rgba(23,5,5,1)'
           ],
           borderWidth: 1,
         },
