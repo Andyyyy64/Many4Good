@@ -4,8 +4,8 @@ const requests = {
   savecurrentmoney: "http://localhost:4000/savecurrentmoney",
   addincome: "http://localhost:4000/addincome",
   changefoodlimit: "http://localhost:4000/changefoodlimit",
-  addauthuser: "http://localhost:4000/addauthuser",
-  getuser: "http://localhost:4000/getuser",
+  getloginuser: "http://localhost:4000/getloginuser",
+  adduser: "http://localhost:4000/adduser",
 };
 
 export default requests;

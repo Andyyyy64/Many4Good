@@ -31,6 +31,18 @@ interface AcountingData {
   Date?: Date;
 }
 
+interface UserData {
+  connection: string,
+  client_id: string,
+  email: string,
+  username: string,
+  password: string,
+  tenant: string,
+  transaction?: Object,
+  request_language: string,
+}
+
+
 export default function Home() {
   const {  user, isAuthenticated, isLoading } = useAuth0();
   const [open, setopen] = useState<boolean>(false);
@@ -46,9 +58,13 @@ export default function Home() {
   const years: number = now.getFullYear()
   const [selectmonth, setmonth] = useState<number>(months);
   const [selectyear, setyear] = useState<number>(years);
+  const [userdata,setuserdata] = useState<any>([]);
+  const [user2name,setuser2name] = useState<string>("");
+  const [inputopen,setinputopen] = useState<boolean>(false);
   
   useEffect(() => {
     fetchAcountingData();
+    fetchLoginUser();
   }, [isAuthenticated]);
 
   
@@ -63,7 +79,17 @@ export default function Home() {
     console.log(acountingData);
   }
 
-
+  const fetchLoginUser = async (): Promise<void> => {
+    const data = await axios.get(requests.getloginuser, {
+      params: {
+        email: user?.email
+      }
+    });
+    const userData: UserData[] = await data.data;
+    setuserdata(userData);
+    console.log(userData);
+  }
+  
   const addAcounting = async (): Promise<void> => {
     if (name != '' && cost != null) {
       await axios.post(requests.addacounting, {
@@ -81,7 +107,17 @@ export default function Home() {
     }
   };
 
-
+  const addUser = async (): Promise<void> => {
+    setinputopen(!inputopen);
+    if (user2name != "") {
+      await axios.post(requests.adduser, {
+        user2name: user2name,
+        email: user?.email,
+      })
+      setuser2name("");
+    }
+  };
+  
   const addIncome = async (): Promise<void> => {
     if (income != '' && incomename != null) {
       await axios.post(requests.addincome, {
@@ -159,7 +195,15 @@ export default function Home() {
 
   return (
     <div className="homewrapper">
-      <Profile />
+      <Profile
+        isLoading={isLoading}
+        userdata={userdata}
+        user2name={user2name}
+        setuser2name={setuser2name}
+        addUser={addUser}
+        inputopen={inputopen}
+        setinputopen={setinputopen}
+      />
       <Snackbar
         open={open}
         autoHideDuration={2500}

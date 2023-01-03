@@ -23,9 +23,10 @@ router.get("/",(req,res) => {
 
 
 
-router.get("/getuser",async (_req: express.Request, res: express.Response) => {
+router.get("/getloginuser",async (req: express.Request, res: express.Response) => {
   const { Users } = Schema;
-  const getUser = await Users.find({}).exec((err,userData) => {
+  const email: any = req.query.email;
+  const getUser = await Users.find({ email: email }).exec((err,userData) => {
     if(err) throw err;
     if(userData) {
       res.end(JSON.stringify(userData));
@@ -35,6 +36,28 @@ router.get("/getuser",async (_req: express.Request, res: express.Response) => {
   });
 });
 
+router.post("/adduser", async (req: express.Request, res:express.Response) => {
+  const user2name: string = req.body.user2name;
+  const email: string = req.body.email;
+  const { Users } = Schema;
+  const newuser = new Schema.Users({
+    username: user2name,
+    email: email,
+  });
+
+  try {
+    newuser.save((err,_newuserResult) => {
+      if(err) {
+        res.end("err saving...");
+        return;
+      }
+      res.redirect("/");
+      res.end;
+    })
+  } catch (err) {
+      console.log(err);
+  }
+})
 
 router.get(
   "/acounting",
@@ -69,7 +92,6 @@ router.post(
       name: acountingname,
       cost: acountingcost,
       food: isfood,
-      email: email,
       user: userId._id,
     });
 

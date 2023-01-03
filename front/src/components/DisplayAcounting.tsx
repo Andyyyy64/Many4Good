@@ -93,11 +93,11 @@ export default function DisplayAcounting(props: Props) {
   
   const incomesrows = incomes.map((item: AcountingData) =>
     incomeData(item.incomename, item.income, item.Date, item._id));
-
+  
   function Displayexpense() {
     return (
       <TableContainer component={Paper}>
-        <h2>￥収支</h2>
+        <h2>￥支出</h2>
         <InputExpense
           name={props.name}
           cost={props.cost}
@@ -156,7 +156,7 @@ export default function DisplayAcounting(props: Props) {
   function Displayincome() {
     return (
       <TableContainer component={Paper}>
-        <h2>￥収支</h2>
+        <h2> ￥収入</h2>
         <InputIncome
           incomename={props.incomename}
           income={props.income}
