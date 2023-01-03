@@ -85,6 +85,7 @@ router.post(
     const acountingname: string = req.body.name;
     const acountingcost: number = req.body.cost
     const isfood: boolean = req.body.food;
+    const whichuser: string = req.body.whichuser;
     const email: string = req.body.email;
     const { Users } = Schema;
     const userId: any = await Users.findOne({ email: email }).exec();
@@ -92,6 +93,7 @@ router.post(
       name: acountingname,
       cost: acountingcost,
       food: isfood,
+      whichuser: whichuser,
       user: userId._id,
     });
 
@@ -114,12 +116,14 @@ router.post(
 router.post('/addincome',async (req:express.Request,res:express.Response) => {
   const incomename :string = req.body.incomename;
   const income: number = req.body.income;
+  const whichuser: string = req.body.whichuser;
   const email: any = req.body.email;
   const { Users } = Schema;
   const UserId :any = await Users.findOne({ email: email }).exec();
   const newincome = new Schema.Acounting({
     incomename: incomename,
     income: income,
+    whichuser: whichuser,
     user: UserId._id,
   });
 

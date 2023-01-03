@@ -15,8 +15,9 @@ const acountingSchema = new Schema({
   cost: Number,
   food: Boolean,
   incomename: String,
-  income:Number,
+  income: Number,
   foodlimit:Number,
+  whichuser: String,
   Date: { type: Date, default: Date.now },
 });
 const Users = mongoose.model("users", userSchme, "users");

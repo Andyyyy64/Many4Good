@@ -63,12 +63,12 @@ export default function Home() {
   const [user2name,setuser2name] = useState<string>("");
   const [inputopen,setinputopen] = useState<boolean>(false);
   const [selectuser,setuser] = useState<string>("All");
+  const [whichuser,setwhichuser] = useState<String>("");
   
   useEffect(() => {
     fetchAcountingData();
     fetchLoginUser();
   }, [isAuthenticated]);
-
   
   const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting, {
@@ -98,17 +98,19 @@ export default function Home() {
         name: name,
         cost: cost,
         food: isfood,
+        whichuser: whichuser,
         email: user?.email,
       })
       setName('');
       setCost('');
+      setwhichuser('');
       setopen(true);
       fetchAcountingData();
     } else {
       alert("please put acounting detail");
     }
   };
-
+  
   const addUser = async (): Promise<void> => {
     setinputopen(!inputopen);
     if (user2name != "") {
@@ -126,10 +128,12 @@ export default function Home() {
       await axios.post(requests.addincome, {
         incomename: incomename,
         income: income,
+        whichuser: whichuser,
         email: user?.email,
       })
       setincomname('');
       setincom('');
+      setwhichuser('');
       setopen(true);
       fetchAcountingData();
     } else {
@@ -178,12 +182,18 @@ export default function Home() {
     }
     acountingdata.map((item: AcountingData) => {
       if (now.getSeconds() == new Date(item.Date).getSeconds()) {
-        //deleteAcounting(item._id)
-        console.log("ok")
+        deleteAcounting(item._id)
       }
     })
     setopen(false);
   };
+
+  const handleClose2 = (_event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setopen(false);
+    };
 
   const action = (
     <React.Fragment>
@@ -214,8 +224,9 @@ export default function Home() {
       />
       <Snackbar
         open={open}
-        autoHideDuration={2500}
+        autoHideDuration={2000}
         message="successfully a1dded acounting"
+        onClose={handleClose2}
         action={action}
       />
       
@@ -225,6 +236,7 @@ export default function Home() {
             <DisplayAllCost
               selectmonth={selectmonth}
               selectyear={selectyear}
+              selectuser={selectuser}
               acountingdata={acountingdata}
               foodlimits={foodlimit}
               setfoodlimit={setfoodlimit}
@@ -232,14 +244,6 @@ export default function Home() {
             />
           </Grid>
           <Grid item>
-            <SelectUser
-              selectmonth={selectmonth}
-              selectyear={selectyear}
-              selectuser={selectuser}
-              setuser={setuser}
-              userdata={userdata}
-              email={user?.email}
-            />
             <SelectDate
               selectmonth={selectmonth}
               selectyear={selectyear}
@@ -252,6 +256,14 @@ export default function Home() {
               setmonth={setmonth}
               setyear={setyear}
             />
+            <SelectUser
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              selectuser={selectuser}
+              setuser={setuser}
+              userdata={userdata}
+              email={user?.email}
+            />
           </Grid>
         </Grid>
       </div>
@@ -259,6 +271,10 @@ export default function Home() {
       <DisplayAcounting
         selectmonth={selectmonth}
         selectyear={selectyear}
+        selectuser={selectuser}
+        whichuser={whichuser}
+        setwhichuser={setwhichuser}
+        userdata={userdata}
         acountingdata={acountingdata}
         onClick={deleteAcounting}
         addAcounting={addAcounting}

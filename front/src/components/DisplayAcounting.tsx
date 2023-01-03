@@ -34,6 +34,9 @@ interface AcountingData {
 interface Props {
   acountingdata: AcountingData[],
   selectmonth: number,
+  selectyear: number,
+  selectuser: string,
+  whichuser: string,
   onClick: any,
   isLoading: boolean,
 }
@@ -42,19 +45,21 @@ function expenseData(
   name: string,
   cost: number,
   food: boolean,
+  user: string,
   Date: Date,
   _id: string,
 ) {
-  return { name, cost, food, Date, _id };
+  return { name, cost, food, user, Date, _id };
 }
 
 function incomeData(
   incomename: string,
   income: number,
+  user: string,
   Date: Date,
   _id: string,
 ) {
-  return { incomename, income, Date, _id };
+  return { incomename, income, user, Date, _id };
 }
 
 export default function DisplayAcounting(props: Props) {
@@ -81,18 +86,26 @@ export default function DisplayAcounting(props: Props) {
     const ItemTime: string = `${ItemMonth}/${ItemDate} ${ItemHours}:${ItemMinutes}`;
     return ItemTime;
   }
+
+  function returnitemuser(item: UserData): string {
+    if(props.selectuser != "All") {
+      return item.whichuser;
+    } else {
+      return "All"
+    }
+  }
   
   const expenses = props.acountingdata.filter((item: AcountingData) =>
-    item.name != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear);
+    item.name != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear && props.selectuser == returnitemuser(item) );
   
   const incomes = props.acountingdata.filter((item: AcountingData) =>
-    item.income != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear);
+    item.income != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear && props.selectuser == returnitemuser(item) );
   
   const expensesrows = expenses.map((item: AcountingData) =>
-    expenseData(item.name,item.cost,item.food, item.Date, item._id));
+    expenseData(item.name,item.cost,item.food, item.whichuser, item.Date, item._id));
   
   const incomesrows = incomes.map((item: AcountingData) =>
-    incomeData(item.incomename, item.income, item.Date, item._id));
+    incomeData(item.incomename, item.income, item.whichuser, item.Date, item._id));
   
   function Displayexpense() {
     return (
@@ -105,6 +118,9 @@ export default function DisplayAcounting(props: Props) {
           setName={props.setName}
           setCost={props.setCost}
           setisFood={props.setisFood}
+          whichuser={props.whichuser}
+          setwhichuser={props.setwhichuser}
+          userdata={props.userdata}
           onClick={props.addAcounting}
         />
         <Table sx={{ minWidth: 550 }} aria-label="simple table">
@@ -124,7 +140,7 @@ export default function DisplayAcounting(props: Props) {
                 sx={{ '&:last-child td, &:last-child td': { border: 0 } }}
                 style={row.food ? { color: "green" } : { color: "black" }}
               >
-                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="left">{row.user}: {row.name}</TableCell>
                 <TableCell align="justify">{row.cost}円</TableCell>
                 <TableCell align="right" style={row.food ? { color: "green" } : { color: "black" }}>
                   {row.food ? "食費" : "生活費"}
@@ -147,6 +163,9 @@ export default function DisplayAcounting(props: Props) {
           setName={props.setName}
           setCost={props.setCost}
           setisFood={props.setisFood}
+          whichuser={props.whichuser}
+          userdata={props.userdata}
+          setwhichuser={props.setwhichuser}
           onClick={props.addAcounting}
         />
       </TableContainer>
@@ -156,12 +175,15 @@ export default function DisplayAcounting(props: Props) {
   function Displayincome() {
     return (
       <TableContainer component={Paper}>
-        <h2> ￥収入</h2>
+        <h2>￥収入</h2>
         <InputIncome
           incomename={props.incomename}
           income={props.income}
           setincomname={props.setincomname}
           setincom={props.setincom}
+          whichuser={props.whichuser}
+          setwhichuser={props.setwhichuser}
+          userdata={props.userdata}
           onClick={props.addIncome}
         />
         <Table sx={{ minWidth: 550 }} aria-label="simple table">
@@ -179,7 +201,7 @@ export default function DisplayAcounting(props: Props) {
                 key={index}
                 sx={{ '&:last-child td, &:last-child td': { border: 0 } }}
               >
-                <TableCell align="left">{row.incomename}</TableCell>
+                <TableCell align="left">{row.user}: {row.incomename}</TableCell>
                 <TableCell align="justify">{row.income}円</TableCell>
                 <TableCell align="right">{returnitemTime(row)}</TableCell>
                 <TableCell align="right"> <IconButton variant="outlined" onClick={() => {
@@ -195,6 +217,9 @@ export default function DisplayAcounting(props: Props) {
         <AddIncome
           incomename={props.incomename}
           income={props.income}
+          whichuser={props.whichuser}
+          setwhichuser={props.setwhichuser}
+          userdata={props.userdata}        
           setincomname={props.setincomname}
           setincom={props.setincom}
           onClick={props.addIncome}

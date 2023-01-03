@@ -32,7 +32,7 @@ export default function SelectUser(props: Props) {
   const selectuserArray = [ { username:"All", email:props.email }, ...props.userdata ];
   
   return (
-    <Box sx={{ Width: 150 }}>
+    <Box sx={{ Width: 150 }} style={{marginTop: "100px"}}>
       <FormControl>
         <Select
           id="select"
@@ -44,8 +44,7 @@ export default function SelectUser(props: Props) {
           {
             selectuserArray.map((item: UserData, index: number) => (
                 <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
-            )
-            )
+            ))
           }
         </Select>
         <FormHelperText>select user</FormHelperText>
