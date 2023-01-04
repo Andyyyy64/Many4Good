@@ -12,6 +12,7 @@ interface Props {
   name: string,
   cost: number,
   isfood: boolean,
+  whichuser: string
   onClick: any,
   setName: any,
   setCost: any,

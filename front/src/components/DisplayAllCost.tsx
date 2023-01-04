@@ -38,6 +38,7 @@ interface FoodandLivingData {
 interface Props {
   acountingdata: AcountingData[],
   selectmonth: number,
+  selectyear: number,
   foodlimits: number,
   setfoodlimit: any,
   onClick: any,
@@ -64,11 +65,11 @@ export default function DisplayAllCost(props: Props) {
   }
   const { food, living, total } = displayfoodandlivingCost();
 
-  function displaycurrentmoney(): number {
+  function displayselectmonthmoney(): number {
     let money = 0;
     props.acountingdata.map((item: AcountingData) => {
       const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      const PreviousMonth: number = new Date(item.Date).getMonth();
+      //ItemYear
       if (ItemMonth == props.selectmonth) {
         if (item.income != undefined) {
           money += item.income;
@@ -77,8 +78,20 @@ export default function DisplayAllCost(props: Props) {
         }
       }
     })
-    return money;
+      return money;
   }
+  
+    function displaycurrentmoney(): number {
+    let money = 0;
+    props.acountingdata.map((item: AcountingData) => {
+        if (item.income != undefined) {
+          money += item.income;
+        } else if (item.cost != undefined) {
+          money -= item.cost;
+        }
+    })
+      return money;
+    }
   
   function displayfoodlimit(): number {
     let limit = 0;
@@ -124,7 +137,7 @@ export default function DisplayAllCost(props: Props) {
   }
   
   const Doughnutdata = {
-      labels: [`生活費${living}円`,`食費${food}円`,`残金${displaycurrentmoney()}円`],
+      labels: [`生活費${living}円`,`食費${food}円`,`残高${displaycurrentmoney()}円`],
       datasets: [
         {
           label: '',
@@ -132,12 +145,12 @@ export default function DisplayAllCost(props: Props) {
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
-            'rgba(23,5,5,1)'
+            'rgba(192,192,192,192)'
           ],
           borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
-            'rgba(23,5,5,1)'
+            'rgba(10,10,10,10)'
           ],
           borderWidth: 1,
         },
@@ -148,7 +161,7 @@ export default function DisplayAllCost(props: Props) {
     <div className="costwrapper">
       <Grid container>
         <Grid item>
-          <h2 style={{fontSize:"40px"}}>所持金:{displaycurrentmoney()}円</h2>
+          <h2 style={{fontSize:"40px"}}>残高:{displaycurrentmoney()}円</h2>
           <Grid container>
             <Grid item>
               <h2 style={{fontSize:"33px",color:"#F10351"}}>食費残り{displayfoodlimit() - food}円</h2>
@@ -166,7 +179,7 @@ export default function DisplayAllCost(props: Props) {
         </Grid>
         <Grid item style={{marginLeft:"100px"}}>
           <Doughnut data={Doughnutdata} />
-          <h1 style={{fontSize:"40px"}}>合計{total}円</h1>
+          <h1 style={{fontSize:"40px"}}></h1>
         </Grid>
       </Grid>
     </div>

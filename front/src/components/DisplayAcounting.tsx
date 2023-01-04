@@ -18,21 +18,36 @@ import CircularProgress from '@mui/material/CircularProgress';
 import InputExpense from "./InputExpense"
 import InputIncome from "./InputIncome"
 
+interface UserData {
+  connection?: string,
+  client_id?: string,
+  email: string,
+  username: string,
+  password?: string,
+  tenant?: string,
+  transaction?: Object,
+  request_language?: string,
+  _id: Types.ObjectId,
+}
+
 interface AcountingData {
-  name: string;
-  cost: number;
-  food: boolean;
-  currentmoney: number;
-  incomename: string;
-  income: number;
-  foodlimit: number;
-  _id: string;
-  user?: Types.ObjectId;
-  Date?: Date;
+  name: string,
+  cost: number,
+  food: boolean,
+  currentmoney: number,
+  incomename: string,
+  income: number,
+  whichuser: string,
+  setwhichuser: any,
+  foodlimit: number,
+  _id: string,
+  user?: Types.ObjectId,
+  Date?: Date,
 }
 
 interface Props {
   acountingdata: AcountingData[],
+  userdata: UserData[],
   selectmonth: number,
   selectyear: number,
   selectuser: string,
@@ -87,7 +102,7 @@ export default function DisplayAcounting(props: Props) {
     return ItemTime;
   }
 
-  function returnitemuser(item: UserData): string {
+  function returnitemuser(item: AcountingData): string {
     if(props.selectuser != "All") {
       return item.whichuser;
     } else {
@@ -106,11 +121,39 @@ export default function DisplayAcounting(props: Props) {
   
   const incomesrows = incomes.map((item: AcountingData) =>
     incomeData(item.incomename, item.income, item.whichuser, item.Date, item._id));
+
+    function displayselectmonthexpense(): number {
+      let money = 0;
+      props.acountingdata.map((item: AcountingData) => {
+        const ItemMonth: number = new Date(item.Date).getMonth() + 1;
+        //ItemYear
+        if (ItemMonth == props.selectmonth) {
+          if (item.cost != undefined) {
+            money += item.cost;
+          }
+        }
+      });
+      return money;
+    }
+
+  function displayselectmonthincome(): number {
+    let money = 0;
+    props.acountingdata.map((item: AcountingData) => {
+      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
+      //ItemYear
+      if(ItemMonth == props.selectmonth) {
+        if(item.income != undefined) {
+          money += item.income;
+        }
+      }
+    });
+    return money;
+  }
   
   function Displayexpense() {
     return (
       <TableContainer component={Paper}>
-        <h2>￥支出</h2>
+        <h2>￥支出 合計{displayselectmonthexpense()}円</h2>
         <InputExpense
           name={props.name}
           cost={props.cost}
@@ -175,7 +218,7 @@ export default function DisplayAcounting(props: Props) {
   function Displayincome() {
     return (
       <TableContainer component={Paper}>
-        <h2>￥収入</h2>
+        <h2>￥収入 合計{displayselectmonthincome()}</h2>
         <InputIncome
           incomename={props.incomename}
           income={props.income}
