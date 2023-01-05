@@ -106,7 +106,10 @@ export default function DisplayAcounting(props: Props) {
     const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
     const ItemDate: number = new Date(item.Date ?? "").getDate();
     const ItemHours: number = new Date(item.Date ?? "").getHours();
-    const ItemMinutes: number = new Date(item.Date ?? "").getMinutes();
+    let ItemMinutes: string | number = new Date(item.Date ?? "").getMinutes();
+    if(ItemMinutes < 10) {
+      ItemMinutes = `0${ItemMinutes}`
+    }
     const ItemTime: string = `${ItemMonth}/${ItemDate} ${ItemHours}:${ItemMinutes}`;
     return ItemTime;
   }
@@ -238,7 +241,6 @@ export default function DisplayAcounting(props: Props) {
                   </TableCell>
                   <TableCell align="right">{returnitemTime(row)}</TableCell>
                   <TableCell align="right">
-                    {" "}
                     <IconButton
                       onClick={() => {
                         props.deleteAcounting(row._id);
