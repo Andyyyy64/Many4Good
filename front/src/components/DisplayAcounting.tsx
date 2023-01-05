@@ -198,7 +198,7 @@ export default function DisplayAcounting(props: Props) {
   function Displayexpense() {
     return (
       <TableContainer component={Paper}>
-        <h2>￥支出 合計{displayselectmonthexpense()}円</h2>
+        <h2>￥支出 合計{displayselectmonthexpense().toLocaleString()}円</h2>
         <InputExpense
           name={props.name}
           cost={props.cost}
@@ -232,7 +232,7 @@ export default function DisplayAcounting(props: Props) {
                   <TableCell align="left">
                     {row.user}: {row.name}
                   </TableCell>
-                  <TableCell align="justify">{row.cost}円</TableCell>
+                  <TableCell align="justify">{row.cost.toLocaleString()}円</TableCell>
                   <TableCell
                     align="right"
                     style={row.food ? { color: "green" } : { color: "black" }}
@@ -273,7 +273,7 @@ export default function DisplayAcounting(props: Props) {
   function Displayincome() {
     return (
       <TableContainer component={Paper}>
-        <h2>￥収入 合計{displayselectmonthincome()}</h2>
+        <h2>￥収入 合計{displayselectmonthincome().toLocaleString()}</h2>
         <InputIncome
           incomename={props.incomename}
           income={props.income}
@@ -303,7 +303,7 @@ export default function DisplayAcounting(props: Props) {
                   <TableCell align="left">
                     {row.user}: {row.incomename}
                   </TableCell>
-                  <TableCell align="justify">{row.income}円</TableCell>
+                  <TableCell align="justify">{row.income.toLocaleString()}円</TableCell>
                   <TableCell align="right">{returnitemTime(row)}</TableCell>
                   <TableCell align="right">
                     {" "}

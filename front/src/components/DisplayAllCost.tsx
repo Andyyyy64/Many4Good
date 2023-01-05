@@ -135,7 +135,7 @@ export default function DisplayAllCost(props: Props) {
   }
 
   const Bardata = {
-    labels: [`食費${food}円`],
+    labels: [`食費${food.toLocaleString()}円`],
     datasets: [
       {
         label: "円",
@@ -163,9 +163,9 @@ export default function DisplayAllCost(props: Props) {
 
   const Doughnutdata = {
     labels: [
-      `生活費${living}円`,
-      `食費${food}円`,
-      `残高${displaycurrentmoney()}円`,
+      `生活費${living.toLocaleString()}円`,
+      `食費${food.toLocaleString()}円`,
+      `残高${displaycurrentmoney().toLocaleString()}円`,
     ],
     datasets: [
       {
@@ -190,12 +190,12 @@ export default function DisplayAllCost(props: Props) {
     <div className="costwrapper">
       <Grid container>
         <Grid item>
-          <h2 style={{ fontSize: "40px" }}>残高:{displaycurrentmoney()}円</h2>
-          <h2>(今月{displayselectmonthmoney()}円)</h2>
+          <h2 style={{ fontSize: "40px" }}>残高:{displaycurrentmoney().toLocaleString()}円</h2>
+          <h2>(今月{displayselectmonthmoney().toLocaleString()}円)</h2>
           <Grid container>
             <Grid item>
               <h2 style={{ fontSize: "33px", color: "#F10351" }}>
-                食費残り{displayfoodlimit() - food}円
+                食費残り{(displayfoodlimit() - food).toLocaleString()}円
               </h2>
               <Bar data={Bardata} options={options} height={100} />
             </Grid>

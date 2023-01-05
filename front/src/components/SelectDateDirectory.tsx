@@ -53,15 +53,15 @@ export default function SelectDateDirectory(props: Props) {
     <Box sx={{ display: 'inline-block' }}>
       <Grid container>
         <Grid item>
-          <IconButton sx={{ marginTop: 2.6 }} onClick={() => Previousmonth()}>
+          <IconButton sx={{ marginTop: 2.2 }} onClick={() => Previousmonth()}>
             <KeyboardArrowLeftTwoToneIcon fontSize="large" />
           </IconButton>
         </Grid>
-        <Grid item sx={{ fontSize: 28, fontFamily: "cursiv" }}>
+        <Grid item sx={{ fontSize: 25 }}>
           <h2>{props.selectyear}/{props.selectmonth}</h2>
         </Grid>
         <Grid item>
-          <IconButton sx={{ marginTop: 2.6 }} onClick={() => Nextmonth()}>
+          <IconButton sx={{ marginTop: 2.2 }} onClick={() => Nextmonth()}>
             <KeyboardArrowRightTwoToneIcon fontSize="large" />
           </IconButton>
         </Grid>

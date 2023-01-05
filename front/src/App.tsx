@@ -21,7 +21,6 @@ interface AcountingData {
   name: string;
   cost: number;
   food: boolean;
-  currentmoney: number;
   incomename: string;
   income: number;
   foodlimit: number;
@@ -92,7 +91,7 @@ export default function Home() {
   };
 
   const addAcounting = async (): Promise<void> => {
-    if (name != "" && cost != null) {
+    if (whichuser != "" && name != "" && cost != null) {
       await axios.post(requests.addacounting, {
         name: name,
         cost: cost,
@@ -124,7 +123,7 @@ export default function Home() {
   };
 
   const addIncome = async (): Promise<void> => {
-    if (income != "" && incomename != null) {
+    if (whichuser != "" && income != "" && incomename != null) {
       await axios.post(requests.addincome, {
         incomename: incomename,
         income: income,
