@@ -15,6 +15,7 @@ import Login from "./components/Login";
 import SelectDate from "./components/SelectDate";
 import Profile from "./components/Profile";
 import SelectUser from "./components/SelectUser";
+import SelectDateDirectory from "./components/SelectDateDirectory"
 
 interface AcountingData {
   name: string;
@@ -101,6 +102,7 @@ export default function Home() {
       });
       setName("");
       setCost("");
+      setisFood(false);
       setwhichuser("");
       setopen(true);
       fetchAcountingData();
@@ -219,6 +221,18 @@ export default function Home() {
         inputopen={inputopen}
         setinputopen={setinputopen}
         deleteUser={deleteUser}
+      />
+      <SelectDateDirectory
+        selectmonth={selectmonth}
+        selectyear={selectyear}
+        setName={setName}
+        setCost={setCost}
+        setincom={setincom}
+        setincomname={setincomname}
+        setisFood={setisFood}
+        setfoodlimit={setfoodlimit}
+        setmonth={setmonth}
+        setyear={setyear}
       />
       <Snackbar
         open={open}

@@ -75,6 +75,7 @@ export default function InputExpense(props: Props) {
       <Checkbox
         sx={{ "& .MuiSvgIcon-root": { fontSize: 30 } }}
         value={props.isfood}
+        checked={props.isfood}
         onChange={(e) => {
           props.setisFood(e.target.checked);
         }}

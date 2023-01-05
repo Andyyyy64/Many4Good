@@ -1,9 +1,12 @@
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton"
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
+import KeyboardArrowLeftTwoToneIcon from '@mui/icons-material/KeyboardArrowLeftTwoTone';
+import KeyboardArrowRightTwoToneIcon from '@mui/icons-material/KeyboardArrowRightTwoTone';
 
 interface Props {
   selectmonth: number;
@@ -95,6 +98,16 @@ export default function selectDate(props: Props) {
     );
   }
 
+  function SelectDateDirectory() {
+    return (
+      <Box sx={{ minWidth: 100 }}>
+        <IconButton>
+          <KeyboardArrowLeftTwoToneIcon />
+        </IconButton>
+      </Box>
+   ) 
+  }
+  
   return (
     <Grid container spacing={4} style={{ marginTop: "60px" }}>
       <Grid item>{SelectYear()}</Grid>

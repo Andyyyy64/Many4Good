@@ -197,7 +197,7 @@ export default function DisplayAllCost(props: Props) {
               <h2 style={{ fontSize: "33px", color: "#F10351" }}>
                 食費残り{displayfoodlimit() - food}円
               </h2>
-              <Bar data={Bardata} options={options} />
+              <Bar data={Bardata} options={options} height={100} />
             </Grid>
             <Grid item style={{ marginTop: "20px" }}>
               <InputFoodlimit

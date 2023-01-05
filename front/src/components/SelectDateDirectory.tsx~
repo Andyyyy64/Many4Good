@@ -1,0 +1,45 @@
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton"
+import Grid from "@mui/material/Grid";
+import KeyboardArrowLeftTwoToneIcon from '@mui/icons-material/KeyboardArrowLeftTwoTone';
+import KeyboardArrowRightTwoToneIcon from '@mui/icons-material/KeyboardArrowRightTwoTone';
+
+interface Props {
+  selectmonth: number;
+  selectyear: number;
+  setmonth: Function;
+  setyear: Function;
+  setName: Function;
+  setCost: Function;
+  setincom: Function;
+  setincomname: Function;
+  setisFood: Function;
+  setfoodlimit: Function;
+}
+
+export default function SelectDateDirectory(props: Props) {
+
+  const Nextmonth = (): void => {
+    
+  }
+  
+  return (
+    <Box sx={{ display: 'inline-block'}}>
+      <Grid container>
+        <Grid item>
+          <IconButton sx={{ height: 100}}>
+            <KeyboardArrowLeftTwoToneIcon />
+          </IconButton>
+        </Grid>
+        <Grid item sx={{ fontSize: 28, fontFamily: "cursiv" }}>
+          <h2>{props.selectyear}/{props.selectmonth}</h2>
+        </Grid>
+        <Grid item>
+          <IconButton sx={{ height: 100}}>
+            <KeyboardArrowRightTwoToneIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
+    </Box>
+  )
+}

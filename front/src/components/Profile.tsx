@@ -67,7 +67,7 @@ export default function Profile(props: Props) {
             >
               user{index + 1}: {user.username}
               <IconButton
-                style={
+                sx={
                   index + 1 == 1
                     ? { visibility: "hidden" }
                     : { visibility: "visible" }
@@ -104,7 +104,7 @@ export default function Profile(props: Props) {
       {(["bottom"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <IconButton onClick={toggleDrawer(anchor, true)}>
-            <AccountCircleTwoToneIcon />
+            <AccountCircleTwoToneIcon fontSize="large" />
           </IconButton>
           <Drawer
             anchor={anchor}
