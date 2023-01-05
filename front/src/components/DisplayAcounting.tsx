@@ -1,59 +1,69 @@
 import { useEffect } from "react";
 import { Types } from "mongoose";
-import Button from "@mui/material/Button";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import Box from "@mui/material/Box";
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from "@mui/material/IconButton"
-import AddIncome from "./AddIncome"
-import AddExpense from "./AddExpense"
-import CircularProgress from '@mui/material/CircularProgress';
-import InputExpense from "./InputExpense"
-import InputIncome from "./InputIncome"
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import AddIncome from "./AddIncome";
+import AddExpense from "./AddExpense";
+import CircularProgress from "@mui/material/CircularProgress";
+import InputExpense from "./InputExpense";
+import InputIncome from "./InputIncome";
 
 interface UserData {
-  connection?: string,
-  client_id?: string,
-  email: string,
-  username: string,
-  password?: string,
-  tenant?: string,
-  transaction?: Object,
-  request_language?: string,
-  _id: Types.ObjectId,
+  connection?: string;
+  client_id?: string;
+  email: string;
+  username: string;
+  password?: string;
+  tenant?: string;
+  transaction?: Object;
+  request_language?: string;
+  _id: Types.ObjectId;
 }
 
-interface AcountingData {
-  name: string,
-  cost: number,
-  food: boolean,
-  currentmoney: number,
-  incomename: string,
-  income: number,
-  whichuser: string,
-  setwhichuser: any,
-  foodlimit: number,
-  _id: string,
-  user?: Types.ObjectId,
-  Date?: Date,
+interface Acounting {
+  name: string;
+  cost: number;
+  food: boolean;
+  currentmoney: number;
+  incomename: string;
+  income: number;
+  whichuser: string;
+  foodlimit: number;
+  _id: string;
+  user?: Types.ObjectId;
+  Date?: Date | undefined;
 }
 
 interface Props {
-  acountingdata: AcountingData[],
-  userdata: UserData[],
-  selectmonth: number,
-  selectyear: number,
-  selectuser: string,
-  whichuser: string,
-  onClick: any,
-  isLoading: boolean,
+  acountingdata: Acounting[];
+  userdata: UserData[];
+  name: string;
+  cost: string | number;
+  isfood: boolean;
+  incomename: string;
+  income: string | number;
+  selectmonth: number;
+  selectyear: number;
+  selectuser: string;
+  whichuser: string;
+  setName: Function;
+  setCost: Function;
+  setisFood: Function;
+  setincomname: Function;
+  setincom: Function;
+  setwhichuser: Function;
+  deleteAcounting: Function;
+  addAcounting: Function;
+  addIncome: Function;
+  isLoading: boolean;
 }
 
 function expenseData(
@@ -61,8 +71,8 @@ function expenseData(
   cost: number,
   food: boolean,
   user: string,
-  Date: Date,
-  _id: string,
+  Date: Date | undefined,
+  _id: string
 ) {
   return { name, cost, food, user, Date, _id };
 }
@@ -71,87 +81,117 @@ function incomeData(
   incomename: string,
   income: number,
   user: string,
-  Date: Date,
-  _id: string,
+  Date: Date | undefined,
+  _id: string
 ) {
   return { incomename, income, user, Date, _id };
 }
 
 export default function DisplayAcounting(props: Props) {
-  
   useEffect(() => {
-    props
+    props;
   }, [props]);
 
-  function returnitemmonth(item: AcountingData): number {
-    const ItemMonth: number = new Date(item.Date).getMonth() + 1;
+  function returnitemmonth(item: Acounting): number {
+    const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
     return ItemMonth;
   }
 
-  function returnitemyear(item: AcountingData): number {
-    const ItemYear: number = new Date(item.Date).getFullYear();
+  function returnitemyear(item: Acounting): number {
+    const ItemYear: number = new Date(item.Date ?? "").getFullYear();
     return ItemYear;
   }
 
-  function returnitemTime(item: AcountingData): string {
-    const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-    const ItemDate: number = new Date(item.Date).getDate();
-    const ItemHours: number = new Date(item.Date).getHours();
-    const ItemMinutes: number = new Date(item.Date).getMinutes();
+  function returnitemTime(item: Acounting): string {
+    const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
+    const ItemDate: number = new Date(item.Date ?? "").getDate();
+    const ItemHours: number = new Date(item.Date ?? "").getHours();
+    const ItemMinutes: number = new Date(item.Date ?? "").getMinutes();
     const ItemTime: string = `${ItemMonth}/${ItemDate} ${ItemHours}:${ItemMinutes}`;
     return ItemTime;
   }
 
-  function returnitemuser(item: AcountingData): string {
-    if(props.selectuser != "All") {
+  function returnitemuser(item: Acounting): string {
+    if (props.selectuser != "All") {
       return item.whichuser;
     } else {
-      return "All"
+      return "All";
     }
   }
-  
-  const expenses = props.acountingdata.filter((item: AcountingData) =>
-    item.name != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear && props.selectuser == returnitemuser(item) );
-  
-  const incomes = props.acountingdata.filter((item: AcountingData) =>
-    item.income != undefined && returnitemmonth(item) == props.selectmonth && returnitemyear(item) == props.selectyear && props.selectuser == returnitemuser(item) );
-  
-  const expensesrows = expenses.map((item: AcountingData) =>
-    expenseData(item.name,item.cost,item.food, item.whichuser, item.Date, item._id));
-  
-  const incomesrows = incomes.map((item: AcountingData) =>
-    incomeData(item.incomename, item.income, item.whichuser, item.Date, item._id));
 
-    function displayselectmonthexpense(): number {
-      let money = 0;
-      props.acountingdata.map((item: AcountingData) => {
-        const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
-        const ItemYear: number = new Date(item.Date ?? "").getFullYear()
-        if(ItemYear == props.selectyear && ItemMonth == props.selectmonth
-           && props.selectuser == returnitemuser(item)) {
-          if (item.cost != undefined) {
-            money += item.cost;
-          }
+  const expenses = props.acountingdata.filter(
+    (item: Acounting) =>
+      item.name != undefined &&
+      returnitemmonth(item) == props.selectmonth &&
+      returnitemyear(item) == props.selectyear &&
+      props.selectuser == returnitemuser(item)
+  );
+
+  const incomes = props.acountingdata.filter(
+    (item: Acounting) =>
+      item.income != undefined &&
+      returnitemmonth(item) == props.selectmonth &&
+      returnitemyear(item) == props.selectyear &&
+      props.selectuser == returnitemuser(item)
+  );
+
+  const expensesrows = expenses.map((item: Acounting) =>
+    expenseData(
+      item.name,
+      item.cost,
+      item.food,
+      item.whichuser,
+      item.Date,
+      item._id
+    )
+  );
+
+  const incomesrows = incomes.map((item: Acounting) =>
+    incomeData(
+      item.incomename,
+      item.income,
+      item.whichuser,
+      item.Date,
+      item._id
+    )
+  );
+
+  function displayselectmonthexpense(): number {
+    let money = 0;
+    props.acountingdata.map((item: Acounting) => {
+      const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
+      const ItemYear: number = new Date(item.Date ?? "").getFullYear();
+      if (
+        ItemYear == props.selectyear &&
+        ItemMonth == props.selectmonth &&
+        props.selectuser == returnitemuser(item)
+      ) {
+        if (item.cost != undefined) {
+          money += item.cost;
         }
-      });
-      return money;
-    }
+      }
+    });
+    return money;
+  }
 
   function displayselectmonthincome(): number {
     let money = 0;
-    props.acountingdata.map((item: AcountingData) => {
-      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      const ItemYear: number = new Date(item.Date ?? "").getFullYear()
-      if(ItemYear == props.selectyear && ItemMonth == props.selectmonth
-         && props.selectuser == returnitemuser(item)) {
-        if(item.income != undefined) {
+    props.acountingdata.map((item: Acounting) => {
+      const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
+      const ItemYear: number = new Date(item.Date ?? "").getFullYear();
+      if (
+        ItemYear == props.selectyear &&
+        ItemMonth == props.selectmonth &&
+        props.selectuser == returnitemuser(item)
+      ) {
+        if (item.income != undefined) {
           money += item.income;
         }
       }
     });
     return money;
   }
-  
+
   function Displayexpense() {
     return (
       <TableContainer component={Paper}>
@@ -160,13 +200,13 @@ export default function DisplayAcounting(props: Props) {
           name={props.name}
           cost={props.cost}
           isfood={props.isfood}
-n          setName={props.setName}
+          setName={props.setName}
           setCost={props.setCost}
           setisFood={props.setisFood}
           whichuser={props.whichuser}
           setwhichuser={props.setwhichuser}
           userdata={props.userdata}
-          onClick={props.addAcounting}
+          addAcounting={props.addAcounting}
         />
         <Table sx={{ minWidth: 550 }} aria-label="simple table">
           <TableHead>
@@ -179,26 +219,37 @@ n          setName={props.setName}
             </TableRow>
           </TableHead>
           <TableBody>
-            {expensesrows.map((row: AcountingData,index: number) => (
-              <TableRow
-                key={index}
-                sx={{ '&:last-child td, &:last-child td': { border: 0 } }}
-                style={row.food ? { color: "green" } : { color: "black" }}
-              >
-                <TableCell align="left">{row.user}: {row.name}</TableCell>
-                <TableCell align="justify">{row.cost}円</TableCell>
-                <TableCell align="right" style={row.food ? { color: "green" } : { color: "black" }}>
-                  {row.food ? "食費" : "生活費"}
-                </TableCell>
-                <TableCell align="right">{returnitemTime(row)}</TableCell>
-                <TableCell align="right"> <IconButton variant="outlined" onClick={() => {
-                  props.onClick(row._id);
-                }}>
-                  <DeleteIcon />
-                </IconButton>
-                </TableCell>
-              </TableRow>
-            )).reverse()}
+            {expensesrows
+              .map((row: any, index: number) => (
+                <TableRow
+                  key={index}
+                  sx={{ "&:last-child td, &:last-child td": { border: 0 } }}
+                  style={row.food ? { color: "green" } : { color: "black" }}
+                >
+                  <TableCell align="left">
+                    {row.user}: {row.name}
+                  </TableCell>
+                  <TableCell align="justify">{row.cost}円</TableCell>
+                  <TableCell
+                    align="right"
+                    style={row.food ? { color: "green" } : { color: "black" }}
+                  >
+                    {row.food ? "食費" : "生活費"}
+                  </TableCell>
+                  <TableCell align="right">{returnitemTime(row)}</TableCell>
+                  <TableCell align="right">
+                    {" "}
+                    <IconButton
+                      onClick={() => {
+                        props.deleteAcounting(row._id);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+              .reverse()}
           </TableBody>
         </Table>
         <AddExpense
@@ -211,10 +262,10 @@ n          setName={props.setName}
           whichuser={props.whichuser}
           userdata={props.userdata}
           setwhichuser={props.setwhichuser}
-          onClick={props.addAcounting}
+          addAcounting={props.addAcounting}
         />
       </TableContainer>
-    )
+    );
   }
 
   function Displayincome() {
@@ -229,7 +280,7 @@ n          setName={props.setName}
           whichuser={props.whichuser}
           setwhichuser={props.setwhichuser}
           userdata={props.userdata}
-          onClick={props.addIncome}
+          addIncome={props.addIncome}
         />
         <Table sx={{ minWidth: 550 }} aria-label="simple table">
           <TableHead>
@@ -241,22 +292,30 @@ n          setName={props.setName}
             </TableRow>
           </TableHead>
           <TableBody>
-            {incomesrows.map((row: AcountingData,index: number) => (
-              <TableRow
-                key={index}
-                sx={{ '&:last-child td, &:last-child td': { border: 0 } }}
-              >
-                <TableCell align="left">{row.user}: {row.incomename}</TableCell>
-                <TableCell align="justify">{row.income}円</TableCell>
-                <TableCell align="right">{returnitemTime(row)}</TableCell>
-                <TableCell align="right"> <IconButton variant="outlined" onClick={() => {
-                  props.onClick(row._id);
-                }}>
-                  <DeleteIcon />
-                </IconButton>
-                </TableCell>
-              </TableRow>
-            )).reverse()}
+            {incomesrows
+              .map((row: any, index: number) => (
+                <TableRow
+                  key={index}
+                  sx={{ "&:last-child td, &:last-child td": { border: 0 } }}
+                >
+                  <TableCell align="left">
+                    {row.user}: {row.incomename}
+                  </TableCell>
+                  <TableCell align="justify">{row.income}円</TableCell>
+                  <TableCell align="right">{returnitemTime(row)}</TableCell>
+                  <TableCell align="right">
+                    {" "}
+                    <IconButton
+                      onClick={() => {
+                        props.deleteAcounting(row._id);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+              .reverse()}
           </TableBody>
         </Table>
         <AddIncome
@@ -264,31 +323,25 @@ n          setName={props.setName}
           income={props.income}
           whichuser={props.whichuser}
           setwhichuser={props.setwhichuser}
-          userdata={props.userdata}        
+          userdata={props.userdata}
           setincomname={props.setincomname}
           setincom={props.setincom}
-          onClick={props.addIncome}
+          addIncome={props.addIncome}
         />
       </TableContainer>
-    )
+    );
   }
-  
+
   return (
     <div>
-    {
-      props.isLoading ? (
+      {props.isLoading ? (
         <CircularProgress color="success" />
       ) : (
         <Grid container spacing={3}>
-          <Grid item>
-            {Displayexpense()}
-          </Grid>
-          <Grid item>
-            {Displayincome()}
-          </Grid>
+          <Grid item>{Displayexpense()}</Grid>
+          <Grid item>{Displayincome()}</Grid>
         </Grid>
-      )
-    }
+      )}
     </div>
-  )
+  );
 }

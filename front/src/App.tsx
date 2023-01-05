@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import './App.css'
+import "./App.css";
 import { Types } from "mongoose";
 import axios from "axios";
 import requests from "../utils/request";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar"
-import IconButton from "@mui/material/IconButton"
-import CloseIcon from "@mui/icons-material/Close"
-import Grid from "@mui/material/Grid"
-import DisplayAcounting from "./components/DisplayAcounting"
-import DisplayAllCost from "./components/DisplayAllCost"
-import InputExpense from "./components/InputExpense"
-import InputIncome from "./components/InputIncome"
-import InputFoodlimit from "./components/InputFoodlimit"
-import Login from "./components/Login"
-import SelectDate from "./components/SelectDate"
-import Profile from "./components/Profile"
-import SelectUser from "./components/SelectUser"
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Grid from "@mui/material/Grid";
+import DisplayAcounting from "./components/DisplayAcounting";
+import DisplayAllCost from "./components/DisplayAllCost";
+import Login from "./components/Login";
+import SelectDate from "./components/SelectDate";
+import Profile from "./components/Profile";
+import SelectUser from "./components/SelectUser";
 
 interface AcountingData {
   name: string;
@@ -27,113 +24,114 @@ interface AcountingData {
   incomename: string;
   income: number;
   foodlimit: number;
+  whichuser: string;
   _id: string;
   user?: Types.ObjectId;
   Date?: Date;
 }
 
 interface UserData {
-  connection: string,
-  client_id: string,
-  email: string,
-  username: string,
-  password: string,
-  tenant: string,
-  transaction?: Object,
-  request_language: string,
+  connection: string;
+  client_id: string;
+  email: string;
+  username: string;
+  password: string;
+  tenant: string;
+  transaction?: Object;
+  request_language: string;
+  _id: Types.ObjectId;
 }
 
-
 export default function Home() {
-  const {  user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [open, setopen] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [cost, setCost] = useState<number | string>('');
+  const [name, setName] = useState<string>("");
+  const [cost, setCost] = useState<number | string>("");
   const [isfood, setisFood] = useState<boolean>(false);
-  const [incomename, setincomname] = useState<string>('');
-  const [income, setincom] = useState<number | string>('');
-  const [foodlimit, setfoodlimit] = useState<number | String>('');
-  const [acountingdata, Setacountingdata] = useState<any>([]);
+  const [incomename, setincomname] = useState<string>("");
+  const [income, setincom] = useState<number | string>("");
+  const [foodlimit, setfoodlimit] = useState<number | string>("");
+  const [acountingdata, Setacountingdata] = useState<Array<AcountingData>>([]);
   const now: Date = new Date();
   const months: number = now.getMonth() + 1;
-  const years: number = now.getFullYear()
+  const years: number = now.getFullYear();
   const [selectmonth, setmonth] = useState<number>(months);
   const [selectyear, setyear] = useState<number>(years);
-  const [userdata,setuserdata] = useState<any>([]);
-  const [user2name,setuser2name] = useState<string>("");
-  const [inputopen,setinputopen] = useState<boolean>(false);
-  const [selectuser,setuser] = useState<string>("All");
-  const [whichuser,setwhichuser] = useState<String>("");
-  
+  const [userdata, setuserdata] = useState<Array<UserData>>([]);
+  const [user2name, setuser2name] = useState<string>("");
+  const [inputopen, setinputopen] = useState<boolean>(false);
+  const [selectuser, setuser] = useState<string>("All");
+  const [whichuser, setwhichuser] = useState<string>("");
+
   useEffect(() => {
     fetchAcountingData();
     fetchLoginUser();
   }, [isAuthenticated]);
-  
+
   const fetchAcountingData = async (): Promise<void> => {
     const data = await axios.get(requests.fetchacounting, {
       params: {
-        email: user?.email
-      }
+        email: user?.email,
+      },
     });
     const acountingData: AcountingData[] = await data.data;
     Setacountingdata(acountingData);
     console.log(acountingData);
-  }
+  };
 
   const fetchLoginUser = async (): Promise<void> => {
     const data = await axios.get(requests.getloginuser, {
       params: {
-        email: user?.email
-      }
+        email: user?.email,
+      },
     });
     const userData: UserData[] = await data.data;
     setuserdata(userData);
     console.log(userData);
-  }
-  
+  };
+
   const addAcounting = async (): Promise<void> => {
-    if (name != '' && cost != null) {
+    if (name != "" && cost != null) {
       await axios.post(requests.addacounting, {
         name: name,
         cost: cost,
         food: isfood,
         whichuser: whichuser,
         email: user?.email,
-      })
-      setName('');
-      setCost('');
-      setwhichuser('');
+      });
+      setName("");
+      setCost("");
+      setwhichuser("");
       setopen(true);
       fetchAcountingData();
     } else {
       alert("please put acounting detail");
     }
   };
-  
+
   const addUser = async (): Promise<void> => {
     setinputopen(!inputopen);
     if (user2name != "") {
       await axios.post(requests.adduser, {
         user2name: user2name,
         email: user?.email,
-      })
+      });
       setuser2name("");
     }
     fetchLoginUser();
   };
-  
+
   const addIncome = async (): Promise<void> => {
-    if (income != '' && incomename != null) {
+    if (income != "" && incomename != null) {
       await axios.post(requests.addincome, {
         incomename: incomename,
         income: income,
         whichuser: whichuser,
         email: user?.email,
-      })
-      setincomname('');
-      setincom('');
-      setwhichuser('');
+      });
+      setincomname("");
+      setincom("");
+      setwhichuser("");
       setopen(true);
       fetchAcountingData();
     } else {
@@ -141,30 +139,28 @@ export default function Home() {
     }
   };
 
-
   const changeFoodlimit = async (): Promise<void> => {
-    if (foodlimit != '') {
+    if (foodlimit != "") {
       await axios.post(requests.changefoodlimit, {
         foodlimit: foodlimit,
         email: user?.email,
-      })
-      setfoodlimit('');
+      });
+      setfoodlimit("");
       setopen(true);
       fetchAcountingData();
       acountingdata.map((item: AcountingData) => {
         if (item.foodlimit != undefined) {
-          if (now.toISOString() > item.Date) {
-            deleteAcounting(item._id)
+          if (new Date(now.toISOString()) > new Date(item.Date ?? "")) {
+            deleteAcounting(item._id);
           } else {
-            console.log(now.toISOString(), item.Date)
+            console.log(now.toISOString(), item.Date);
           }
         }
-      })
+      });
     } else {
       alert("please put foodlimit");
     }
   };
-
 
   const deleteAcounting = async (id: string): Promise<void> => {
     await axios.delete(`http://localhost:4000/deleteacounting/${id}`);
@@ -173,38 +169,40 @@ export default function Home() {
 
   const deleteUser = async (id: string): Promise<void> => {
     await axios.delete(`http://localhost:4000/deleteuser/${id}`);
-    fetchLoginUser();;
-  }
-  
-  const handleClose = (_event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
+    fetchLoginUser();
+  };
+
+  const handleClose = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     acountingdata.map((item: AcountingData) => {
-      if (now.getSeconds() == new Date(item.Date).getSeconds()) {
-        deleteAcounting(item._id)
+      if (now.getSeconds() == new Date(item.Date ?? "").getSeconds()) {
+        deleteAcounting(item._id);
       }
-    })
+    });
     setopen(false);
   };
 
-  const handleClose2 = (_event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
+  const handleClose2 = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     setopen(false);
-    };
+  };
 
   const action = (
     <React.Fragment>
       <Button color="secondary" size="small" onClick={handleClose}>
         UNDO
       </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-      >
+      <IconButton size="small" aria-label="close" color="inherit">
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
@@ -220,7 +218,7 @@ export default function Home() {
         addUser={addUser}
         inputopen={inputopen}
         setinputopen={setinputopen}
-        onClick={deleteUser}
+        deleteUser={deleteUser}
       />
       <Snackbar
         open={open}
@@ -229,7 +227,7 @@ export default function Home() {
         onClose={handleClose2}
         action={action}
       />
-      
+
       <div className="costandselect">
         <Grid container spacing={27}>
           <Grid item>
@@ -240,7 +238,7 @@ export default function Home() {
               acountingdata={acountingdata}
               foodlimits={foodlimit}
               setfoodlimit={setfoodlimit}
-              onClick={changeFoodlimit}
+              changeFoodlimit={changeFoodlimit}
             />
           </Grid>
           <Grid item>
@@ -267,7 +265,7 @@ export default function Home() {
           </Grid>
         </Grid>
       </div>
-      
+
       <DisplayAcounting
         selectmonth={selectmonth}
         selectyear={selectyear}
@@ -276,7 +274,7 @@ export default function Home() {
         setwhichuser={setwhichuser}
         userdata={userdata}
         acountingdata={acountingdata}
-        onClick={deleteAcounting}
+        deleteAcounting={deleteAcounting}
         addAcounting={addAcounting}
         addIncome={addIncome}
         name={name}
@@ -291,9 +289,7 @@ export default function Home() {
         setincom={setincom}
         isLoading={isLoading}
       />
-      
       <Login />
-      
     </div>
   );
 }
