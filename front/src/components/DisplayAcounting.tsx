@@ -125,9 +125,10 @@ export default function DisplayAcounting(props: Props) {
     function displayselectmonthexpense(): number {
       let money = 0;
       props.acountingdata.map((item: AcountingData) => {
-        const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-        //ItemYear
-        if (ItemMonth == props.selectmonth) {
+        const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
+        const ItemYear: number = new Date(item.Date ?? "").getFullYear()
+        if(ItemYear == props.selectyear && ItemMonth == props.selectmonth
+           && props.selectuser == returnitemuser(item)) {
           if (item.cost != undefined) {
             money += item.cost;
           }
@@ -140,8 +141,9 @@ export default function DisplayAcounting(props: Props) {
     let money = 0;
     props.acountingdata.map((item: AcountingData) => {
       const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      //ItemYear
-      if(ItemMonth == props.selectmonth) {
+      const ItemYear: number = new Date(item.Date ?? "").getFullYear()
+      if(ItemYear == props.selectyear && ItemMonth == props.selectmonth
+         && props.selectuser == returnitemuser(item)) {
         if(item.income != undefined) {
           money += item.income;
         }
@@ -158,7 +160,7 @@ export default function DisplayAcounting(props: Props) {
           name={props.name}
           cost={props.cost}
           isfood={props.isfood}
-          setName={props.setName}
+n          setName={props.setName}
           setCost={props.setCost}
           setisFood={props.setisFood}
           whichuser={props.whichuser}

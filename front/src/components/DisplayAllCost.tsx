@@ -17,16 +17,17 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,LinearScale,Title,Ba
 
 
 interface AcountingData {
-  name: string;
-  cost: number;
-  food: boolean;
-  currentmoney: number;
-  incomename: string;
-  income: number;
-  foodlimit: number;
-  _id: string;
-  user?: Types.ObjectId;
-  Date?: Date;
+  name: string,
+  cost: number,
+  food: boolean,
+  currentmoney: number,
+  incomename: string,
+  income: number,
+  foodlimit: number,
+  whichuser: string,
+  _id: string,
+  user?: Types.ObjectId,
+  Date?: Date,
 }
 
 interface FoodandLivingData {
@@ -39,26 +40,37 @@ interface Props {
   acountingdata: AcountingData[],
   selectmonth: number,
   selectyear: number,
+  selectuser: string,
   foodlimits: number,
   setfoodlimit: any,
   onClick: any,
 }
 
 export default function DisplayAllCost(props: Props) {
+
+    function returnitemuser(item: AcountingData): string {
+      if(props.selectuser != "All") {
+        return item.whichuser;
+      } else {
+        return "All"
+      }
+    }
   
   function displayfoodandlivingCost(): FoodandLivingData {
     let cost = { food: 0, living: 0, total: 0 };
     props.acountingdata.map((item: AcountingData) => {
-      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      if (ItemMonth == props.selectmonth) {
-        if (item.cost != undefined) {
-          if (item.food) {
-            cost.food += item.cost;
-          } else {
-            cost.living += item.cost;
+      const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
+      const ItemYear: number = new Date(item.Date ?? "").getFullYear();
+      if(ItemYear == props.selectyear && ItemMonth == props.selectmonth
+         && props.selectuser == returnitemuser(item)) {
+          if (item.cost != undefined) {
+            if (item.food) {
+              cost.food += item.cost;
+            } else {
+              cost.living += item.cost;
+            }
+            cost.total += item.cost;
           }
-          cost.total += item.cost;
-        }
       }
     });
     return cost;
@@ -68,14 +80,15 @@ export default function DisplayAllCost(props: Props) {
   function displayselectmonthmoney(): number {
     let money = 0;
     props.acountingdata.map((item: AcountingData) => {
-      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      //ItemYear
-      if (ItemMonth == props.selectmonth) {
-        if (item.income != undefined) {
-          money += item.income;
-        } else if (item.cost != undefined) {
-          money -= item.cost;
-        }
+      const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
+      const ItemYear: number = new Date(item.Date ?? "").getFullYear();
+      if(ItemYear == props.selectyear && ItemMonth == props.selectmonth
+         && props.selectuser == returnitemuser(item)) {
+          if (item.income != undefined) {
+            money += item.income;
+          } else if (item.cost != undefined) {
+            money -= item.cost;
+          }
       }
     })
       return money;
@@ -83,11 +96,13 @@ export default function DisplayAllCost(props: Props) {
   
     function displaycurrentmoney(): number {
     let money = 0;
-    props.acountingdata.map((item: AcountingData) => {
-        if (item.income != undefined) {
-          money += item.income;
-        } else if (item.cost != undefined) {
-          money -= item.cost;
+      props.acountingdata.map((item: AcountingData) => {
+        if(props.selectuser == returnitemuser(item)) {
+          if (item.income != undefined) {
+            money += item.income;
+          } else if (item.cost != undefined) {
+            money -= item.cost;
+          }
         }
     })
       return money;
@@ -96,18 +111,16 @@ export default function DisplayAllCost(props: Props) {
   function displayfoodlimit(): number {
     let limit = 0;
     props.acountingdata.map((item: AcountingData) => {
-      const ItemMonth: number = new Date(item.Date).getMonth() + 1;
-      if (ItemMonth == props.selectmonth) {
-        if(item.foodlimit != undefined) {
-          limit = item.foodlimit;
-        }
+      const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
+      const ItemYear: number = new Date(item.Date ?? "").getFullYear();
+      if(ItemYear == props.selectyear && ItemMonth == props.selectmonth){
+          if(item.foodlimit != undefined) {
+            limit = item.foodlimit;
+          }
       }
     })
     return limit;
   }
-
-  const livingtotal = props.acountingdata.filter((item: Acountingdata) => !item.food).length;
-  const foodtotal = props.acountingdata.filter((item: Acountingdata) => item.food).length;
 
   const Bardata = {
     labels:[`食費${food}円`],
@@ -162,7 +175,9 @@ export default function DisplayAllCost(props: Props) {
       <Grid container>
         <Grid item>
           <h2 style={{fontSize:"40px"}}>残高:{displaycurrentmoney()}円</h2>
+          <h2>(今月{displayselectmonthmoney()}円)</h2>
           <Grid container>
+
             <Grid item>
               <h2 style={{fontSize:"33px",color:"#F10351"}}>食費残り{displayfoodlimit() - food}円</h2>
               <Bar data={Bardata} options={options} width={300} height={100} />
@@ -183,5 +198,5 @@ export default function DisplayAllCost(props: Props) {
         </Grid>
       </Grid>
     </div>
-  )
+          )
 }
