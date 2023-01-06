@@ -16,7 +16,7 @@ interface UserData {
   username: string;
   password?: string;
   tenant?: string;
-  transaction?: Object;
+  transaction?: object;
   request_language?: string;
   _id: Types.ObjectId;
 }
@@ -27,18 +27,22 @@ interface Props {
   cost: string | number;
   isfood: boolean;
   whichuser: string;
-  setName: Function;
-  setCost: Function;
-  setisFood: Function;
-  setwhichuser: Function;
-  addAcounting: Function;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setCost: React.Dispatch<React.SetStateAction<string | number>>;
+  setisFood: React.Dispatch<React.SetStateAction<boolean>>;
+  setwhichuser: React.Dispatch<React.SetStateAction<string>>;
+  addAcounting: (e: Event) => void;
+}
+
+interface overlay {
+  bottom: boolean;
 }
 
 export default function AddExpense(props: Props) {
-  const [open, setopen] = useState<any>({ bottom: false });
+  const [open, setopen] = useState<overlay>({ bottom: false });
 
   const toggleDrawer =
-    (anchor: any, open: boolean) =>
+    (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -50,7 +54,7 @@ export default function AddExpense(props: Props) {
       setopen({ open, [anchor]: open });
     };
 
-  const list = (anchor: any) => (
+  const list = () => (
     <Box role="presentation" sx={{ height: 300 }}>
       <h1 style={{ textAlign: "center" }}># Add Expense</h1>
       <div style={{ marginLeft: "500px", marginTop: "60px" }}>
@@ -61,7 +65,7 @@ export default function AddExpense(props: Props) {
             id="id"
             value={props.whichuser}
             label="user"
-            onChange={(e, _newValue) => {
+            onChange={(e) => {
               props.setwhichuser(e.target.value);
             }}
           >

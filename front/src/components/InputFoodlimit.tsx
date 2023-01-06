@@ -9,16 +9,20 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 
 interface Props {
   foodlimit: string | number;
-  setfoodlimit: Function;
-  changeFoodlimit: Function;
-  displayfoodlimit: Function;
+  setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
+  changeFoodlimit: (e: Event) => void;
+  displayfoodlimit: (e: Event) => void;
+}
+
+interface overlay {
+  bottom: boolean 
 }
 
 export default function InputFoodlimit(props: Props) {
-  const [open, setopen] = useState<any>({ bottom: false });
+  const [open, setopen] = useState<overlay>({ bottom: false });
 
   const toggleDrawer =
-    (anchor: any, open: boolean) =>
+    (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -30,7 +34,7 @@ export default function InputFoodlimit(props: Props) {
       setopen({ open, [anchor]: open });
     };
 
-  const list = (anchor: any) => (
+  const list = () => (
     <Box role="presentation" sx={{ height: 300 }}>
       <div
         className="inputfoodlimit"

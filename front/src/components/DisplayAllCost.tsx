@@ -1,3 +1,4 @@
+import React from "react"
 import { Types } from "mongoose";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Grid from "@mui/material/Grid";
@@ -27,7 +28,6 @@ interface Acounting {
   name: string;
   cost: number;
   food: boolean;
-  currentmoney: number;
   incomename: string;
   income: number;
   foodlimit: number;
@@ -49,8 +49,8 @@ interface Props {
   selectyear: number;
   selectuser: string;
   foodlimits: string | number;
-  setfoodlimit: Function;
-  changeFoodlimit: Function;
+  setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
+  changeFoodlimit: (e: Event) => void;
 }
 
 export default function DisplayAllCost(props: Props) {
@@ -63,7 +63,7 @@ export default function DisplayAllCost(props: Props) {
   }
 
   function displayfoodandlivingCost(): FoodandLivingData {
-    let cost = { food: 0, living: 0, total: 0 };
+    const cost = { food: 0, living: 0, total: 0 };
     props.acountingdata.map((item: Acounting) => {
       const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
       const ItemYear: number = new Date(item.Date ?? "").getFullYear();

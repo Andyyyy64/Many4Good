@@ -1,3 +1,4 @@
+import React from "react"
 import { Types } from "mongoose";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
@@ -14,7 +15,7 @@ interface UserData {
   username: string;
   password?: string;
   tenant?: string;
-  transaction?: Object;
+  transaction?: object;
   request_language?: string;
   _id: Types.ObjectId;
 }
@@ -24,10 +25,10 @@ interface Props {
   incomename: string;
   income: string | number;
   whichuser: string;
-  addIncome: Function;
-  setincomname: Function;
-  setincom: Function;
-  setwhichuser: Function;
+  addIncome: (e: Event) => void;
+  setincomname: React.Dispatch<React.SetStateAction<string>>;
+  setincom: React.Dispatch<React.SetStateAction<string | number>>;
+  setwhichuser: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function InputIncome(props: Props) {
@@ -40,7 +41,7 @@ export default function InputIncome(props: Props) {
           id="id"
           value={props.whichuser}
           label="user"
-          onChange={(e, _newValue) => {
+          onChange={(e) => {
             props.setwhichuser(e.target.value);
           }}
         >

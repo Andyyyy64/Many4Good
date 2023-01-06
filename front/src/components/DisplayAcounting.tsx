@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Types } from "mongoose";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -23,7 +23,7 @@ interface UserData {
   username: string;
   password?: string;
   tenant?: string;
-  transaction?: Object;
+  transaction?: object;
   request_language?: string;
   _id: Types.ObjectId;
 }
@@ -32,7 +32,6 @@ interface Acounting {
   name: string;
   cost: number;
   food: boolean;
-  currentmoney: number;
   incomename: string;
   income: number;
   whichuser: string;
@@ -54,15 +53,15 @@ interface Props {
   selectyear: number;
   selectuser: string;
   whichuser: string;
-  setName: Function;
-  setCost: Function;
-  setisFood: Function;
-  setincomname: Function;
-  setincom: Function;
-  setwhichuser: Function;
-  deleteAcounting: Function;
-  addAcounting: Function;
-  addIncome: Function;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setCost: React.Dispatch<React.SetStateAction<string | number>>;
+  setisFood: React.Dispatch<React.SetStateAction<boolean>>;
+  setincomname:  React.Dispatch<React.SetStateAction<string>>;
+  setincom:  React.Dispatch<React.SetStateAction<string | number>>;
+  setwhichuser:  React.Dispatch<React.SetStateAction<string>>;
+  deleteAcounting: (e: Event) => void;
+  addAcounting: (e: Event) => void;
+  addIncome: (e: Event) => void;
   isLoading: boolean;
 }
 
@@ -176,7 +175,7 @@ export default function DisplayAcounting(props: Props) {
     });
     return money;
   }
-
+  
   function displayselectmonthincome(): number {
     let money = 0;
     props.acountingdata.map((item: Acounting) => {

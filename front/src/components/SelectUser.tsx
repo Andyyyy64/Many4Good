@@ -1,3 +1,4 @@
+import React from "react"
 import { Types } from "mongoose";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,7 +13,7 @@ interface UserData {
   username: string;
   password?: string;
   tenant?: string;
-  transaction?: Object;
+  transaction?: object;
   request_language?: string;
   _id?: Types.ObjectId;
 }
@@ -20,7 +21,7 @@ interface UserData {
 interface Props {
   userdata: UserData[];
   selectuser: string;
-  setuser: Function;
+  setuser: React.Dispatch<React.SetStateAction<string>>;
   selectmonth: number;
   selectyear: number;
   email: string | undefined;
@@ -38,7 +39,7 @@ export default function SelectUser(props: Props) {
         <Select
           id="select"
           value={props.selectuser}
-          onChange={(e, _newValue) => {
+          onChange={(e) => {
             props.setuser(e.target.value);
           }}
         >

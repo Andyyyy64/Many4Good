@@ -1,3 +1,4 @@
+import React from "react"
 import { Types } from "mongoose"
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
@@ -14,11 +15,11 @@ interface Props {
   cost: string | number;
   isfood: boolean;
   whichuser: string;
-  addAcounting: Function;
-  setName: Function;
-  setCost: Function;
-  setisFood: Function;
-  setwhichuser: Function;
+  addAcounting: (e: Event) => void;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setCost: React.Dispatch<React.SetStateAction<string | number>>;
+  setisFood: React.Dispatch<React.SetStateAction<boolean>>;
+  setwhichuser: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface UserData {
@@ -28,7 +29,7 @@ interface UserData {
   username: string;
   password?: string;
   tenant?: string;
-  transaction?: Object;
+  transaction?: object;
   request_language?: string;
   _id: Types.ObjectId;
 }
@@ -43,7 +44,7 @@ export default function InputExpense(props: Props) {
           id="id"
           value={props.whichuser}
           label="user"
-          onChange={(e, _newValue) => {
+          onChange={(e) => {
             props.setwhichuser(e.target.value);
           }}
         >

@@ -1,24 +1,22 @@
+import React from "react"
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton"
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
-import KeyboardArrowLeftTwoToneIcon from '@mui/icons-material/KeyboardArrowLeftTwoTone';
-import KeyboardArrowRightTwoToneIcon from '@mui/icons-material/KeyboardArrowRightTwoTone';
 
 interface Props {
   selectmonth: number;
   selectyear: number;
-  setmonth: Function;
-  setName: Function;
-  setCost: Function;
-  setincom: Function;
-  setincomname: Function;
-  setisFood: Function;
-  setfoodlimit: Function;
-  setyear: Function;
+  setmonth: React.Dispatch<React.SetStateAction<number>>;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setCost: React.Dispatch<React.SetStateAction<string | number>>;
+  setincom: React.Dispatch<React.SetStateAction<string | number>>;
+  setincomname: React.Dispatch<React.SetStateAction<string>>;
+  setisFood: React.Dispatch<React.SetStateAction<boolean>>;
+  setfoodlimit: React.Dispatch<React.SetStateAction<string>>;
+  setyear: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function selectDate(props: Props) {
@@ -32,7 +30,7 @@ export default function selectDate(props: Props) {
     num,
   }));
 
-  function SelectMonth() {
+  function SelectMonth(props: Props) {
     return (
       <Box sx={{ minWidth: 100 }}>
         <FormControl>
@@ -42,8 +40,8 @@ export default function selectDate(props: Props) {
             id="select"
             value={props.selectmonth}
             label="month"
-            onChange={(e, _newValue) => {
-              props.setmonth(e.target.value);
+            onChange={(e) => {
+              props.setmonth(e.target.value as number);
               props.setName("");
               props.setCost("");
               props.setincom("");
@@ -65,7 +63,7 @@ export default function selectDate(props: Props) {
     );
   }
 
-  function SelectYear() {
+  function SelectYear(props: Props) {
     return (
       <Box sx={{ minWidth: 100 }}>
         <FormControl>
@@ -75,8 +73,8 @@ export default function selectDate(props: Props) {
             id="select"
             value={props.selectyear}
             label="month"
-            onChange={(e, _newValue) => {
-              props.setyear(e.target.value);
+            onChange={(e) => {
+              props.setyear(e.target.value as number);
               props.setName("");
               props.setCost("");
               props.setincom("");
@@ -97,21 +95,11 @@ export default function selectDate(props: Props) {
       </Box>
     );
   }
-
-  function SelectDateDirectory() {
-    return (
-      <Box sx={{ minWidth: 100 }}>
-        <IconButton>
-          <KeyboardArrowLeftTwoToneIcon />
-        </IconButton>
-      </Box>
-   ) 
-  }
   
   return (
     <Grid container spacing={4} style={{ marginTop: "60px" }}>
-      <Grid item>{SelectYear()}</Grid>
-      <Grid item>{SelectMonth()}</Grid>
+      <Grid item>{SelectYear(props)}</Grid>
+      <Grid item>{SelectMonth(props)}</Grid>
     </Grid>
   );
 }

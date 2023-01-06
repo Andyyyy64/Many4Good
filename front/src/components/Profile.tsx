@@ -17,7 +17,7 @@ interface UserData {
   username: string;
   password?: string;
   tenant?: string;
-  transaction?: Object;
+  transaction?: object;
   request_language?: string;
   _id: Types.ObjectId;
 }
@@ -26,19 +26,23 @@ interface Props {
   userdata: UserData[];
   isLoading: boolean;
   user2name: string;
-  setuser2name: Function;
-  addUser: Function;
+  setuser2name: React.Dispatch<React.SetStateAction<string>>;
+  addUser: (e: Event) => void;
   inputopen: boolean;
-  setinputopen: Function;
-  deleteUser: Function;
+  setinputopen: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteUser: (e: Event) => void;
+}
+
+interface overlay {
+  bottom: boolean 
 }
 
 export default function Profile(props: Props) {
-  const [open, setopen] = useState<any>({ bottom: false });
+  const [open, setopen] = useState<overlay>({ bottom: false });
   const user1 = props.userdata[0];
 
   const toggleDrawer =
-    (anchor: any, open: boolean) =>
+    (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -51,7 +55,7 @@ export default function Profile(props: Props) {
       setopen({ open, [anchor]: open });
     };
 
-  const list = (_anchor: any) =>
+  const list = () =>
     props.isLoading ? (
       <CircularProgress />
     ) : (
