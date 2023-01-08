@@ -76,7 +76,6 @@ export default function Home() {
     });
     const acountingData: AcountingData[] = await data.data;
     Setacountingdata(acountingData);
-    console.log(acountingData);
   };
 
   const fetchLoginUser = async (): Promise<void> => {
@@ -87,7 +86,6 @@ export default function Home() {
     });
     const userData: UserData[] = await data.data;
     setuserdata(userData);
-    console.log(userData);
   };
 
   const addAcounting = async (): Promise<void> => {
