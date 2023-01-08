@@ -22,7 +22,7 @@ const port = process.env.PORT
 //db connection
 mongoose.set('strictQuery', false)
 mongoose
-  .connect(process.env.DB_URL ??"", {
+  .connect(process.env.DB_URL ?? "", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   } as ConnectOptions)
@@ -30,6 +30,7 @@ mongoose
     console.log("DB connected!");
   })
   .catch((err) => {
+    console.log(process.env.DB_URL,"env")
     console.log(err);
   });
 
