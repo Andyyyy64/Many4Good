@@ -177,7 +177,7 @@ export default function Home() {
 
   const deleteAcounting = async (id: string): Promise<void> => {
     if(isAuthenticated) {
-      await axios.delete(`http://localhost:4000/deleteacounting/${id}`);
+      await axios.delete(`${requests.deleteacounting}/${id}`);
       fetchAcountingData();
     } else {
       alert("please login or sign up");
@@ -186,7 +186,7 @@ export default function Home() {
 
   const deleteUser = async (id: string): Promise<void> => {
     if(isAuthenticated) {
-      await axios.delete(`http://localhost:4000/deleteuser/${id}`);
+      await axios.delete(`${requests.deleteuser}/${id}`);
       fetchLoginUser();
     } else {
       alert("please login or sign up");

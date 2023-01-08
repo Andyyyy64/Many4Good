@@ -1,11 +1,12 @@
 const requests = {
-  fetchacounting: "https://two4good.herokuapp.com/acounting",
-  addacounting: "https://two4good.herokuapp.com/addacounting",
-  savecurrentmoney: "https://two4good.herokuapp.com/savecurrentmoney",
-  addincome: "https://two4good.herokuapp.com/addincome",
-  changefoodlimit: "https://two4good.herokuapp.com/changefoodlimit",
-  getloginuser: "https://two4good.herokuapp.com/getloginuser",
-  adduser: "https://two4good.herokuapp.com/adduser",
+  fetchacounting: import.meta.env.VITE_APP_Fetchacounting,
+  addacounting: import.meta.env.VITE_APP_Addacounting,
+  addincome: import.meta.env.VITE_APP_Addincome,
+  changefoodlimit: import.meta.env.VITE_APP_Changefoodlimit,
+  getloginuser: import.meta.env.VITE_APP_Getloginuser,
+  adduser: import.meta.env.VITE_APP_Adduser,
+  deleteacounting: import.meta.env.VITE_APP_Deleteacounting,
+  deleteuser: import.meta.env.VITE_APP_Deleteuser,
 };
 
 export default requests;
