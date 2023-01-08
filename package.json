@@ -1,6 +1,7 @@
 {
   "name": "server",
   "main": "server.ts",
+  "type": "module"
   "scripts": {
     "start": "node server",
     "dev": "nodemon server"
