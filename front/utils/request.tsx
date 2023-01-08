@@ -1,11 +1,11 @@
 const requests = {
-  fetchacounting: "http://localhost:4000/acounting",
-  addacounting: "http://localhost:4000/addacounting",
-  savecurrentmoney: "http://localhost:4000/savecurrentmoney",
-  addincome: "http://localhost:4000/addincome",
-  changefoodlimit: "http://localhost:4000/changefoodlimit",
-  getloginuser: "http://localhost:4000/getloginuser",
-  adduser: "http://localhost:4000/adduser",
+  fetchacounting: "https://two4good.herokuapp.com/acounting",
+  addacounting: "https://two4good.herokuapp.com/addacounting",
+  savecurrentmoney: "https://two4good.herokuapp.com/savecurrentmoney",
+  addincome: "https://two4good.herokuapp.com/addincome",
+  changefoodlimit: "https://two4good.herokuapp.com/changefoodlimit",
+  getloginuser: "https://two4good.herokuapp.com/getloginuser",
+  adduser: "https://two4good.herokuapp.com/adduser",
 };
 
 export default requests;
