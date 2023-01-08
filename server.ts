@@ -1,9 +1,8 @@
 import express from "express";
 import mongoose, { ConnectOptions } from "mongoose";
 import routesHandler from "./routes/handler";
-import cors from 'cors'
+import cors from 'cors';
 const app: express.Express = express();
-require('dotenv/config')
 
 app.use(cors())
 app.use((_req:express.Request, res:express.Response, next:any) => {
