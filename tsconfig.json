@@ -1,8 +1,9 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "moduleResolution": "node"
-  },
-  "include": ["/**/*.ts"],
-  "exclude": ["node_modules"]
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node"
+    },
+    "include": ["/**/*.ts"],
+    "exclude": ["node_modules"]
 }
