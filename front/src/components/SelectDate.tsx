@@ -15,7 +15,7 @@ interface Props {
   setincom: React.Dispatch<React.SetStateAction<string | number>>;
   setincomname: React.Dispatch<React.SetStateAction<string>>;
   setisFood: React.Dispatch<React.SetStateAction<boolean>>;
-  setfoodlimit: React.Dispatch<React.SetStateAction<string>>;
+  setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
   setyear: React.Dispatch<React.SetStateAction<number>>;
 }
 

@@ -30,19 +30,19 @@ interface Props {
   addUser: () => void;
   inputopen: boolean;
   setinputopen: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteUser: () => void;
+  deleteUser: (id: string) => Promise<void>;
 }
 
-interface overlay {
+interface State {
   bottom: boolean 
 }
 
 export default function Profile(props: Props) {
-  const [open, setopen] = useState<overlay>({ bottom: false });
+  const [open, setopen] = useState<State>({ bottom: false });
   const user1 = props.userdata[0];
 
   const toggleDrawer =
-    (anchor: string, open: boolean) =>
+    (open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -52,7 +52,7 @@ export default function Profile(props: Props) {
         return;
       }
       props.setinputopen(false);
-      setopen({ open, [anchor]: open });
+      setopen({ bottom: open });
     };
 
   const list = ( _anchor: string ) =>
@@ -60,7 +60,7 @@ export default function Profile(props: Props) {
       <CircularProgress />
     ) : (
       <Box role="presentation" sx={{ height: 1200 }}>
-        <IconButton sx={{ ml: "95%" }} onClick={toggleDrawer("bottom", false)}>
+        <IconButton sx={{ ml: "95%" }} onClick={toggleDrawer(false)}>
           <RemoveTwoToneIcon />
         </IconButton>
         <div style={{ textAlign: "center" }}>
@@ -77,7 +77,7 @@ export default function Profile(props: Props) {
                     : { visibility: "visible" }
                 }
                 onClick={() => {
-                  props.deleteUser(user._id);
+                  props.deleteUser(user._id.toString());
                 }}
               >
                 <DeleteIcon />
@@ -107,13 +107,13 @@ export default function Profile(props: Props) {
     <div className="addtodo">
       {(["bottom"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(anchor, true)}>
+          <IconButton onClick={toggleDrawer(true)}>
             <AccountCircleTwoToneIcon fontSize="large" />
           </IconButton>
           <Drawer
             anchor={anchor}
             open={open[anchor]}
-            onClose={toggleDrawer(anchor, false)}
+            onClose={toggleDrawer(false)}
           >
             {list(anchor)}
           </Drawer>

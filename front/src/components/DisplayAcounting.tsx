@@ -59,9 +59,9 @@ interface Props {
   setincomname:  React.Dispatch<React.SetStateAction<string>>;
   setincom:  React.Dispatch<React.SetStateAction<string | number>>;
   setwhichuser:  React.Dispatch<React.SetStateAction<string>>;
-  deleteAcounting: () => void;
-  addAcounting: () => void;
-  addIncome: () => void;
+  deleteAcounting: (id: string) => Promise<void>;
+  addAcounting: () => Promise<void>;
+  addIncome: () => Promise<void>;
   isLoading: boolean;
 }
 

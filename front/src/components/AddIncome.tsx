@@ -32,15 +32,15 @@ interface Props {
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface overlay {
+interface State {
   bottom: boolean;
 }
 
 export default function AddExpense(props: Props) {
-  const [open, setopen] = useState<overlay>({ bottom: false });
+  const [open, setopen] = useState<State>({ bottom: false });
 
   const toggleDrawer =
-    (anchor: string, open: boolean) =>
+    (open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -49,7 +49,7 @@ export default function AddExpense(props: Props) {
       ) {
         return;
       }
-      setopen({ open, [anchor]: open });
+      setopen({ bottom: open });
     };
 
   const list = ( _anchor: string ) => (
@@ -103,13 +103,13 @@ export default function AddExpense(props: Props) {
     <div className="addtodo">
       {(["bottom"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(anchor, true)}>
+          <IconButton onClick={toggleDrawer(true)}>
             <AddIcon />
           </IconButton>
           <Drawer
             anchor={anchor}
             open={open[anchor]}
-            onClose={toggleDrawer(anchor, false)}
+            onClose={toggleDrawer(false)}
           >
             {list(anchor)}
           </Drawer>

@@ -148,6 +148,8 @@ export default function DisplayAllCost(props: Props) {
 
   const options = {
     indexAxis: "y" as const,
+    maintainAspectRatio: false,
+    aspectRatio: 2,
     elements: {
       bar: {
         borderWidth: 1,
@@ -197,7 +199,7 @@ export default function DisplayAllCost(props: Props) {
               <h2 style={{ fontSize: "33px", color: "#F10351" }}>
                 食費残り{(displayfoodlimit() - food).toLocaleString()}円
               </h2>
-              <Bar data={Bardata} options={options} height={100} />
+              <Bar  data={Bardata} options={options}  />
             </Grid>
             <Grid item style={{ marginTop: "20px" }}>
               <InputFoodlimit

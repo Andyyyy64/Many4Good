@@ -14,15 +14,15 @@ interface Props {
   displayfoodlimit: () => number;
 }
 
-interface overlay {
+interface State {
   bottom: boolean 
 }
 
 export default function InputFoodlimit(props: Props) {
-  const [open, setopen] = useState<overlay>({ bottom: false });
+  const [open, setopen] = useState<State>({ bottom: false });
 
   const toggleDrawer =
-    (anchor: string, open: boolean) =>
+    (open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -31,10 +31,10 @@ export default function InputFoodlimit(props: Props) {
       ) {
         return;
       }
-      setopen({ open, [anchor]: open });
+      setopen({ bottom: open });
     };
 
-  const list = () => (
+  const list = ( _anchor: string ) => (
     <Box role="presentation" sx={{ height: 300 }}>
       <div
         className="inputfoodlimit"
@@ -65,13 +65,13 @@ export default function InputFoodlimit(props: Props) {
     <div className="addtodo">
       {(["bottom"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(anchor, true)}>
+          <IconButton onClick={toggleDrawer(true)}>
             <ChangeCircleIcon />
           </IconButton>
           <Drawer
             anchor={anchor}
             open={open[anchor]}
-            onClose={toggleDrawer(anchor, false)}
+            onClose={toggleDrawer(false)}
           >
             {list(anchor)}
           </Drawer>
