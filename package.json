@@ -2,8 +2,8 @@
   "name": "server",
   "main": "server.ts",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "nodemon server.ts",
+    "dev": "nodemon server.ts"
   },
   "dependencies": {
     "@types/mongoose": "^5.11.97",
