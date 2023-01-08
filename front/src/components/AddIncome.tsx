@@ -26,7 +26,7 @@ interface Props {
   incomename: string;
   income: string | number;
   whichuser: string;
-  addIncome: (e: Event) => void;
+  addIncome: () => void;
   setincomname: React.Dispatch<React.SetStateAction<string>>;
   setincom: React.Dispatch<React.SetStateAction<string | number>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
@@ -52,7 +52,7 @@ export default function AddExpense(props: Props) {
       setopen({ open, [anchor]: open });
     };
 
-  const list = () => (
+  const list = ( _anchor: string ) => (
     <Box role="presentation" sx={{ height: 300 }}>
       <h1 style={{ textAlign: "center" }}># Add Income</h1>
       <div style={{ marginLeft: "500px", marginTop: "60px" }}>

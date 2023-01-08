@@ -31,7 +31,7 @@ interface Props {
   setCost: React.Dispatch<React.SetStateAction<string | number>>;
   setisFood: React.Dispatch<React.SetStateAction<boolean>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
-  addAcounting: (e: Event) => void;
+  addAcounting: () => void;
 }
 
 interface overlay {
@@ -54,11 +54,11 @@ export default function AddExpense(props: Props) {
       setopen({ open, [anchor]: open });
     };
 
-  const list = () => (
+  const list = ( _anchor: string ) => (
     <Box role="presentation" sx={{ height: 300 }}>
       <h1 style={{ textAlign: "center" }}># Add Expense</h1>
       <div style={{ marginLeft: "500px", marginTop: "60px" }}>
-        <FormControl style={{ marginLeft: "10px" }} sx={{ minWidth: 85 }}>
+        <FormControl sx={{ marginLeft: "10px", minWidth: 85 }}>
           <InputLabel>user</InputLabel>
           <Select
             labelId="label"
@@ -77,7 +77,7 @@ export default function AddExpense(props: Props) {
           </Select>
         </FormControl>
         <TextField
-          style={{ marginRight: "10px" }}
+          sx={{ marginRight: "10px" }}
           label="name"
           value={props.name}
           onChange={(e) => {

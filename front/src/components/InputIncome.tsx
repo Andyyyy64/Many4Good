@@ -25,7 +25,7 @@ interface Props {
   incomename: string;
   income: string | number;
   whichuser: string;
-  addIncome: (e: Event) => void;
+  addIncome: () => void;
   setincomname: React.Dispatch<React.SetStateAction<string>>;
   setincom: React.Dispatch<React.SetStateAction<string | number>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
@@ -34,7 +34,7 @@ interface Props {
 export default function InputIncome(props: Props) {
   return (
     <div className="inputincome">
-      <FormControl style={{ marginLeft: "10px" }} sx={{ minWidth: 85 }}>
+      <FormControl sx={{ marginLeft: "10px", minWidth: 85 }} >
         <InputLabel>user</InputLabel>
         <Select
           labelId="label"

@@ -59,9 +59,9 @@ interface Props {
   setincomname:  React.Dispatch<React.SetStateAction<string>>;
   setincom:  React.Dispatch<React.SetStateAction<string | number>>;
   setwhichuser:  React.Dispatch<React.SetStateAction<string>>;
-  deleteAcounting: (e: Event) => void;
-  addAcounting: (e: Event) => void;
-  addIncome: (e: Event) => void;
+  deleteAcounting: () => void;
+  addAcounting: () => void;
+  addIncome: () => void;
   isLoading: boolean;
 }
 
@@ -249,8 +249,7 @@ export default function DisplayAcounting(props: Props) {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              ))
-              .reverse()}
+              )).reverse()}
           </TableBody>
         </Table>
         <AddExpense

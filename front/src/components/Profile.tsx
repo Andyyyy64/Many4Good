@@ -27,10 +27,10 @@ interface Props {
   isLoading: boolean;
   user2name: string;
   setuser2name: React.Dispatch<React.SetStateAction<string>>;
-  addUser: (e: Event) => void;
+  addUser: () => void;
   inputopen: boolean;
   setinputopen: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteUser: (e: Event) => void;
+  deleteUser: () => void;
 }
 
 interface overlay {
@@ -55,7 +55,7 @@ export default function Profile(props: Props) {
       setopen({ open, [anchor]: open });
     };
 
-  const list = () =>
+  const list = ( _anchor: string ) =>
     props.isLoading ? (
       <CircularProgress />
     ) : (

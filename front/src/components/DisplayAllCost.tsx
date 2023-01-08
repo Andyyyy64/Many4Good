@@ -50,7 +50,7 @@ interface Props {
   selectuser: string;
   foodlimits: string | number;
   setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
-  changeFoodlimit: (e: Event) => void;
+  changeFoodlimit: () => void;
 }
 
 export default function DisplayAllCost(props: Props) {
