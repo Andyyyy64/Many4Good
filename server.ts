@@ -27,6 +27,7 @@ mongoose
     useUnifiedTopology: true,
   } as ConnectOptions)
   .then(() => {
+    console.log(process.env.DB_URL,"env");
     console.log("DB connected!");
   })
   .catch((err) => {
