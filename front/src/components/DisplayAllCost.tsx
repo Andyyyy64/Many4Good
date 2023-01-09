@@ -2,6 +2,7 @@ import React from "react"
 import { Types } from "mongoose";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import InputFoodlimit from "./InputFoodlimit";
 import {
   Chart as ChartJS,
@@ -189,7 +190,7 @@ export default function DisplayAllCost(props: Props) {
   };
 
   return (
-    <div className="costwrapper">
+    <Box>
       <Grid container>
         <Grid item>
           <h2 style={{ fontSize: "40px" }}>残高:{displaycurrentmoney().toLocaleString()}円</h2>
@@ -216,6 +217,6 @@ export default function DisplayAllCost(props: Props) {
           <h1 style={{ fontSize: "40px" }}></h1>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }

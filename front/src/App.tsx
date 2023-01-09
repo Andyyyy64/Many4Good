@@ -62,7 +62,7 @@ export default function Home() {
   const [inputopen, setinputopen] = useState<boolean>(false);
   const [selectuser, setuser] = useState<string>("All");
   const [whichuser, setwhichuser] = useState<string>("");
-
+  
   useEffect(() => {
     fetchAcountingData();
     fetchLoginUser();
@@ -90,7 +90,7 @@ export default function Home() {
 
   const addAcounting = async (): Promise<void> => {
     if(isAuthenticated) {
-      if (whichuser != "" && name != "" && cost != null) {
+      if (whichuser != "" && name != "" && cost != "") {
         await axios.post(requests.addacounting, {
           name: name,
           cost: cost,
@@ -130,7 +130,7 @@ export default function Home() {
 
   const addIncome = async (): Promise<void> => {
     if(isAuthenticated) {
-      if (whichuser != "" && income != "" && incomename != null) {
+      if (whichuser != "" && income != "" && incomename != "") {
         await axios.post(requests.addincome, {
           incomename: incomename,
           income: income,

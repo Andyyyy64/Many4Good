@@ -2,6 +2,7 @@ import express from "express";
 import Schema from "../models/schema";
 import cors from "cors";
 import dotenv from "dotenv"
+import axios from "axios"
 const router: express.Router = express.Router();
 const app: express.Express = express();
 dotenv.config();
@@ -35,7 +36,7 @@ router.get("/getloginuser",async (req: express.Request, res: express.Response) =
       res.end();
     }
   });
-});
+});pp
 
 router.post("/adduser", async (req: express.Request, res:express.Response) => {
   const user2name: string = req.body.user2name;
@@ -185,5 +186,22 @@ router.delete(
     res.send(deleteusers);
   }
 );
+
+
+  const apiKey = "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";
+  const client = axios.create({
+    headers: { 'Authorization': 'Bearer ' + apiKey }
+  });
+  const prompts = "say hello"
+  const params = {
+    "prompt": prompts
+  }
+
+  client.post('https://api.openai.com/v1/engines/davinci/completions', params)
+        .then(result => {
+          console.log(result.data.choices[0].text,"AI");
+        }).catch(err => {
+          console.log(err);
+        });
 
 export default router;
