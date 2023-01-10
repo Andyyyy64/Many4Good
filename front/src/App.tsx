@@ -15,7 +15,7 @@ import Login from "./components/Login";
 import SelectDate from "./components/SelectDate";
 import Profile from "./components/Profile";
 import SelectUser from "./components/SelectUser";
-import SelectDateDirectory from "./components/SelectDateDirectory"
+import SelectDateDirectory from "./components/SelectDateDirectory";
 
 interface AcountingData {
   name: string;
@@ -62,8 +62,8 @@ export default function Home() {
   const [inputopen, setinputopen] = useState<boolean>(false);
   const [selectuser, setuser] = useState<string>("All");
   const [whichuser, setwhichuser] = useState<string>("");
-  const [prompt,setprompt] = useState<string>("");
-  
+  const [prompt, setprompt] = useState<string>("");
+
   useEffect(() => {
     fetchAcountingData();
     fetchLoginUser();
@@ -87,27 +87,27 @@ export default function Home() {
     });
     const userData: UserData[] = await data.data;
     setuserdata(userData);
-    if(userData.length == 1) {
+    if (userData.length == 1) {
       setwhichuser(userData[0].username);
     }
   };
 
   const addAcounting = async (): Promise<void> => {
-      await axios.post(requests.addacounting, {
-        name: name,
-        cost: cost,
-        food: isfood,
-        whichuser: whichuser,
-        email: user?.email,
-      });
-      setName("");
-      setCost("");
-      setisFood(false);
-      if(userdata.length != 1) {
-        setwhichuser("");
-      };
-      setopen(true);
-      fetchAcountingData();
+    await axios.post(requests.addacounting, {
+      name: name,
+      cost: cost,
+      food: isfood,
+      whichuser: whichuser,
+      email: user?.email,
+    });
+    setName("");
+    setCost("");
+    setisFood(false);
+    if (userdata.length != 1) {
+      setwhichuser("");
+    }
+    setopen(true);
+    fetchAcountingData();
   };
 
   const addUser = async (): Promise<void> => {
@@ -123,19 +123,19 @@ export default function Home() {
   };
 
   const addIncome = async (): Promise<void> => {
-      await axios.post(requests.addincome, {
-        incomename: incomename,
-        income: income,
-        whichuser: whichuser,
-        email: user?.email,
-      });
-      setincomname("");
-      setincom("");
-      if(userdata.length != 1) {
-        setwhichuser("");
-      };
-      setopen(true);
-      fetchAcountingData();
+    await axios.post(requests.addincome, {
+      incomename: incomename,
+      income: income,
+      whichuser: whichuser,
+      email: user?.email,
+    });
+    setincomname("");
+    setincom("");
+    if (userdata.length != 1) {
+      setwhichuser("");
+    }
+    setopen(true);
+    fetchAcountingData();
   };
 
   const changeFoodlimit = async (): Promise<void> => {
@@ -207,102 +207,102 @@ export default function Home() {
 
   return (
     <div>
-    <Profile
-    isLoading={isLoading}
-    userdata={userdata}
-    user2name={user2name}
-    setuser2name={setuser2name}
-    addUser={addUser}
-    inputopen={inputopen}
-    setinputopen={setinputopen}
-    deleteUser={deleteUser}
-    isAuthenticated={isAuthenticated}
-    />
-    <SelectDateDirectory
-    selectmonth={selectmonth}
-    selectyear={selectyear}
-    setName={setName}
-    setCost={setCost}
-    setincom={setincom}
-    setincomname={setincomname}
-    setisFood={setisFood}
-    setfoodlimit={setfoodlimit}
-    setmonth={setmonth}
-    setyear={setyear}
-    />
-    <Snackbar
-    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-    open={open}
-    autoHideDuration={2300}
-    message="successfully added acounting"
-    onClose={handleClose2}
-    action={action}
-    />
+      <Profile
+        isLoading={isLoading}
+        userdata={userdata}
+        user2name={user2name}
+        setuser2name={setuser2name}
+        addUser={addUser}
+        inputopen={inputopen}
+        setinputopen={setinputopen}
+        deleteUser={deleteUser}
+        isAuthenticated={isAuthenticated}
+      />
+      <SelectDateDirectory
+        selectmonth={selectmonth}
+        selectyear={selectyear}
+        setName={setName}
+        setCost={setCost}
+        setincom={setincom}
+        setincomname={setincomname}
+        setisFood={setisFood}
+        setfoodlimit={setfoodlimit}
+        setmonth={setmonth}
+        setyear={setyear}
+      />
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={2300}
+        message="successfully added acounting"
+        onClose={handleClose2}
+        action={action}
+      />
 
-    <div>
-      <Grid container spacing={27}>
-        <Grid item>
-          <DisplayAllCost
-            selectmonth={selectmonth}
-            selectyear={selectyear}
-            selectuser={selectuser}
-            acountingdata={acountingdata}
-            foodlimits={foodlimit}
-            setfoodlimit={setfoodlimit}
-            changeFoodlimit={changeFoodlimit}
-            isAuthenticated={isAuthenticated}
-          />
+      <div>
+        <Grid container spacing={27}>
+          <Grid item>
+            <DisplayAllCost
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              selectuser={selectuser}
+              acountingdata={acountingdata}
+              foodlimits={foodlimit}
+              setfoodlimit={setfoodlimit}
+              changeFoodlimit={changeFoodlimit}
+              isAuthenticated={isAuthenticated}
+            />
+          </Grid>
+          <Grid item>
+            <SelectDate
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              setName={setName}
+              setCost={setCost}
+              setincom={setincom}
+              setincomname={setincomname}
+              setisFood={setisFood}
+              setfoodlimit={setfoodlimit}
+              setmonth={setmonth}
+              setyear={setyear}
+            />
+            <SelectUser
+              selectmonth={selectmonth}
+              selectyear={selectyear}
+              selectuser={selectuser}
+              setuser={setuser}
+              userdata={userdata}
+              email={user?.email}
+            />
+          </Grid>
         </Grid>
-        <Grid item>
-          <SelectDate
-            selectmonth={selectmonth}
-            selectyear={selectyear}
-            setName={setName}
-            setCost={setCost}
-            setincom={setincom}
-            setincomname={setincomname}
-            setisFood={setisFood}
-            setfoodlimit={setfoodlimit}
-            setmonth={setmonth}
-            setyear={setyear}
-          />
-          <SelectUser
-            selectmonth={selectmonth}
-            selectyear={selectyear}
-            selectuser={selectuser}
-            setuser={setuser}
-            userdata={userdata}
-            email={user?.email}
-          />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
 
-    <DisplayAcounting
-      selectmonth={selectmonth}
-      selectyear={selectyear}
-      selectuser={selectuser}
-      whichuser={whichuser}
-      setwhichuser={setwhichuser}
-      userdata={userdata}
-      acountingdata={acountingdata}
-      deleteAcounting={deleteAcounting}
-      addAcounting={addAcounting}
-      addIncome={addIncome}
-      name={name}
-      cost={cost}
-      isfood={isfood}
-      setName={setName}
-      setCost={setCost}
-      setisFood={setisFood}
-      incomename={incomename}
-      income={income}
-      setincomname={setincomname}
-      setincom={setincom}
-      isLoading={isLoading}
-      isAuthenticated={isAuthenticated}
-    />
-    <Login />
+      <DisplayAcounting
+        selectmonth={selectmonth}
+        selectyear={selectyear}
+        selectuser={selectuser}
+        whichuser={whichuser}
+        setwhichuser={setwhichuser}
+        userdata={userdata}
+        acountingdata={acountingdata}
+        deleteAcounting={deleteAcounting}
+        addAcounting={addAcounting}
+        addIncome={addIncome}
+        name={name}
+        cost={cost}
+        isfood={isfood}
+        setName={setName}
+        setCost={setCost}
+        setisFood={setisFood}
+        incomename={incomename}
+        income={income}
+        setincomname={setincomname}
+        setincom={setincom}
+        isLoading={isLoading}
+        isAuthenticated={isAuthenticated}
+      />
+      <Login />
     </div>
   );
-    }
+}

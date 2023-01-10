@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -11,6 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Types } from "mongoose";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 interface UserData {
   connection?: string;
@@ -68,24 +69,27 @@ export default function Profile(props: Props) {
         </IconButton>
         <Box sx={{ textAlign: "center" }}>
           {props.userdata.map((user: UserData, index: number) => (
-            <h1
+            <Typography
+              variant="h2"
               key={index}
-              style={index + 1 == 1 ? { color: "red" } : { color: "brack" }}
+              sx={index + 1 == 1 ? { color: "red" } : { color: "brack" }}
             >
               user{index + 1}: {user.username}
-              <IconButton
-                sx={
-                  index + 1 == 1
-                    ? { visibility: "hidden" }
-                    : { visibility: "visible" }
-                }
-                onClick={() => {
-                  props.deleteUser(user._id.toString());
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </h1>
+              <Tooltip title="delete user">
+                <IconButton
+                  sx={
+                    index + 1 == 1
+                      ? { visibility: "hidden" }
+                      : { visibility: "visible", marginLeft: "10px" }
+                  }
+                  onClick={() => {
+                    props.deleteUser(user._id.toString());
+                  }}
+                >
+                  <DeleteIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            </Typography>
           ))}
           <h1>email: {user1?.email}</h1>
           {props.inputopen ? (

@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 
 interface Props {
@@ -37,9 +37,9 @@ export default function InputFoodlimit(props: Props) {
   const list = (_anchor: string) => (
     <Box role="presentation" sx={{ height: 250 }}>
       <Box sx={{ display: "block", textAlign: "center", marginTop: "50px" }}>
-        <h1 style={{ fontSize: "40px" }}>
+        <Typography variant="h1" sx={{ fontSize: "40px" }}>
           現在は{props.displayfoodlimit()}円です
-        </h1>
+        </Typography>
         <TextField
           label="foodlimit"
           value={props.foodlimit}

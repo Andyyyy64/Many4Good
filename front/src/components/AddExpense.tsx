@@ -9,6 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 interface UserData {
   connection?: string;
@@ -57,8 +58,8 @@ export default function AddExpense(props: Props) {
 
   const list = (_anchor: string) => (
     <Box role="presentation" sx={{ height: 300 }}>
-      <h1 style={{ textAlign: "center" }}># add expense</h1>
-      <Box sx={{ display: "block", textAlign: "center" }}>
+      <Typography variant="h2" sx={{ textAlign: "center", marginTop: "10px" }}># add expense</Typography>
+      <Box sx={{ display: "block", textAlign: "center", marginTop: "40px" }}>
         <FormControl sx={{ marginLeft: "10px", minWidth: 85 }}>
           <InputLabel>user</InputLabel>
           <Select

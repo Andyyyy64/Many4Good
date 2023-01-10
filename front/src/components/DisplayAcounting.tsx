@@ -238,7 +238,7 @@ export default function DisplayAcounting(props: Props) {
                   </TableCell>
                   <TableCell
                     align="right"
-                    style={row.food ? { color: "green" } : { color: "black" }}
+                    sx={row.food ? { color: "green" } : { color: "black" }}
                   >
                     {row.food ? "食費" : "生活費"}
                   </TableCell>
