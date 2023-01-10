@@ -4,8 +4,14 @@ import cors from "cors";
 import dotenv from "dotenv"
 import axios from "axios"
 const router: express.Router = express.Router();
+const { Configuration, OpenAIApi } = require("openai");
 const app: express.Express = express();
 dotenv.config();
+
+const configuration = new Configuration({
+  apiKey: "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",
+});
+const openai = new OpenAIApi(configuration);
 
 app.use(cors());
 app.use(express.json());
@@ -36,7 +42,7 @@ router.get("/getloginuser",async (req: express.Request, res: express.Response) =
       res.end();
     }
   });
-});pp
+});
 
 router.post("/adduser", async (req: express.Request, res:express.Response) => {
   const user2name: string = req.body.user2name;
@@ -64,6 +70,16 @@ router.post("/adduser", async (req: express.Request, res:express.Response) => {
 router.get(
   "/acounting",
   async (req: express.Request, res: express.Response) => {
+    const completion = await openai.createCompletion({
+      model: 'text-davinci-002',
+      prompt: "say hello",
+      temperature: 0.7,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      max_tokens: 256,
+    });
+    // console.log(completion.data.choices[0].text);
     const { Acounting } = Schema;
     const email: any = req.query.email;
     const { Users } = Schema;
@@ -186,22 +202,5 @@ router.delete(
     res.send(deleteusers);
   }
 );
-
-
-  const apiKey = "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";
-  const client = axios.create({
-    headers: { 'Authorization': 'Bearer ' + apiKey }
-  });
-  const prompts = "say hello"
-  const params = {
-    "prompt": prompts
-  }
-
-  client.post('https://api.openai.com/v1/engines/davinci/completions', params)
-        .then(result => {
-          console.log(result.data.choices[0].text,"AI");
-        }).catch(err => {
-          console.log(err);
-        });
 
 export default router;

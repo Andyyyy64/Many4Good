@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { Types } from "mongoose";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Grid from "@mui/material/Grid";
@@ -14,6 +14,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import { isArray } from "chart.js/dist/helpers/helpers.core";
 
 ChartJS.register(
   ArcElement,
@@ -50,6 +51,7 @@ interface Props {
   selectyear: number;
   selectuser: string;
   foodlimits: string | number;
+  isAuthenticated: boolean;
   setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
   changeFoodlimit: () => void;
 }
@@ -193,26 +195,29 @@ export default function DisplayAllCost(props: Props) {
     <Box>
       <Grid container>
         <Grid item>
-          <h2 style={{ fontSize: "40px" }}>残高:{displaycurrentmoney().toLocaleString()}円</h2>
+          <h2 style={{ fontSize: "40px" }}>
+            残高:{displaycurrentmoney().toLocaleString()}円
+          </h2>
           <h2>(今月{displayselectmonthmoney().toLocaleString()}円)</h2>
           <Grid container>
             <Grid item>
               <h2 style={{ fontSize: "33px", color: "#F10351" }}>
                 食費残り{(displayfoodlimit() - food).toLocaleString()}円
               </h2>
-              <Bar  data={Bardata} options={options}  />
+              <Bar data={Bardata} options={options} />
             </Grid>
-            <Grid item style={{ marginTop: "20px" }}>
+            <Grid item sx={{ marginTop: "20px" }}>
               <InputFoodlimit
                 foodlimit={props.foodlimits}
                 setfoodlimit={props.setfoodlimit}
                 changeFoodlimit={props.changeFoodlimit}
                 displayfoodlimit={displayfoodlimit}
+                isAuthenticated={props.isAuthenticated}
               />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item style={{ marginLeft: "100px" }}>
+        <Grid item sx={{ marginLeft: "100px" }}>
           <Doughnut data={Doughnutdata} />
           <h1 style={{ fontSize: "40px" }}></h1>
         </Grid>

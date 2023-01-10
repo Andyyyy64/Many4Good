@@ -7,6 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
 
 interface UserData {
   connection?: string;
@@ -25,6 +26,7 @@ interface Props {
   incomename: string;
   income: string | number;
   whichuser: string;
+  isAuthenticated: boolean;
   addIncome: () => void;
   setincomname: React.Dispatch<React.SetStateAction<string>>;
   setincom: React.Dispatch<React.SetStateAction<string | number>>;
@@ -33,49 +35,53 @@ interface Props {
 
 export default function InputIncome(props: Props) {
   return (
-    <div className="inputincome">
-      <FormControl sx={{ marginLeft: "10px", minWidth: 85 }} >
-        <InputLabel>user</InputLabel>
-        <Select
-          labelId="label"
-          id="id"
-          value={props.whichuser}
-          label="user"
-          onChange={(e) => {
-            props.setwhichuser(e.target.value);
-          }}
-        >
-          {props.userdata.map((user: UserData, index: number) => (
-            <MenuItem key={index} value={user.username}>
-              {user.username}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TextField
-        sx={{ width: 150 }}
-        style={{ marginRight: "30px", marginLeft: "30px" }}
-        label="incomename"
-        value={props.incomename}
-        onChange={(e) => {
-          props.setincomname(e.target.value);
-        }}
-      />
-      <TextField
-        sx={{ width: 150 }}
-        style={{ marginRight: "10px" }}
-        label="income"
-        value={props.income}
-        onChange={(e) => {
-          props.setincom(e.target.value);
-        }}
-      />
-      <IconButton
-        style={{ marginTop: "4px" }}
-        onClick={() => props.addIncome()}
+    <div>
+    <FormControl sx={{ marginLeft: "10px", minWidth: 85 }} >
+    <InputLabel>user</InputLabel>
+    <Select
+    disabled={!props.isAuthenticated}
+    labelId="label"
+    id="id"
+    value={props.whichuser}
+    label="user"
+    onChange={(e) => {
+      props.setwhichuser(e.target.value);
+    }}
+    >
+    {props.userdata.map((user: UserData, index: number) => (
+      <MenuItem key={index} value={user.username}>
+        {user.username}
+      </MenuItem>
+    ))}
+    </Select>
+    </FormControl>
+    <TextField
+    disabled={!props.isAuthenticated}
+    sx={{ width: 150, marginRight: "30px", marginLeft: "30px" }}
+    label="income name"
+    value={props.incomename}
+    onChange={(e) => {
+      props.setincomname(e.target.value);
+    }}
+    />
+    <TextField
+    disabled={!props.isAuthenticated}
+    sx={{ width: 150, marginRight: "10px" }}
+    label="income cost"
+    value={props.income}
+    onChange={(e) => {
+      props.setincom(e.target.value);
+    }}
+    />
+    <Tooltip title="add income">
+    <IconButton
+    disabled={!props.isAuthenticated || props.incomename == "" || props.income == ""}
+      sx={{ marginTop: "4px" }}
+      onClick={() => props.addIncome()}
       >
-        <AddCircleRoundedIcon />
-      </IconButton>
+      <AddCircleRoundedIcon />
+        </IconButton>
+      </Tooltip>
     </div>
   );
-}
+    }

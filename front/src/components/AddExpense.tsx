@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
 
 interface UserData {
   connection?: string;
@@ -32,6 +33,7 @@ interface Props {
   setisFood: React.Dispatch<React.SetStateAction<boolean>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
   addAcounting: () => void;
+  isAuthenticated: boolean;
 }
 
 interface State {
@@ -42,8 +44,7 @@ export default function AddExpense(props: Props) {
   const [open, setopen] = useState<State>({ bottom: false });
 
   const toggleDrawer =
-    (open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
@@ -51,16 +52,17 @@ export default function AddExpense(props: Props) {
       ) {
         return;
       }
-      setopen({ bottom: open});
+      setopen({ bottom: open });
     };
 
-  const list = ( _anchor: string ) => (
+  const list = (_anchor: string) => (
     <Box role="presentation" sx={{ height: 300 }}>
-      <h1 style={{ textAlign: "center" }}># Add Expense</h1>
-      <div style={{ marginLeft: "500px", marginTop: "60px" }}>
+      <h1 style={{ textAlign: "center" }}># add expense</h1>
+      <Box sx={{ display: "block", textAlign: "center" }}>
         <FormControl sx={{ marginLeft: "10px", minWidth: 85 }}>
           <InputLabel>user</InputLabel>
           <Select
+            sx={{ marginRight: "10px" }}
             labelId="label"
             id="id"
             value={props.whichuser}
@@ -78,49 +80,59 @@ export default function AddExpense(props: Props) {
         </FormControl>
         <TextField
           sx={{ marginRight: "10px" }}
-          label="name"
+          label="expense name"
           value={props.name}
           onChange={(e) => {
             props.setName(e.target.value);
           }}
         />
         <TextField
-          label="cost"
+          label="expense cost"
           value={props.cost}
           onChange={(e) => {
             props.setCost(e.target.value);
           }}
         />
-        <Checkbox
-          sx={{ "& .MuiSvgIcon-root": { fontSize: 30 } }}
-          value={props.isfood}
-          onChange={(e) => {
-            props.setisFood(e.target.checked);
-          }}
-        />
-        <IconButton onClick={() => props.addAcounting()}>
-          <AddIcon />
-        </IconButton>
-      </div>
+        <Tooltip title="isfood?">
+          <Checkbox
+            sx={{ "& .MuiSvgIcon-root": { fontSize: 30 } }}
+            value={props.isfood}
+            onChange={(e) => {
+              props.setisFood(e.target.checked);
+            }}
+          />
+        </Tooltip>
+        <Tooltip title="add expense">
+          <IconButton
+            onClick={() => props.addAcounting()}
+            disabled={props.name == "" || props.cost == ""}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Box>
   );
 
   return (
-    <div className="addtodo">
-      {(["bottom"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(true)}>
+    <div>
+      <React.Fragment>
+        <Tooltip title="add expense from modal">
+          <IconButton
+            onClick={toggleDrawer(true)}
+            disabled={!props.isAuthenticated}
+          >
             <AddIcon />
           </IconButton>
-          <Drawer
-            anchor={anchor}
-            open={open[anchor]}
-            onClose={toggleDrawer(false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+        </Tooltip>
+        <Drawer
+          anchor="bottom"
+          open={open["bottom"]}
+          onClose={toggleDrawer(false)}
+        >
+          {list("bottom")}
+        </Drawer>
+      </React.Fragment>
     </div>
   );
 }

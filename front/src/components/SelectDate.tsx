@@ -97,7 +97,7 @@ export default function selectDate(props: Props) {
   }
   
   return (
-    <Grid container spacing={4} style={{ marginTop: "60px" }}>
+    <Grid container spacing={4} sx={{ marginTop: "60px" }}>
       <Grid item>{SelectYear(props)}</Grid>
       <Grid item>{SelectMonth(props)}</Grid>
     </Grid>

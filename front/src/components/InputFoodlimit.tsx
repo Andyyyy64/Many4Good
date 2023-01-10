@@ -12,18 +12,18 @@ interface Props {
   setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
   changeFoodlimit: () => void;
   displayfoodlimit: () => number;
+  isAuthenticated: boolean;
 }
 
 interface State {
-  bottom: boolean 
+  bottom: boolean;
 }
 
 export default function InputFoodlimit(props: Props) {
   const [open, setopen] = useState<State>({ bottom: false });
 
   const toggleDrawer =
-    (open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
@@ -34,12 +34,9 @@ export default function InputFoodlimit(props: Props) {
       setopen({ bottom: open });
     };
 
-  const list = ( _anchor: string ) => (
-    <Box role="presentation" sx={{ height: 300 }}>
-      <div
-        className="inputfoodlimit"
-        style={{ marginTop: "100px", marginLeft: "580px" }}
-      >
+  const list = (_anchor: string) => (
+    <Box role="presentation" sx={{ height: 250 }}>
+      <Box sx={{ display: "block", textAlign: "center", marginTop: "50px" }}>
         <h1 style={{ fontSize: "40px" }}>
           現在は{props.displayfoodlimit()}円です
         </h1>
@@ -57,26 +54,27 @@ export default function InputFoodlimit(props: Props) {
         >
           chage
         </Button>
-      </div>
+      </Box>
     </Box>
   );
 
   return (
-    <div className="addtodo">
-      {(["bottom"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(true)}>
-            <ChangeCircleIcon />
-          </IconButton>
-          <Drawer
-            anchor={anchor}
-            open={open[anchor]}
-            onClose={toggleDrawer(false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+    <div>
+      <React.Fragment>
+        <IconButton
+          onClick={toggleDrawer(true)}
+          disabled={props.isAuthenticated}
+        >
+          <ChangeCircleIcon />
+        </IconButton>
+        <Drawer
+          anchor={"bottom"}
+          open={open["bottom"]}
+          onClose={toggleDrawer(false)}
+        >
+          {list("bottom")}
+        </Drawer>
+      </React.Fragment>
     </div>
   );
 }
