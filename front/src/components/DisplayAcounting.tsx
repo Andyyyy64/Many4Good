@@ -282,7 +282,7 @@ export default function DisplayAcounting(props: Props) {
           incomename={props.incomename}
           income={props.income}
           setincomname={props.setincomname}
-          setipncom={props.setincom}
+          setincom={props.setincom}
           whichuser={props.whichuser}
           setwhichuser={props.setwhichuser}
           userdata={props.userdata}
