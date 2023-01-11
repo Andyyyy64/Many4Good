@@ -9,6 +9,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import DisplayAcounting from "./components/DisplayAcounting";
 import DisplayAllCost from "./components/DisplayAllCost";
 import Login from "./components/Login";
@@ -206,7 +207,15 @@ export default function Home() {
   );
 
   return (
-    <div>
+    <Box sx={{textAlign: "center"}}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={2300}
+        message="successfully added acounting"
+        onClose={handleClose2}
+        action={action}
+      />
       <Profile
         isLoading={isLoading}
         userdata={userdata}
@@ -230,18 +239,9 @@ export default function Home() {
         setmonth={setmonth}
         setyear={setyear}
       />
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={open}
-        autoHideDuration={2300}
-        message="successfully added acounting"
-        onClose={handleClose2}
-        action={action}
-      />
-
-      <div>
-        <Grid container spacing={27}>
-          <Grid item>
+      <Box>
+        <Grid container >
+          <Grid item sx={{minWidth: "820px"}}>
             <DisplayAllCost
               selectmonth={selectmonth}
               selectyear={selectyear}
@@ -253,7 +253,7 @@ export default function Home() {
               isAuthenticated={isAuthenticated}
             />
           </Grid>
-          <Grid item>
+          <Grid item sx={{ minWidth: "400px"}}>
             <SelectDate
               selectmonth={selectmonth}
               selectyear={selectyear}
@@ -276,8 +276,7 @@ export default function Home() {
             />
           </Grid>
         </Grid>
-      </div>
-
+      </Box>
       <DisplayAcounting
         selectmonth={selectmonth}
         selectyear={selectyear}
@@ -303,6 +302,6 @@ export default function Home() {
         isAuthenticated={isAuthenticated}
       />
       <Login />
-    </div>
+    </Box>
   );
 }

@@ -212,7 +212,7 @@ export default function DisplayAcounting(props: Props) {
           addAcounting={props.addAcounting}
           isAuthenticated={props.isAuthenticated}
         />
-        <Table sx={{ minWidth: 550 }} aria-label="simple table">
+        <Table sx={{ minWidth: 600}} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -282,14 +282,14 @@ export default function DisplayAcounting(props: Props) {
           incomename={props.incomename}
           income={props.income}
           setincomname={props.setincomname}
-          setincom={props.setincom}
+          setipncom={props.setincom}
           whichuser={props.whichuser}
           setwhichuser={props.setwhichuser}
           userdata={props.userdata}
           addIncome={props.addIncome}
           isAuthenticated={props.isAuthenticated}
         />
-        <Table sx={{ minWidth: 550 }} aria-label="simple table">
+        <Table sx={{ minWidth: 600}} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -349,7 +349,7 @@ export default function DisplayAcounting(props: Props) {
         <Grid
           container
           spacing={3}
-          sx={{ marginTop: "5px", marginLeft: "0.1%" }}
+          sx={{ marginTop: "5px" }}
         >
           <Grid item>{Displayexpense()}</Grid>
           <Grid item>{Displayincome()}</Grid>

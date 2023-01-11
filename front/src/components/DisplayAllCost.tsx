@@ -192,7 +192,7 @@ export default function DisplayAllCost(props: Props) {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginLeft: "45px"}}>
       <Grid container>
         <Grid item>
           <Typography variant="h2" sx={{ fontSize: "40px" }}>
@@ -204,9 +204,9 @@ export default function DisplayAllCost(props: Props) {
               <Typography variant="h2" sx={{ fontSize: "33px", color: "#F10351" }}>
                 食費残り{(displayfoodlimit() - food).toLocaleString()}円
               </Typography>
-              <Bar data={Bardata} options={options} />
+                <Bar data={Bardata} options={options} />
             </Grid>
-            <Grid item sx={{ marginTop: "20px" }}>
+            <Grid item >
               <InputFoodlimit
                 foodlimit={props.foodlimits}
                 setfoodlimit={props.setfoodlimit}
@@ -217,9 +217,8 @@ export default function DisplayAllCost(props: Props) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sx={{ marginLeft: "100px" }}>
+        <Grid item sx={{ marginLeft: 10 }}>
           <Doughnut data={Doughnutdata} />
-          <Typography sx={{ fontSize: "40px" }}></Typography>
         </Grid>
       </Grid>
     </Box>
