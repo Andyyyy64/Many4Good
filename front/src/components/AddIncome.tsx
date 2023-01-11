@@ -8,6 +8,8 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 interface UserData {
   connection?: string;
@@ -30,6 +32,7 @@ interface Props {
   setincomname: React.Dispatch<React.SetStateAction<string>>;
   setincom: React.Dispatch<React.SetStateAction<string | number>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
+  isAuthenticated: boolean;
 }
 
 interface State {
@@ -40,8 +43,7 @@ export default function AddExpense(props: Props) {
   const [open, setopen] = useState<State>({ bottom: false });
 
   const toggleDrawer =
-    (open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
@@ -52,13 +54,14 @@ export default function AddExpense(props: Props) {
       setopen({ bottom: open });
     };
 
-  const list = ( _anchor: string ) => (
-    <Box role="presentation" sx={{ height: 300 }}>
-      <h1 style={{ textAlign: "center" }}># Add Income</h1>
-      <div style={{ marginLeft: "500px", marginTop: "60px" }}>
-        <FormControl style={{ marginLeft: "10px" }} sx={{ minWidth: 85 }}>
+  const list = (_anchor: string) => (
+    <Box role="presentation" sx={{ height: 250 }}>
+      <Typography variant="h2" sx={{ textAlign: "center", marginTop: "10px" }}># add income</Typography>
+      <Box sx={{ display: "block", textAlign: "center", marginTop: "40px" }}>
+        <FormControl sx={{ marginLeft: "10px", minWidth: 85 }}>
           <InputLabel>user</InputLabel>
           <Select
+            sx={{ marginRight: "10px" }}
             labelId="label"
             id="id"
             value={props.whichuser}
@@ -75,46 +78,52 @@ export default function AddExpense(props: Props) {
           </Select>
         </FormControl>
         <TextField
-          style={{ marginRight: "10px" }}
-          label="incomename"
+          sx={{ marginRight: "10px" }}
+          label="income name"
           value={props.incomename}
           onChange={(e) => {
             props.setincomname(e.target.value);
           }}
         />
         <TextField
-          label="income"
+          label="income cost"
           value={props.income}
           onChange={(e) => {
             props.setincom(e.target.value);
           }}
         />
-        <IconButton
-          style={{ marginTop: "4px" }}
-          onClick={() => props.addIncome()}
-        >
-          <AddIcon />
-        </IconButton>
-      </div>
+        <Tooltip title="add income">
+          <IconButton
+            sx={{ marginTop: "4px" }}
+            onClick={() => props.addIncome()}
+            disabled={props.incomename == "" || props.income == ""}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Box>
   );
 
   return (
-    <div className="addtodo">
-      {(["bottom"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(true)}>
+    <div>
+      <React.Fragment>
+        <Tooltip title="add income from modal">
+          <IconButton
+            onClick={toggleDrawer(true)}
+            disabled={!props.isAuthenticated}
+          >
             <AddIcon />
           </IconButton>
-          <Drawer
-            anchor={anchor}
-            open={open[anchor]}
-            onClose={toggleDrawer(false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+        </Tooltip>
+        <Drawer
+          anchor="bottom"
+          open={open["bottom"]}
+          onClose={toggleDrawer(false)}
+        >
+          {list("bottom")}
+        </Drawer>
+      </React.Fragment>
     </div>
   );
 }

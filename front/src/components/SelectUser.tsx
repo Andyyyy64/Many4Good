@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { Types } from "mongoose";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
@@ -34,7 +34,7 @@ export default function SelectUser(props: Props) {
   ];
 
   return (
-    <Box sx={{ Width: 150, marginTop: 5 }} >
+    <Box sx={{  marginTop: 5 }}>
       <FormControl>
         <Select
           id="select"

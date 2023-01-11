@@ -9,13 +9,14 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import DisplayAcounting from "./components/DisplayAcounting";
 import DisplayAllCost from "./components/DisplayAllCost";
 import Login from "./components/Login";
 import SelectDate from "./components/SelectDate";
 import Profile from "./components/Profile";
 import SelectUser from "./components/SelectUser";
-import SelectDateDirectory from "./components/SelectDateDirectory"
+import SelectDateDirectory from "./components/SelectDateDirectory";
 
 interface AcountingData {
   name: string;
@@ -62,6 +63,7 @@ export default function Home() {
   const [inputopen, setinputopen] = useState<boolean>(false);
   const [selectuser, setuser] = useState<string>("All");
   const [whichuser, setwhichuser] = useState<string>("");
+  const [prompt, setprompt] = useState<string>("");
 
   useEffect(() => {
     fetchAcountingData();
@@ -86,111 +88,86 @@ export default function Home() {
     });
     const userData: UserData[] = await data.data;
     setuserdata(userData);
+    if (userData.length == 1) {
+      setwhichuser(userData[0].username);
+    }
   };
 
   const addAcounting = async (): Promise<void> => {
-    if(isAuthenticated) {
-      if (whichuser != "" && name != "" && cost != null) {
-        await axios.post(requests.addacounting, {
-          name: name,
-          cost: cost,
-          food: isfood,
-          whichuser: whichuser,
-          email: user?.email,
-        });
-        setName("");
-        setCost("");
-        setisFood(false);
-        setwhichuser("");
-        setopen(true);
-        fetchAcountingData();
-      } else {
-        alert("please put acounting detail");
-      }
-    } else {
-      alert("please login or sign up");
+    await axios.post(requests.addacounting, {
+      name: name,
+      cost: cost,
+      food: isfood,
+      whichuser: whichuser,
+      email: user?.email,
+    });
+    setName("");
+    setCost("");
+    setisFood(false);
+    if (userdata.length != 1) {
+      setwhichuser("");
     }
+    setopen(true);
+    fetchAcountingData();
   };
 
   const addUser = async (): Promise<void> => {
     setinputopen(!inputopen);
-    if(isAuthenticated) {
-      if (user2name != "") {
-        await axios.post(requests.adduser, {
+    if (user2name != "") {
+      await axios.post(requests.adduser, {
         user2name: user2name,
         email: user?.email,
       });
       setuser2name("");
-      }
-      fetchLoginUser();
-    } else {
-      alert("please login or sign up");
     }
+    fetchLoginUser();
   };
 
   const addIncome = async (): Promise<void> => {
-    if(isAuthenticated) {
-      if (whichuser != "" && income != "" && incomename != null) {
-        await axios.post(requests.addincome, {
-          incomename: incomename,
-          income: income,
-          whichuser: whichuser,
-          email: user?.email,
-        });
-        setincomname("");
-        setincom("");
-        setwhichuser("");
-        setopen(true);
-        fetchAcountingData();
-      } else {
-        alert("please put income detail");
-      }
-    } else {
-      alert("please login or sign up");
+    await axios.post(requests.addincome, {
+      incomename: incomename,
+      income: income,
+      whichuser: whichuser,
+      email: user?.email,
+    });
+    setincomname("");
+    setincom("");
+    if (userdata.length != 1) {
+      setwhichuser("");
     }
+    setopen(true);
+    fetchAcountingData();
   };
 
   const changeFoodlimit = async (): Promise<void> => {
-    if(isAuthenticated) {
-      if (foodlimit != "") {
-        await axios.post(requests.changefoodlimit, {
-          foodlimit: foodlimit,
-          email: user?.email,
-        });
-        setfoodlimit("");
-        setopen(true);
-        fetchAcountingData();
-        acountingdata.map((item: AcountingData) => {
-          if (item.foodlimit != undefined) {
-            if (new Date(now.toISOString()) > new Date(item.Date ?? "")) {
-              deleteAcounting(item._id);
-            }
+    if (foodlimit != "") {
+      await axios.post(requests.changefoodlimit, {
+        foodlimit: foodlimit,
+        email: user?.email,
+      });
+      setfoodlimit("");
+      setopen(true);
+      fetchAcountingData();
+      acountingdata.map((item: AcountingData) => {
+        if (item.foodlimit != undefined) {
+          if (new Date(now.toISOString()) > new Date(item.Date ?? "")) {
+            deleteAcounting(item._id);
           }
-        });
-      } else {
-        alert("please put foodlimit");
-      }
+        }
+      });
     } else {
-      alert("please login or sign up");
+      alert("please put foodlimit");
     }
   };
 
   const deleteAcounting = async (id: string): Promise<void> => {
-    if(isAuthenticated) {
-      await axios.delete(`${requests.deleteacounting}/${id}`);
-      fetchAcountingData();
-    } else {
-      alert("please login or sign up");
-    }
+    await axios.delete(`${requests.deleteacounting}/${id}`);
+    fetchAcountingData();
   };
 
   const deleteUser = async (id: string): Promise<void> => {
-    if(isAuthenticated) {
-      await axios.delete(`${requests.deleteuser}/${id}`);
-      fetchLoginUser();
-    } else {
-      alert("please login or sign up");
-    }
+    await axios.delete(`${requests.deleteuser}/${id}`);
+    fetchLoginUser();
   };
 
   const handleClose = (
@@ -230,7 +207,15 @@ export default function Home() {
   );
 
   return (
-    <div className="homewrapper">
+    <Box sx={{textAlign: "center"}}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={2300}
+        message="successfully added acounting"
+        onClose={handleClose2}
+        action={action}
+      />
       <Profile
         isLoading={isLoading}
         userdata={userdata}
@@ -240,6 +225,7 @@ export default function Home() {
         inputopen={inputopen}
         setinputopen={setinputopen}
         deleteUser={deleteUser}
+        isAuthenticated={isAuthenticated}
       />
       <SelectDateDirectory
         selectmonth={selectmonth}
@@ -253,17 +239,9 @@ export default function Home() {
         setmonth={setmonth}
         setyear={setyear}
       />
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        message="successfully a1dded acounting"
-        onClose={handleClose2}
-        action={action}
-      />
-
-      <div className="costandselect">
-        <Grid container spacing={27}>
-          <Grid item>
+      <Box>
+        <Grid container >
+          <Grid item sx={{minWidth: "820px"}}>
             <DisplayAllCost
               selectmonth={selectmonth}
               selectyear={selectyear}
@@ -272,9 +250,10 @@ export default function Home() {
               foodlimits={foodlimit}
               setfoodlimit={setfoodlimit}
               changeFoodlimit={changeFoodlimit}
+              isAuthenticated={isAuthenticated}
             />
           </Grid>
-          <Grid item>
+          <Grid item sx={{ minWidth: "400px"}}>
             <SelectDate
               selectmonth={selectmonth}
               selectyear={selectyear}
@@ -297,8 +276,7 @@ export default function Home() {
             />
           </Grid>
         </Grid>
-      </div>
-
+      </Box>
       <DisplayAcounting
         selectmonth={selectmonth}
         selectyear={selectyear}
@@ -321,8 +299,9 @@ export default function Home() {
         setincomname={setincomname}
         setincom={setincom}
         isLoading={isLoading}
+        isAuthenticated={isAuthenticated}
       />
       <Login />
-    </div>
+    </Box>
   );
 }

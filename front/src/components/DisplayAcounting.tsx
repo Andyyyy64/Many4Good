@@ -53,12 +53,13 @@ interface Props {
   selectyear: number;
   selectuser: string;
   whichuser: string;
+  isAuthenticated: boolean;
   setName: React.Dispatch<React.SetStateAction<string>>;
   setCost: React.Dispatch<React.SetStateAction<string | number>>;
   setisFood: React.Dispatch<React.SetStateAction<boolean>>;
-  setincomname:  React.Dispatch<React.SetStateAction<string>>;
-  setincom:  React.Dispatch<React.SetStateAction<string | number>>;
-  setwhichuser:  React.Dispatch<React.SetStateAction<string>>;
+  setincomname: React.Dispatch<React.SetStateAction<string>>;
+  setincom: React.Dispatch<React.SetStateAction<string | number>>;
+  setwhichuser: React.Dispatch<React.SetStateAction<string>>;
   deleteAcounting: (id: string) => Promise<void>;
   addAcounting: () => Promise<void>;
   addIncome: () => Promise<void>;
@@ -106,8 +107,8 @@ export default function DisplayAcounting(props: Props) {
     const ItemDate: number = new Date(item.Date ?? "").getDate();
     const ItemHours: number = new Date(item.Date ?? "").getHours();
     let ItemMinutes: string | number = new Date(item.Date ?? "").getMinutes();
-    if(ItemMinutes < 10) {
-      ItemMinutes = `0${ItemMinutes}`
+    if (ItemMinutes < 10) {
+      ItemMinutes = `0${ItemMinutes}`;
     }
     const ItemTime: string = `${ItemMonth}/${ItemDate} ${ItemHours}:${ItemMinutes}`;
     return ItemTime;
@@ -175,7 +176,7 @@ export default function DisplayAcounting(props: Props) {
     });
     return money;
   }
-  
+
   function displayselectmonthincome(): number {
     let money = 0;
     props.acountingdata.map((item: Acounting) => {
@@ -209,8 +210,9 @@ export default function DisplayAcounting(props: Props) {
           setwhichuser={props.setwhichuser}
           userdata={props.userdata}
           addAcounting={props.addAcounting}
+          isAuthenticated={props.isAuthenticated}
         />
-        <Table sx={{ minWidth: 550 }} aria-label="simple table">
+        <Table sx={{ minWidth: 600}} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -231,10 +233,12 @@ export default function DisplayAcounting(props: Props) {
                   <TableCell align="left">
                     {row.user}: {row.name}
                   </TableCell>
-                  <TableCell align="justify">{row.cost.toLocaleString()}円</TableCell>
+                  <TableCell align="justify">
+                    {row.cost.toLocaleString()}円
+                  </TableCell>
                   <TableCell
                     align="right"
-                    style={row.food ? { color: "green" } : { color: "black" }}
+                    sx={row.food ? { color: "green" } : { color: "black" }}
                   >
                     {row.food ? "食費" : "生活費"}
                   </TableCell>
@@ -249,7 +253,8 @@ export default function DisplayAcounting(props: Props) {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              )).reverse()}
+              ))
+              .reverse()}
           </TableBody>
         </Table>
         <AddExpense
@@ -263,6 +268,7 @@ export default function DisplayAcounting(props: Props) {
           userdata={props.userdata}
           setwhichuser={props.setwhichuser}
           addAcounting={props.addAcounting}
+          isAuthenticated={props.isAuthenticated}
         />
       </TableContainer>
     );
@@ -281,8 +287,9 @@ export default function DisplayAcounting(props: Props) {
           setwhichuser={props.setwhichuser}
           userdata={props.userdata}
           addIncome={props.addIncome}
+          isAuthenticated={props.isAuthenticated}
         />
-        <Table sx={{ minWidth: 550 }} aria-label="simple table">
+        <Table sx={{ minWidth: 600}} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -301,10 +308,11 @@ export default function DisplayAcounting(props: Props) {
                   <TableCell align="left">
                     {row.user}: {row.incomename}
                   </TableCell>
-                  <TableCell align="justify">{row.income.toLocaleString()}円</TableCell>
+                  <TableCell align="justify">
+                    {row.income.toLocaleString()}円
+                  </TableCell>
                   <TableCell align="right">{returnitemTime(row)}</TableCell>
                   <TableCell align="right">
-                    {" "}
                     <IconButton
                       onClick={() => {
                         props.deleteAcounting(row._id);
@@ -327,6 +335,7 @@ export default function DisplayAcounting(props: Props) {
           setincomname={props.setincomname}
           setincom={props.setincom}
           addIncome={props.addIncome}
+          isAuthenticated={props.isAuthenticated}
         />
       </TableContainer>
     );
@@ -337,7 +346,11 @@ export default function DisplayAcounting(props: Props) {
       {props.isLoading ? (
         <CircularProgress color="success" />
       ) : (
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={3}
+          sx={{ marginTop: "5px" }}
+        >
           <Grid item>{Displayexpense()}</Grid>
           <Grid item>{Displayincome()}</Grid>
         </Grid>

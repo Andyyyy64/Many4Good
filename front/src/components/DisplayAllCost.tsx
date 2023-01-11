@@ -1,8 +1,10 @@
-import React from "react"
+import React from "react";
 import { Types } from "mongoose";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import InputFoodlimit from "./InputFoodlimit";
+import { Typography } from "@mui/material";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -49,6 +51,7 @@ interface Props {
   selectyear: number;
   selectuser: string;
   foodlimits: string | number;
+  isAuthenticated: boolean;
   setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
   changeFoodlimit: () => void;
 }
@@ -189,33 +192,35 @@ export default function DisplayAllCost(props: Props) {
   };
 
   return (
-    <div className="costwrapper">
+    <Box sx={{ marginLeft: "45px"}}>
       <Grid container>
         <Grid item>
-          <h2 style={{ fontSize: "40px" }}>残高:{displaycurrentmoney().toLocaleString()}円</h2>
-          <h2>(今月{displayselectmonthmoney().toLocaleString()}円)</h2>
+          <Typography variant="h2" sx={{ fontSize: "40px" }}>
+            残高:{displaycurrentmoney().toLocaleString()}円
+          </Typography>
+          <Typography variant="h6">(今月{displayselectmonthmoney().toLocaleString()}円)</Typography>
           <Grid container>
             <Grid item>
-              <h2 style={{ fontSize: "33px", color: "#F10351" }}>
+              <Typography variant="h2" sx={{ fontSize: "33px", color: "#F10351" }}>
                 食費残り{(displayfoodlimit() - food).toLocaleString()}円
-              </h2>
-              <Bar  data={Bardata} options={options}  />
+              </Typography>
+                <Bar data={Bardata} options={options} />
             </Grid>
-            <Grid item style={{ marginTop: "20px" }}>
+            <Grid item >
               <InputFoodlimit
                 foodlimit={props.foodlimits}
                 setfoodlimit={props.setfoodlimit}
                 changeFoodlimit={props.changeFoodlimit}
                 displayfoodlimit={displayfoodlimit}
+                isAuthenticated={props.isAuthenticated}
               />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item style={{ marginLeft: "100px" }}>
+        <Grid item sx={{ marginLeft: 10 }}>
           <Doughnut data={Doughnutdata} />
-          <h1 style={{ fontSize: "40px" }}></h1>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }

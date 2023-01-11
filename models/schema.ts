@@ -16,7 +16,7 @@ const acountingSchema = new Schema({
   food: Boolean,
   incomename: String,
   income: Number,
-  foodlimit:Number,
+  foodlimit: Number,
   whichuser: String,
   Date: { type: Date, default: Date.now },
 });
@@ -25,4 +25,4 @@ const Acounting = mongoose.model("acounting", acountingSchema, "acounting");
 
 const mySchemas = { Users: Users, Acounting: Acounting };
 
-export default mySchemas
+export default mySchemas;

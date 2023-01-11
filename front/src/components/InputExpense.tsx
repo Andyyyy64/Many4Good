@@ -1,5 +1,5 @@
-import React from "react"
-import { Types } from "mongoose"
+import React from "react";
+import { Types } from "mongoose";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import Tooltip from "@mui/material/Tooltip";
 
 interface Props {
   userdata: UserData[];
@@ -15,6 +16,7 @@ interface Props {
   cost: string | number;
   isfood: boolean;
   whichuser: string;
+  isAuthenticated: boolean;
   addAcounting: () => void;
   setName: React.Dispatch<React.SetStateAction<string>>;
   setCost: React.Dispatch<React.SetStateAction<string | number>>;
@@ -36,10 +38,11 @@ interface UserData {
 
 export default function InputExpense(props: Props) {
   return (
-    <div className="inputexpense">
-      <FormControl style={{ marginLeft: "10px" }} sx={{ minWidth: 85 }}>
+    <div>
+      <FormControl sx={{ marginLeft: "10px", minWidth: 85 }}>
         <InputLabel>user</InputLabel>
         <Select
+          disabled={!props.isAuthenticated}
           labelId="label"
           id="id"
           value={props.whichuser}
@@ -56,34 +59,44 @@ export default function InputExpense(props: Props) {
         </Select>
       </FormControl>
       <TextField
-        sx={{ width: 150 }}
-        style={{ marginRight: "30px", marginLeft: "30px" }}
-        label="name"
+        disabled={!props.isAuthenticated}
+        sx={{ width: 150, marginRight: "30px", marginLeft: "30px" }}
+        label="expense name"
         value={props.name}
         onChange={(e) => {
           props.setName(e.target.value);
         }}
       />
       <TextField
-        style={{ marginRight: "10px" }}
-        sx={{ width: 150 }}
-        label="cost"
+        disabled={!props.isAuthenticated}
+        sx={{ marginRight: "10px", width: 150 }}
+        label="expense cost"
         value={props.cost}
         onChange={(e) => {
           props.setCost(e.target.value);
         }}
       />
-      <Checkbox
-        sx={{ "& .MuiSvgIcon-root": { fontSize: 30 } }}
-        value={props.isfood}
-        checked={props.isfood}
-        onChange={(e) => {
-          props.setisFood(e.target.checked);
-        }}
-      />
-      <IconButton onClick={() => props.addAcounting()}>
-        <AddCircleRoundedIcon />
-      </IconButton>
+      <Tooltip title="isfood?">
+        <Checkbox
+          disabled={!props.isAuthenticated}
+          sx={{ "& .MuiSvgIcon-root": { fontSize: 30 } }}
+          value={props.isfood}
+          checked={props.isfood}
+          onChange={(e) => {
+            props.setisFood(e.target.checked);
+          }}
+        />
+      </Tooltip>
+      <Tooltip title="add expense">
+        <IconButton
+          onClick={() => props.addAcounting()}
+          disabled={
+            !props.isAuthenticated || props.name == "" || props.cost == ""
+          }
+        >
+          <AddCircleRoundedIcon />
+        </IconButton>
+      </Tooltip>
     </div>
   );
 }

@@ -1,14 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 export default function Login() {
   const { logout, loginWithRedirect, isAuthenticated } = useAuth0();
 
   return (
-    <div style={{ marginTop: "100px" }}>
+    <Box sx={{ marginTop: "100px" }}>
       {isAuthenticated ? (
         <Button
-          className="loginout"
           variant="outlined"
           onClick={() => logout({ returnTo: "http://localhost:5173" })}
         >
@@ -16,7 +16,6 @@ export default function Login() {
         </Button>
       ) : (
         <Button
-          className="loginout"
           variant="outlined"
           onClick={() => {
             loginWithRedirect();
@@ -25,6 +24,6 @@ export default function Login() {
           Login
         </Button>
       )}
-    </div>
+    </Box>
   );
 }
