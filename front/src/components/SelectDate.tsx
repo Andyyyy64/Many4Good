@@ -97,7 +97,7 @@ export default function selectDate(props: Props) {
   }
   
   return (
-    <Box sx={{ margin: "40px",display: "inline-block" }} >
+    <Box sx={{ margin: "40px",display: {xs: "none",md: "block",lg:"inline-block"} }} >
       <Grid container>
         <Grid item>{SelectYear(props)}</Grid>
         <Grid item>{SelectMonth(props)}</Grid>

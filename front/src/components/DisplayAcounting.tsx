@@ -349,7 +349,7 @@ export default function DisplayAcounting(props: Props) {
         <Grid
           container
           spacing={3}
-          sx={{ marginTop: "5px" }}
+          sx={{ marginTop: "5px", display: {xs: "block",lg: "flex"} }}
         >
           <Grid item>{Displayexpense()}</Grid>
           <Grid item>{Displayincome()}</Grid>

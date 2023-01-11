@@ -192,7 +192,7 @@ export default function DisplayAllCost(props: Props) {
   };
 
   return (
-    <Box sx={{ marginLeft: "45px"}}>
+    <Box sx={{ marginLeft: "45px",display: {xs: "inline",md: "block",lg:"flex"}}}>
       <Grid container>
         <Grid item>
           <Typography variant="h2" sx={{ fontSize: "40px" }}>
