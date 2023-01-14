@@ -101,7 +101,6 @@ export default function Home() {
     });
     const AIres: any = await res.data.result;
     setRes(AIres.choices[0].text);
-    console.log(AIres.choices[0].text);
   };
 
   const addAcounting = async (): Promise<void> => {

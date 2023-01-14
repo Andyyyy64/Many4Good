@@ -51,7 +51,7 @@ export default function InputFoodlimit(props: Props) {
       {btnOpen ? (
         <Box>
           {props.AIRes == "" ? (
-            <CircularProgress sx={{ marginTop: "10%" }} />
+            <CircularProgress sx={{ marginTop: "8%" }} />
           ) : (
             <Box>
               <Typography
@@ -61,7 +61,7 @@ export default function InputFoodlimit(props: Props) {
               >
                 {props.AIRes}
               </Typography><br/>
-              <Button variant="contained" onClick={() => {
+              <Button variant="contained" color="success" sx={{ marginTop: "15px" }} onClick={() => {
                 props.setRes("");
                 props.askAI();
               }}>Regenerate</Button>
@@ -70,7 +70,7 @@ export default function InputFoodlimit(props: Props) {
         </Box>
       ) : (
         <Button
-          sx={{ marginTop: "10%" }}
+          sx={{ marginTop: "8%" }}
           variant="contained"
           onClick={() => {
             props.askAI();

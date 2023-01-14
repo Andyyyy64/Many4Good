@@ -17,7 +17,6 @@ import AddExpense from "./AddExpense";
 import InputExpense from "./InputExpense";
 import InputIncome from "./InputIncome";
 
-
 interface UserData {
   connection?: string;
   client_id?: string;
@@ -135,18 +134,18 @@ export default function DisplayAcounting(props: Props) {
       returnitemmonth(item) == props.selectmonth &&
       returnitemyear(item) == props.selectyear &&
       props.selectuser == returnitemuser(item)
-  );
+  )
 
-  const expensesrows = expenses.map((item: Acounting) =>
-    expenseData(
-      item.name,
-      item.cost,
-      item.food,
-      item.whichuser,
-      item.Date,
-      item._id
-    )
-  );
+    const expensesrows = expenses.map((item: Acounting) =>
+      expenseData(
+        item.name,
+        item.cost,
+        item.food,
+        item.whichuser,
+        item.Date,
+        item._id
+      )
+    );
 
   const incomesrows = incomes.map((item: Acounting) =>
     incomeData(
