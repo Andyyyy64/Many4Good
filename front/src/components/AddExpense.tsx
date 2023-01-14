@@ -33,7 +33,7 @@ interface Props {
   setCost: React.Dispatch<React.SetStateAction<string | number>>;
   setisFood: React.Dispatch<React.SetStateAction<boolean>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
-  addAcounting: () => void;
+  addAcounting: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -58,7 +58,9 @@ export default function AddExpense(props: Props) {
 
   const list = (_anchor: string) => (
     <Box role="presentation" sx={{ height: 250 }}>
-      <Typography variant="h2" sx={{ textAlign: "center", marginTop: "10px" }}># add expense</Typography>
+      <Typography variant="h2" sx={{ textAlign: "center", marginTop: "10px",color: "#708090" }}>
+        # add expense
+      </Typography>
       <Box sx={{ display: "block", textAlign: "center", marginTop: "40px" }}>
         <FormControl sx={{ marginLeft: "10px", minWidth: 85 }}>
           <InputLabel>user</InputLabel>

@@ -10,7 +10,7 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 interface Props {
   foodlimit: string | number;
   setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
-  changeFoodlimit: () => void;
+  changeFoodlimit: () => Promise<void>;
   displayfoodlimit: () => number;
   isAuthenticated: boolean;
 }
@@ -49,7 +49,8 @@ export default function InputFoodlimit(props: Props) {
         />
         <Button
           sx={{ margin: "8px" }}
-          variant="outlined"
+          variant="contained"
+          disabled={props.foodlimit == ""}
           onClick={() => props.changeFoodlimit()}
         >
           chage

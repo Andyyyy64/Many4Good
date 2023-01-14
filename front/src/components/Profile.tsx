@@ -30,7 +30,7 @@ interface Props {
   isLoading: boolean;
   user2name: string;
   setuser2name: React.Dispatch<React.SetStateAction<string>>;
-  addUser: () => void;
+  addUser: () => Promise<void>;
   inputopen: boolean;
   setinputopen: React.Dispatch<React.SetStateAction<boolean>>;
   deleteUser: (id: string) => Promise<void>;
@@ -60,7 +60,7 @@ export default function Profile(props: Props) {
     };
 
   const list = (_anchor: string) =>
-    props.isLoading ? (
+    !props.isAuthenticated ? (
       <CircularProgress />
     ) : (
       <Box role="presentation" sx={{ height: 1200 }}>

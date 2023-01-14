@@ -10,11 +10,13 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import AddIncome from "./AddIncome";
 import AddExpense from "./AddExpense";
-import CircularProgress from "@mui/material/CircularProgress";
 import InputExpense from "./InputExpense";
 import InputIncome from "./InputIncome";
+
 
 interface UserData {
   connection?: string;
@@ -88,9 +90,6 @@ function incomeData(
 }
 
 export default function DisplayAcounting(props: Props) {
-  useEffect(() => {
-    props;
-  }, [props]);
 
   function returnitemmonth(item: Acounting): number {
     const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
@@ -212,7 +211,7 @@ export default function DisplayAcounting(props: Props) {
           addAcounting={props.addAcounting}
           isAuthenticated={props.isAuthenticated}
         />
-        <Table sx={{ minWidth: 600}} aria-label="simple table">
+        <Table sx={{ minWidth: 600 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -289,7 +288,7 @@ export default function DisplayAcounting(props: Props) {
           addIncome={props.addIncome}
           isAuthenticated={props.isAuthenticated}
         />
-        <Table sx={{ minWidth: 600}} aria-label="simple table">
+        <Table sx={{ minWidth: 600 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">名前</TableCell>
@@ -342,19 +341,19 @@ export default function DisplayAcounting(props: Props) {
   }
 
   return (
-    <div>
-      {props.isLoading ? (
+    <Box>
+      {props.acountingdata.length == 0 ? (
         <CircularProgress color="success" />
       ) : (
         <Grid
           container
           spacing={3}
-          sx={{ marginTop: "5px", display: {xs: "block",lg: "flex"} }}
+          sx={{ marginTop: "5px", display: { xs: "block", lg: "flex" } }}
         >
           <Grid item>{Displayexpense()}</Grid>
           <Grid item>{Displayincome()}</Grid>
         </Grid>
       )}
-    </div>
+    </Box>
   );
 }

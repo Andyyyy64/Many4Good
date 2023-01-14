@@ -17,6 +17,7 @@ import SelectDate from "./components/SelectDate";
 import Profile from "./components/Profile";
 import SelectUser from "./components/SelectUser";
 import SelectDateDirectory from "./components/SelectDateDirectory";
+import AIadvice from "./components/AIadvice";
 
 interface AcountingData {
   name: string;
@@ -64,6 +65,7 @@ export default function Home() {
   const [selectuser, setuser] = useState<string>("All");
   const [whichuser, setwhichuser] = useState<string>("");
   const [prompt, setprompt] = useState<string>("");
+  const [AIRes, setRes] = useState<string>("");
 
   useEffect(() => {
     fetchAcountingData();
@@ -79,7 +81,7 @@ export default function Home() {
     const acountingData: AcountingData[] = await data.data;
     Setacountingdata(acountingData);
   };
-
+  
   const fetchLoginUser = async (): Promise<void> => {
     const data = await axios.get(requests.getloginuser, {
       params: {
@@ -91,6 +93,15 @@ export default function Home() {
     if (userData.length == 1) {
       setwhichuser(userData[0].username);
     }
+  };
+
+  const askAI = async (): Promise<void> => {
+    const res = await axios.post(requests.askAI, {
+      prompt: prompt,
+    });
+    const AIres: any = await res.data.result;
+    setRes(AIres.choices[0].text);
+    console.log(AIres.choices[0].text);
   };
 
   const addAcounting = async (): Promise<void> => {
@@ -207,7 +218,7 @@ export default function Home() {
   );
 
   return (
-    <Box sx={{textAlign: "center"}}>
+    <Box sx={{ textAlign: "center" }}>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={open}
@@ -239,9 +250,15 @@ export default function Home() {
         setmonth={setmonth}
         setyear={setyear}
       />
+      <AIadvice
+        isAuthenticated={isAuthenticated}
+        AIRes={AIRes}
+        askAI={askAI}
+        setRes={setRes}
+      />
       <Box>
-        <Grid container >
-          <Grid item sx={{minWidth: "820px"}}>
+        <Grid container>
+          <Grid item sx={{ minWidth: "820px" }}>
             <DisplayAllCost
               selectmonth={selectmonth}
               selectyear={selectyear}
@@ -251,9 +268,10 @@ export default function Home() {
               setfoodlimit={setfoodlimit}
               changeFoodlimit={changeFoodlimit}
               isAuthenticated={isAuthenticated}
+              setprompt={setprompt}
             />
           </Grid>
-          <Grid item sx={{ minWidth: "400px"}}>
+          <Grid item sx={{ minWidth: "400px" }}>
             <SelectDate
               selectmonth={selectmonth}
               selectyear={selectyear}

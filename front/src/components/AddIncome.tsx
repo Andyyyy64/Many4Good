@@ -28,7 +28,7 @@ interface Props {
   incomename: string;
   income: string | number;
   whichuser: string;
-  addIncome: () => void;
+  addIncome: () => Promise<void>;
   setincomname: React.Dispatch<React.SetStateAction<string>>;
   setincom: React.Dispatch<React.SetStateAction<string | number>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;
@@ -56,7 +56,9 @@ export default function AddExpense(props: Props) {
 
   const list = (_anchor: string) => (
     <Box role="presentation" sx={{ height: 250 }}>
-      <Typography variant="h2" sx={{ textAlign: "center", marginTop: "10px" }}># add income</Typography>
+      <Typography variant="h2" sx={{ textAlign: "center", marginTop: "10px",color: "#708090" }}>
+        # add income
+      </Typography>
       <Box sx={{ display: "block", textAlign: "center", marginTop: "40px" }}>
         <FormControl sx={{ marginLeft: "10px", minWidth: 85 }}>
           <InputLabel>user</InputLabel>

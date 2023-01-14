@@ -2,9 +2,9 @@ import express from "express";
 import Schema from "../models/schema";
 import cors from "cors";
 import dotenv from "dotenv";
-import axios from "axios";
+import { Configuration, OpenAIApi } from "openai";
+
 const router: express.Router = express.Router();
-const { Configuration, OpenAIApi } = require("openai");
 const app: express.Express = express();
 dotenv.config();
 
@@ -26,6 +26,20 @@ app.use((_req: express.Request, res: express.Response, next) => {
 
 router.get("/", (_req, res) => {
   res.send("arigatou");
+});
+
+router.post("/askai", async (req: express.Request, res: express.Response) => {
+  const prompt: string = req.body.prompt;
+  const completion = await openai.createCompletion({
+    model: "text-davinci-002",
+    prompt: prompt,
+    temperature: 0.7,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+    max_tokens: 256,
+  });
+  res.status(200).json({ result: completion.data });
 });
 
 router.get(

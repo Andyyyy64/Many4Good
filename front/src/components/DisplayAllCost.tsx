@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Types } from "mongoose";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Grid from "@mui/material/Grid";
@@ -53,10 +53,15 @@ interface Props {
   foodlimits: string | number;
   isAuthenticated: boolean;
   setfoodlimit: React.Dispatch<React.SetStateAction<string | number>>;
-  changeFoodlimit: () => void;
+  setprompt: React.Dispatch<React.SetStateAction<string>>;
+  changeFoodlimit: () => Promise<void>;
 }
 
 export default function DisplayAllCost(props: Props) {
+  useEffect(() => {
+    askAIaboutmoney();
+  });
+
   function returnitemuser(item: Acounting): string {
     if (props.selectuser != "All") {
       return item.whichuser;
@@ -137,8 +142,15 @@ export default function DisplayAllCost(props: Props) {
     return limit;
   }
 
+  function askAIaboutmoney(): void {
+    const prompts = `Please advise on the future based on the value(yen which is japanese money) of income and expenses I give.
+foodlimit: ${displayfoodlimit()}yen, leftmoney: ${displaycurrentmoney()}yen, totalfood: ${food}yen,totallivingfee: ${living}yen. 
+    `;
+    props.setprompt(prompts);
+  }
+
   const Bardata = {
-    labels: [`食費${food.toLocaleString()}円`],
+    labels: [`食費:${food.toLocaleString()}円`],
     datasets: [
       {
         label: "円",
@@ -192,21 +204,31 @@ export default function DisplayAllCost(props: Props) {
   };
 
   return (
-    <Box sx={{ marginLeft: "45px",display: {xs: "inline",md: "block",lg:"flex"}}}>
+    <Box
+      sx={{
+        marginLeft: "45px",
+        display: { xs: "inline", md: "block", lg: "flex" },
+      }}
+    >
       <Grid container>
         <Grid item>
           <Typography variant="h2" sx={{ fontSize: "40px" }}>
             残高:{displaycurrentmoney().toLocaleString()}円
           </Typography>
-          <Typography variant="h6">(今月{displayselectmonthmoney().toLocaleString()}円)</Typography>
+          <Typography variant="h6">
+            (今月{displayselectmonthmoney().toLocaleString()}円)
+          </Typography>
           <Grid container>
             <Grid item>
-              <Typography variant="h2" sx={{ fontSize: "33px", color: "#F10351" }}>
+              <Typography
+                variant="h2"
+                sx={{ fontSize: "33px", color: "#F10351" }}
+              >
                 食費残り{(displayfoodlimit() - food).toLocaleString()}円
               </Typography>
-                <Bar data={Bardata} options={options} />
+              <Bar data={Bardata} options={options} />
             </Grid>
-            <Grid item >
+            <Grid item>
               <InputFoodlimit
                 foodlimit={props.foodlimits}
                 setfoodlimit={props.setfoodlimit}
