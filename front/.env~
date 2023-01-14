@@ -1,0 +1,12 @@
+#auth
+VITE_APP_DOMEIN="dev-r584bup5.jp.auth0.com"
+VITE_APP_CLIENT_ID="7BdtwjXK9f08Tjo71VzPqlASEctOJr35"
+VITE_APP_Fetchacounting="http://localhost:4000/acounting"
+VITE_APP_Addacounting="http://localhost:4000/addacounting"
+VITE_APP_Addincome="http://localhost:4000/addincome"
+VITE_APP_Changefoodlimit="http://localhost:4000/changefoodlimit"
+VITE_APP_Getloginuser="http://localhost:4000/getloginuser"
+VITE_APP_Adduser="http://localhost:4000/adduser"
+VITE_APP_Deleteacounting="http://localhost:4000/deleteacounting"
+VITE_APP_Deleteuser="http://localhost:4000/deleteuser"
+VITE_APP_AskAI="http://localhost:4000/askai"
