@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@types/mongoose": "^5.11.97",
+    "@types/node": "^18.11.18",
     "auth0": "^3.0.1",
     "axios": "^1.2.1",
     "chart.js": "^4.1.1",
