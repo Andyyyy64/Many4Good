@@ -17,7 +17,7 @@ interface Props {
   isfood: boolean;
   whichuser: string;
   isAuthenticated: boolean;
-  addAcounting: () => void;
+  addAcounting: () => Promise<void>;
   setName: React.Dispatch<React.SetStateAction<string>>;
   setCost: React.Dispatch<React.SetStateAction<string | number>>;
   setisFood: React.Dispatch<React.SetStateAction<boolean>>;

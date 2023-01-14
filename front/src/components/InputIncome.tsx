@@ -27,7 +27,7 @@ interface Props {
   income: string | number;
   whichuser: string;
   isAuthenticated: boolean;
-  addIncome: () => void;
+  addIncome: () => Promise<void>;
   setincomname: React.Dispatch<React.SetStateAction<string>>;
   setincom: React.Dispatch<React.SetStateAction<string | number>>;
   setwhichuser: React.Dispatch<React.SetStateAction<string>>;

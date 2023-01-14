@@ -7,6 +7,7 @@ const requests = {
   adduser: import.meta.env.VITE_APP_Adduser,
   deleteacounting: import.meta.env.VITE_APP_Deleteacounting,
   deleteuser: import.meta.env.VITE_APP_Deleteuser,
+  askAI: import.meta.env.VITE_APP_AskAI,
 };
 
 export default requests;
