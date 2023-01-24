@@ -341,17 +341,21 @@ export default function DisplayAcounting(props: Props) {
 
   return (
     <Box>
-      {props.acountingdata.length == 0 ? (
-        <CircularProgress color="success" />
+      {props.isAuthenticated ? (
+        props.acountingdata.length != 0 ? (
+          <Grid
+            container
+            spacing={3}
+            sx={{ marginTop: "5px", display: { xs: "block", lg: "flex" } }}
+          >
+            <Grid item>{Displayexpense()}</Grid>
+            <Grid item>{Displayincome()}</Grid>
+          </Grid>
+        ) : (
+          <CircularProgress/>
+        )
       ) : (
-        <Grid
-          container
-          spacing={3}
-          sx={{ marginTop: "5px", display: { xs: "block", lg: "flex" } }}
-        >
-          <Grid item>{Displayexpense()}</Grid>
-          <Grid item>{Displayincome()}</Grid>
-        </Grid>
+        <div/>
       )}
     </Box>
   );
