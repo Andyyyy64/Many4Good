@@ -34,7 +34,7 @@ export default function SelectUser(props: Props) {
   ];
 
   return (
-    <Box sx={{  marginTop: 5 }}>
+    <Box sx={{ marginTop: 5 }}>
       <FormControl>
         <Select
           id="select"

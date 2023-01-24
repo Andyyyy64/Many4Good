@@ -103,9 +103,11 @@ export default function Profile(props: Props) {
           ) : (
             <div></div>
           )}
-          <IconButton onClick={() => props.addUser()}>
-            <PersonAddIcon />
-          </IconButton>
+          <Tooltip title="add user">
+            <IconButton onClick={() => props.addUser()}>
+              <PersonAddIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
     );
@@ -129,15 +131,7 @@ export default function Profile(props: Props) {
           </Drawer>
         </React.Fragment>
       ) : (
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={() => {
-            loginWithRedirect();
-          }}
-        >
-          Login Required
-        </Button>
+        <div />
       )}
     </div>
   );

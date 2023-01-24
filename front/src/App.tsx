@@ -81,7 +81,7 @@ export default function Home() {
     const acountingData: AcountingData[] = await data.data;
     Setacountingdata(acountingData);
   };
-  
+
   const fetchLoginUser = async (): Promise<void> => {
     const data = await axios.get(requests.getloginuser, {
       params: {
@@ -101,7 +101,6 @@ export default function Home() {
     });
     const AIres: any = await res.data.result;
     setRes(AIres.choices[0].text);
-    console.log(AIres.choices[0].text);
   };
 
   const addAcounting = async (): Promise<void> => {

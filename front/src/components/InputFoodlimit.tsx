@@ -36,7 +36,7 @@ export default function InputFoodlimit(props: Props) {
 
   const list = (_anchor: string) => (
     <Box role="presentation" sx={{ height: 250 }}>
-      <Box sx={{ display: "block", textAlign: "center", marginTop: "50px", }}>
+      <Box sx={{ display: "block", textAlign: "center", marginTop: "50px" }}>
         <Typography variant="h1" sx={{ fontSize: "40px" }}>
           現在は{props.displayfoodlimit()}円です
         </Typography>

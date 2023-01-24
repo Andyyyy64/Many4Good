@@ -6,17 +6,15 @@ export default function Login() {
   const { logout, loginWithRedirect, isAuthenticated } = useAuth0();
 
   return (
-    <Box sx={{ marginTop: "100px" }}>
+    <Box sx={{ marginTop: "50px" }}>
       {isAuthenticated ? (
-        <Button
-          variant="outlined"
-          onClick={() => logout({ returnTo: "http://localhost:5173" })}
-        >
+        <Button variant="outlined" onClick={() => logout()}>
           logout
         </Button>
       ) : (
         <Button
           variant="outlined"
+          color="error"
           onClick={() => {
             loginWithRedirect();
           }}
