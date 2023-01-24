@@ -7,6 +7,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Auth0Provider
     domain={import.meta.env.VITE_APP_DOMEIN}
     clientId={import.meta.env.VITE_APP_CLIENT_ID}
+    redirectUri={window.location.origin}
   >
     <App />
   </Auth0Provider>

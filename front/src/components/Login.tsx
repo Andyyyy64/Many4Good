@@ -10,8 +10,7 @@ export default function Login() {
       {isAuthenticated ? (
         <Button
           variant="outlined"
-          //@ts-ignore
-        onClick={() => logout({ returnTo: "https://many4good.vercel.app" })}
+          onClick={() => logout({ returnTo: "https://many4good.vercel.app" })}
         >
           logout
         </Button>
