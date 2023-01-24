@@ -60,11 +60,19 @@ export default function InputFoodlimit(props: Props) {
                 color="#708090"
               >
                 {props.AIRes}
-              </Typography><br/>
-              <Button variant="contained" color="success" sx={{marginTop: "15px"}} onClick={() => {
-                props.setRes("");
-                props.askAI();
-              }}>Regenerate</Button>
+              </Typography>
+              <br />
+              <Button
+                variant="contained"
+                color="success"
+                sx={{ marginTop: "15px" }}
+                onClick={() => {
+                  props.setRes("");
+                  props.askAI();
+                }}
+              >
+                Regenerate
+              </Button>
             </Box>
           )}
         </Box>

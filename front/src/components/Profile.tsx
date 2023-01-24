@@ -78,9 +78,9 @@ export default function Profile(props: Props) {
               <Tooltip title="delete user">
                 <IconButton
                   sx={
-                  index + 1 == 1
-                  ? { visibility: "hidden" }
-                  : { visibility: "visible", marginLeft: "10px" }
+                    index + 1 == 1
+                      ? { visibility: "hidden" }
+                      : { visibility: "visible", marginLeft: "10px" }
                   }
                   onClick={() => {
                     props.deleteUser(user._id.toString());
@@ -131,7 +131,7 @@ export default function Profile(props: Props) {
           </Drawer>
         </React.Fragment>
       ) : (
-        <div/>
+        <div />
       )}
     </div>
   );

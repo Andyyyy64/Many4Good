@@ -89,7 +89,6 @@ function incomeData(
 }
 
 export default function DisplayAcounting(props: Props) {
-
   function returnitemmonth(item: Acounting): number {
     const ItemMonth: number = new Date(item.Date ?? "").getMonth() + 1;
     return ItemMonth;
@@ -134,18 +133,18 @@ export default function DisplayAcounting(props: Props) {
       returnitemmonth(item) == props.selectmonth &&
       returnitemyear(item) == props.selectyear &&
       props.selectuser == returnitemuser(item)
-  )
+  );
 
-    const expensesrows = expenses.map((item: Acounting) =>
-      expenseData(
-        item.name,
-        item.cost,
-        item.food,
-        item.whichuser,
-        item.Date,
-        item._id
-      )
-    );
+  const expensesrows = expenses.map((item: Acounting) =>
+    expenseData(
+      item.name,
+      item.cost,
+      item.food,
+      item.whichuser,
+      item.Date,
+      item._id
+    )
+  );
 
   const incomesrows = incomes.map((item: Acounting) =>
     incomeData(
@@ -352,10 +351,10 @@ export default function DisplayAcounting(props: Props) {
             <Grid item>{Displayincome()}</Grid>
           </Grid>
         ) : (
-          <CircularProgress/>
+          <CircularProgress />
         )
       ) : (
-        <div/>
+        <div />
       )}
     </Box>
   );
