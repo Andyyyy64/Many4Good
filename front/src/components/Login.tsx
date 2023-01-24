@@ -10,7 +10,7 @@ export default function Login() {
       {isAuthenticated ? (
         <Button
           variant="outlined"
-          onClick={() => logout({ returnTo: "http://localhost:5173" })}
+          onClick={() => logout()}
         >
           logout
         </Button>
