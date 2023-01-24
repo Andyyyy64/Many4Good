@@ -81,7 +81,7 @@ export default function Home() {
     const acountingData: AcountingData[] = await data.data;
     Setacountingdata(acountingData);
   };
-  
+
   const fetchLoginUser = async (): Promise<void> => {
     const data = await axios.get(requests.getloginuser, {
       params: {

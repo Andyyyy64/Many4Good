@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -95,9 +95,14 @@ export default function selectDate(props: Props) {
       </Box>
     );
   }
-  
+
   return (
-    <Box sx={{ margin: "40px",display: {xs: "none",md: "block",lg:"inline-block"} }} >
+    <Box
+      sx={{
+        margin: "40px",
+        display: { xs: "none", md: "block", lg: "inline-block" },
+      }}
+    >
       <Grid container>
         <Grid item>{SelectYear(props)}</Grid>
         <Grid item>{SelectMonth(props)}</Grid>

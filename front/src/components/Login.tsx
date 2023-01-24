@@ -8,10 +8,7 @@ export default function Login() {
   return (
     <Box sx={{ marginTop: "50px" }}>
       {isAuthenticated ? (
-        <Button
-          variant="outlined"
-          onClick={() => logout()}
-        >
+        <Button variant="outlined" onClick={() => logout()}>
           logout
         </Button>
       ) : (
