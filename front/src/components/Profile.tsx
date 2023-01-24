@@ -78,9 +78,9 @@ export default function Profile(props: Props) {
               <Tooltip title="delete user">
                 <IconButton
                   sx={
-                    index + 1 == 1
-                      ? { visibility: "hidden" }
-                      : { visibility: "visible", marginLeft: "10px" }
+                  index + 1 == 1
+                  ? { visibility: "hidden" }
+                  : { visibility: "visible", marginLeft: "10px" }
                   }
                   onClick={() => {
                     props.deleteUser(user._id.toString());
@@ -103,9 +103,11 @@ export default function Profile(props: Props) {
           ) : (
             <div></div>
           )}
-          <IconButton onClick={() => props.addUser()}>
-            <PersonAddIcon />
-          </IconButton>
+          <Tooltip title="add user">
+            <IconButton onClick={() => props.addUser()}>
+              <PersonAddIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
     );
@@ -129,15 +131,7 @@ export default function Profile(props: Props) {
           </Drawer>
         </React.Fragment>
       ) : (
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={() => {
-            loginWithRedirect();
-          }}
-        >
-          Login Required
-        </Button>
+        <div/>
       )}
     </div>
   );

@@ -6,7 +6,7 @@ export default function Login() {
   const { logout, loginWithRedirect, isAuthenticated } = useAuth0();
 
   return (
-    <Box sx={{ marginTop: "100px" }}>
+    <Box sx={{ marginTop: "50px" }}>
       {isAuthenticated ? (
         <Button
           variant="outlined"
@@ -17,6 +17,7 @@ export default function Login() {
       ) : (
         <Button
           variant="outlined"
+          color="error"
           onClick={() => {
             loginWithRedirect();
           }}
