@@ -10,6 +10,7 @@ export default function Login() {
       {isAuthenticated ? (
         <Button
           variant="outlined"
+          //@ts-ignore
           onClick={() => logout({ returnTo: "http://localhost:5173" })}
         >
           logout
