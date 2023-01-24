@@ -7,7 +7,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Auth0Provider
     domain={import.meta.env.VITE_APP_DOMEIN}
     clientId={import.meta.env.VITE_APP_CLIENT_ID}
-    //@ts-ignore
     redirectUri={"https://many4good.vercel.app"}
   >
     <App />
