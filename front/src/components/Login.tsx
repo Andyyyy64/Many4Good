@@ -11,7 +11,7 @@ export default function Login() {
         <Button
           variant="outlined"
           //@ts-ignore
-          onClick={() => logout({ returnTo: "http://localhost:5173" })}
+          onClick={() => logout({ returnTo: "https://many4good.vercel.app" })}
         >
           logout
         </Button>
