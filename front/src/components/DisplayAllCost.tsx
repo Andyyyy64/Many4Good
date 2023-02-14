@@ -210,6 +210,9 @@ foodlimit: ${displayfoodlimit()}yen, leftmoney: ${displaycurrentmoney()}yen, tot
         display: { xs: "inline", md: "block", lg: "flex" },
       }}
     >
+      <Grid item sx={{ marginLeft: 10 }}>
+        <Doughnut data={Doughnutdata} />
+      </Grid>
       <Grid container>
         <Grid item>
           <Typography variant="h2" sx={{ fontSize: "40px" }}>
@@ -238,9 +241,6 @@ foodlimit: ${displayfoodlimit()}yen, leftmoney: ${displaycurrentmoney()}yen, tot
               />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item sx={{ marginLeft: 10 }}>
-          <Doughnut data={Doughnutdata} />
         </Grid>
       </Grid>
     </Box>
