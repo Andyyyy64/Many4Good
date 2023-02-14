@@ -141,10 +141,10 @@ export default function Home() {
       email: user?.email,
     });
     setincomname("");
-    setincom("");
     if (userdata.length != 1) {
       setwhichuser("");
     }
+    setincom("");
     setopen(true);
     fetchAcountingData();
   };
